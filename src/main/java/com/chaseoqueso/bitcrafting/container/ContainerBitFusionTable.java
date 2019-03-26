@@ -17,12 +17,14 @@ import net.minecraft.nbt.NBTTagCompound;
 public class ContainerBitFusionTable extends Container {
 	
 	private TileEntityBitFusionTable tileFusionTable;
+	private EntityPlayer player;
     public IInventory craftResult = new InventoryCraftResult();
     public int xpCost = 0;
 	
 	public ContainerBitFusionTable(InventoryPlayer player, TileEntityBitFusionTable tileentity)
 	{
 		this.tileFusionTable = tileentity;
+		this.player = player.player;
 		this.tileFusionTable.setEventHandler(this);
 		
 		this.addSlotToContainer(new Slot(tileentity, 0, 25, 34));
@@ -57,7 +59,14 @@ public class ContainerBitFusionTable extends Container {
 		
 		for(int i = 1; i < 10; i++)
 			if(tileFusionTable.getStackInSlot(i) != null)
-				canFuse = true;
+				if(tileFusionTable.getStackInSlot(i).getItem() instanceof ItemBit)
+					canFuse = true;
+				else
+				{
+					canFuse = false;
+					break;
+				}
+		
 		if(tileFusionTable.getStackInSlot(0) == null)
 			canFuse = false;
 
@@ -92,7 +101,8 @@ public class ContainerBitFusionTable extends Container {
 			}
 			
 			xpCost = this.xpCost(damage, durability, enchantability);
-			this.craftResult.setInventorySlotContents(0, ItemBit.setBit(stack, tagCompound.getString("color"), tagCompound.getString("shade"), damage, durability, enchantability).copy());
+			if(this.player.experienceLevel >= xpCost || this.player.capabilities.isCreativeMode)
+				this.craftResult.setInventorySlotContents(0, ItemBit.setBit(stack, tagCompound.getString("color"), tagCompound.getString("shade"), damage, durability, enchantability).copy());
 		} else {
 			NBTTagCompound tagCompound = stack.getTagCompound();
 			int uses = tagCompound.getInteger("Uses");

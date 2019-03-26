@@ -26,10 +26,10 @@ public class FusionSlot extends SlotCrafting {
 	@Override
 	public void onPickupFromSlot(EntityPlayer player, ItemStack stack)
     {
-		if(player.experienceLevel >= this.fusionTable.eventhandler.xpCost || player.capabilities.isCreativeMode)
+		if(player.experienceLevel >= this.fusionTable.eventhandler.xpCost && !player.capabilities.isCreativeMode)
 		{
 	        thePlayer.addExperienceLevel(-this.fusionTable.eventhandler.xpCost);
-			super.onPickupFromSlot(player, stack);
 		}
+		super.onPickupFromSlot(player, stack);
     }
 }
