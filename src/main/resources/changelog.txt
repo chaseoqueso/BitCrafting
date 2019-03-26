@@ -1,0 +1,40 @@
+Changelog:
+
+----------
+***BETA***
+----------
+Features:
+    -bits from the crucible now give experience
+    -added recipes for shovels and armor
+    -added clear bits for the sake of aesthetic
+    -can now make bits clear in the dye table (water bucket)
+    -can now repair bit weapons in the fusion table
+    -changed recipes for tools, swords, and glass
+    -changed "Light Blue" bits to "LightBlue" bits to reduce confusion
+    
+Fixes:
+    -bit forge now updates the output image
+    -fixed a scaling issue with fullscreen
+    -blocks no longer break instantly
+    -bit weapons with more bits than spaces will dump extra bits onto the ground
+
+-------------
+***ALPHAv2***
+-------------
+Features:
+    -added the ability to deconstruct bit weapons
+    
+Fixes:
+    -weapons are now enchantable
+    -enchanted weapons no longer shine like the sun or lag out
+    -fixed problems with the fusion table not subtracting experience
+   
+-----------
+***ALPHA***
+-----------
+Features:
+    -bit crucible
+    -bit forge
+    -bit dye table
+    -bit fusion table
+    -bit weapons

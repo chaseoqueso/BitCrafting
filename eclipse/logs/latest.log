@@ -1,0 +1,52 @@
+[20:01:52] [main/INFO]: Setting user: Player588
+[20:01:53] [Client thread/INFO]: LWJGL Version: 2.9.1
+[20:01:55] [Client thread/ERROR]: Couldn't initialize twitch stream
+[20:02:03] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:BitCrafting
+[20:02:04] [Sound Library Loader/INFO]: Sound engine started
+[20:02:05] [Client thread/INFO]: Created: 16x16 textures/blocks-atlas
+[20:02:05] [Client thread/INFO]: Created: 16x16 textures/items-atlas
+[20:02:05] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:BitCrafting
+[20:02:06] [Client thread/INFO]: Created: 512x256 textures/blocks-atlas
+[20:02:06] [Client thread/INFO]: Created: 512x256 textures/items-atlas
+[20:02:07] [Sound Library Loader/INFO]: Sound engine started
+[20:02:34] [Server thread/INFO]: Starting integrated minecraft server version 1.7.10
+[20:02:34] [Server thread/INFO]: Generating keypair
+[20:02:34] [Server thread/INFO]: Converting map!
+[20:02:34] [Server thread/INFO]: Scanning folders...
+[20:02:34] [Server thread/INFO]: Total conversion count is 0
+[20:02:35] [Server thread/INFO]: Preparing start region for level 0
+[20:02:36] [Server thread/INFO]: Preparing spawn area: 14%
+[20:02:37] [Server thread/INFO]: Preparing spawn area: 37%
+[20:02:38] [Server thread/INFO]: Preparing spawn area: 61%
+[20:02:39] [Server thread/INFO]: Preparing spawn area: 87%
+[20:02:40] [Server thread/INFO]: Changing view distance to 12, from 10
+[20:02:40] [Server thread/INFO]: Player588[local:E:e5070933] logged in with entity id 196 at (-315.5, 89.0, 1000.5)
+[20:02:40] [Server thread/INFO]: Player588 joined the game
+[20:02:43] [Server thread/INFO]: Saving and pausing game...
+[20:02:43] [Server thread/INFO]: Saving chunks for level 'Test'/Overworld
+[20:02:47] [Server thread/INFO]: Saving chunks for level 'Test'/Nether
+[20:02:47] [Server thread/INFO]: Saving chunks for level 'Test'/The End
+[20:02:47] [Server thread/WARN]: Can't keep up! Did the system time change, or is the server overloaded? Running 4559ms behind, skipping 91 tick(s)
+[20:11:01] [Server thread/INFO]: Saving and pausing game...
+[20:11:01] [Server thread/INFO]: Saving chunks for level 'Test'/Overworld
+[20:11:02] [Server thread/INFO]: Saving chunks for level 'Test'/Nether
+[20:11:02] [Server thread/INFO]: Saving chunks for level 'Test'/The End
+[20:11:26] [Server thread/INFO]: Player588 has just earned the achievement [Taking Inventory]
+[20:11:26] [Client thread/INFO]: [CHAT] Player588 has just earned the achievement [Taking Inventory]
+[20:11:49] [Server thread/INFO]: Saving and pausing game...
+[20:11:49] [Server thread/INFO]: Saving chunks for level 'Test'/Overworld
+[20:11:49] [Server thread/INFO]: Saving chunks for level 'Test'/Nether
+[20:11:49] [Server thread/INFO]: Saving chunks for level 'Test'/The End
+[20:15:56] [Server thread/INFO]: [Player588: Set own game mode to Survival Mode]
+[20:15:56] [Client thread/INFO]: [CHAT] Your game mode has been updated
+[20:16:08] [Server thread/INFO]: Saving and pausing game...
+[20:16:08] [Server thread/INFO]: Saving chunks for level 'Test'/Overworld
+[20:16:08] [Server thread/INFO]: Saving chunks for level 'Test'/Nether
+[20:16:08] [Server thread/INFO]: Saving chunks for level 'Test'/The End
+[20:16:09] [Client thread/INFO]: Stopping!
+[20:16:09] [Server thread/INFO]: Stopping server
+[20:16:09] [Server thread/INFO]: Saving players
+[20:16:09] [Server thread/INFO]: Saving worlds
+[20:16:09] [Server thread/INFO]: Saving chunks for level 'Test'/Overworld
+[20:16:09] [Server thread/INFO]: Saving chunks for level 'Test'/Nether
+[20:16:09] [Server thread/INFO]: Saving chunks for level 'Test'/The End
