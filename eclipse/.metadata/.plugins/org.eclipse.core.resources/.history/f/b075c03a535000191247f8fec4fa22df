@@ -45,22 +45,6 @@ public class ItemBit extends Item {
 		return stack;
 	}
 
-	public static ItemStack setEffect(ItemStack stack, int effect) {
-		if (!stack.hasTagCompound())
-			stack.setTagCompound(new NBTTagCompound());
-		NBTTagCompound itemData = stack.getTagCompound();
-		itemData.setString("effect", effects[effect]);
-		return stack;
-	}
-
-	public static ItemStack setEffect(ItemStack stack, String effect) {
-		if (!stack.hasTagCompound())
-			stack.setTagCompound(new NBTTagCompound());
-		NBTTagCompound itemData = stack.getTagCompound();
-		itemData.setString("effect", effect);
-		return stack;
-	}
-
 	public static ItemStack setClear(ItemStack stack, boolean flag) {
 		ItemStack output;
 		if (flag)
@@ -132,7 +116,7 @@ public class ItemBit extends Item {
 	public String getUnlocalizedName(ItemStack stack) {
 		if (stack.hasTagCompound()) {
 			NBTTagCompound itemData = stack.getTagCompound();
-			if (itemData.hasKey("effect"))
+			if (itemData.hasKey("color"))
 				return "item." + itemData.getString("effect");
 			if (itemData.hasKey("color")) 
 				return "item." + itemData.getString("shade") + itemData.getString("color");
@@ -344,20 +328,6 @@ public class ItemBit extends Item {
 
 				itemList.add(bitStack);
 			}
-		}
-		for (int eff = 0; eff < effects.length; eff++) {
-			ItemStack bitStack = new ItemStack(item);
-			NBTTagCompound itemData = new NBTTagCompound();
-
-			bitStack.setTagCompound(itemData);
-			itemData.setString("color", "gray");
-			itemData.setString("shade", "lightest");
-			itemData.setFloat("damage", .1F);
-			itemData.setFloat("durability", 20F);
-			itemData.setFloat("enchantability", .2F);
-			itemData.setString("effect", effects[eff]);
-
-			itemList.add(bitStack);
 		}
 	}
 

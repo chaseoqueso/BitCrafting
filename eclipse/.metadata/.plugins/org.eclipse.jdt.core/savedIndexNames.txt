@@ -67,7 +67,6 @@ INDEX VERSION 1.131+C:\Users\chase\OneDrive\Desktop\BitCrafting\eclipse\.metadat
 1140901241.index
 3794215522.index
 2328269416.index
-286606776.index
 2410943922.index
 1394848873.index
 750391405.index
