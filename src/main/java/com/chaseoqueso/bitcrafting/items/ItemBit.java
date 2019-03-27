@@ -7,6 +7,7 @@ import com.chaseoqueso.bitcrafting.BitCraftingMod;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -14,6 +15,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.StatCollector;
+import net.minecraft.util.EnumChatFormatting;
 
 public class ItemBit extends Item {
 
@@ -50,8 +52,8 @@ public class ItemBit extends Item {
 			stack.setTagCompound(new NBTTagCompound());
 		NBTTagCompound itemData = stack.getTagCompound();
 		itemData.setString("effect", effects[effect]);
-		itemData.setFloat("effectChance", chance);
-		itemData.setFloat("effectPower", power);
+		itemData.setFloat("chance", chance);
+		itemData.setFloat("power", power);
 		return stack;
 	}
 
@@ -60,8 +62,8 @@ public class ItemBit extends Item {
 			stack.setTagCompound(new NBTTagCompound());
 		NBTTagCompound itemData = stack.getTagCompound();
 		itemData.setString("effect", effect);
-		itemData.setFloat("effectChance", chance);
-		itemData.setFloat("effectPower", power);
+		itemData.setFloat("chance", chance);
+		itemData.setFloat("power", power);
 		return stack;
 	}
 
@@ -126,8 +128,8 @@ public class ItemBit extends Item {
 		itemData.setFloat("durability", durability);
 		itemData.setFloat("enchantability", enchantability);
 		itemData.setString("effect", effect);
-		itemData.setFloat("effectChance", chance);
-		itemData.setFloat("effectPower", power);
+		itemData.setFloat("chance", chance);
+		itemData.setFloat("power", power);
 		return stack;
 	}
 
@@ -142,8 +144,8 @@ public class ItemBit extends Item {
 		itemData.setFloat("durability", durability);
 		itemData.setFloat("enchantability", enchantability);
 		itemData.setString("effect", effects[effect]);
-		itemData.setFloat("effectChance", chance);
-		itemData.setFloat("effectPower", power);
+		itemData.setFloat("chance", chance);
+		itemData.setFloat("power", power);
 		return stack;
 	}
 
@@ -170,7 +172,7 @@ public class ItemBit extends Item {
 			NBTTagCompound itemData = stack.getTagCompound();
 			if (itemData.hasKey("effect"))
 				return "item." + itemData.getString("effect");
-			if (itemData.hasKey("color")) 
+			if (itemData.hasKey("color"))
 				return "item." + itemData.getString("shade") + itemData.getString("color");
 		}
 		return "item.nullBit";
@@ -407,18 +409,30 @@ public class ItemBit extends Item {
 			tooltips.add("Damage Rating: " + String.format("%.3f", itemData.getFloat("damage")));
 			tooltips.add("Durability Rating: " + String.format("%.3f", itemData.getFloat("durability")));
 			tooltips.add("Enchantability Rating: " + String.format("%.3f", itemData.getFloat("enchantability")));
+			if (itemData.hasKey("effect")) {
+				String text = (String) (itemData.getString("effect").equals("fire")
+						? EnumChatFormatting.RED + "Enflame" + EnumChatFormatting.RESET
+						: itemData.getString("effect").equals("earth")
+								? EnumChatFormatting.DARK_GRAY + "Stonestrike" + EnumChatFormatting.RESET
+								: itemData.getString("effect").equals("lightning")
+										? EnumChatFormatting.YELLOW + "Stormcall" + EnumChatFormatting.RESET
+										: itemData.getString("effect").equals("ice")
+												? EnumChatFormatting.AQUA + "Frostbite" + EnumChatFormatting.RESET
+												: EnumChatFormatting.DARK_PURPLE + "" + EnumChatFormatting.OBFUSCATED
+														+ "Anomolize" + EnumChatFormatting.RESET);
+				tooltips.add(text + " (" + itemData.getFloat("chance")*100 + "%, " + itemData.getFloat("power") + ")");
+			}
 		}
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
-    public boolean hasEffect(ItemStack stack, int pass)
-    {
+	public boolean hasEffect(ItemStack stack, int pass) {
 		if (!stack.hasTagCompound())
 			return false;
 		NBTTagCompound itemData = stack.getTagCompound();
 		return itemData.hasKey("effect");
-    }
+	}
 
 	public static int getColorFromDye(ItemStack stack) {
 		if (stack.getItem() == Items.water_bucket)
