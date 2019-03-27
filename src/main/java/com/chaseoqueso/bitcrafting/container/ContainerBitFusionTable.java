@@ -1,6 +1,7 @@
 package com.chaseoqueso.bitcrafting.container;
 
 import com.chaseoqueso.bitcrafting.items.ItemBit;
+import com.chaseoqueso.bitcrafting.items.ItemBitSword;
 import com.chaseoqueso.bitcrafting.slots.FusionSlot;
 import com.chaseoqueso.bitcrafting.tileentity.TileEntityBitFusionTable;
 
@@ -66,8 +67,10 @@ public class ContainerBitFusionTable extends Container {
 					canFuse = false;
 					break;
 				}
+
+		ItemStack stack = tileFusionTable.getStackInSlot(0);
 		
-		if(tileFusionTable.getStackInSlot(0) == null)
+		if(stack == null || !(stack.getItem() instanceof ItemBit || stack.getItem() instanceof ItemBitSword))
 			canFuse = false;
 
 		if(!canFuse)
@@ -76,8 +79,8 @@ public class ContainerBitFusionTable extends Container {
 			xpCost = 0;
 			return;
 		}
-
-		ItemStack stack = tileFusionTable.getStackInSlot(0).copy();
+		
+		stack = stack.copy();
 		
 		if(stack.getItem() instanceof ItemBit)
 		{

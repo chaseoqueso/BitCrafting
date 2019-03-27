@@ -1,44 +1,28 @@
-[21:39:39] [main/INFO]: Setting user: Player746
-[21:39:40] [Client thread/INFO]: LWJGL Version: 2.9.1
-[21:39:42] [Client thread/ERROR]: Couldn't initialize twitch stream
-[21:39:48] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:BitCrafting
-[21:39:48] [Sound Library Loader/INFO]: Sound engine started
-[21:39:50] [Client thread/INFO]: Created: 16x16 textures/blocks-atlas
-[21:39:50] [Client thread/INFO]: Created: 16x16 textures/items-atlas
-[21:39:50] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:BitCrafting
-[21:39:50] [Client thread/INFO]: Created: 512x256 textures/blocks-atlas
-[21:39:50] [Client thread/INFO]: Created: 512x256 textures/items-atlas
-[21:39:51] [Sound Library Loader/INFO]: Sound engine started
-[21:39:56] [Server thread/INFO]: Starting integrated minecraft server version 1.7.10
-[21:39:56] [Server thread/INFO]: Generating keypair
-[21:39:56] [Server thread/INFO]: Preparing start region for level 0
-[21:39:57] [Server thread/INFO]: Changing view distance to 12, from 10
-[21:39:57] [Server thread/INFO]: Player746[local:E:65c4ce7e] logged in with entity id 502 at (-319.7661662045527, 69.0, 939.4619182003676)
-[21:39:57] [Server thread/INFO]: Player746 joined the game
-[21:40:06] [Server thread/INFO]: Player746 has just earned the achievement [Taking Inventory]
-[21:40:06] [Client thread/INFO]: [CHAT] Player746 has just earned the achievement [Taking Inventory]
-[21:40:10] [Server thread/INFO]: [Player746: Set own game mode to Creative Mode]
-[21:40:10] [Client thread/INFO]: [CHAT] Your game mode has been updated
-[21:40:20] [Server thread/INFO]: [Player746: Set own game mode to Survival Mode]
-[21:40:20] [Client thread/INFO]: [CHAT] Your game mode has been updated
-[21:40:33] [Server thread/INFO]: [Player746: Set own game mode to Creative Mode]
-[21:40:33] [Client thread/INFO]: [CHAT] Your game mode has been updated
-[21:40:37] [Server thread/INFO]: [Player746: Set own game mode to Survival Mode]
-[21:40:37] [Client thread/INFO]: [CHAT] Your game mode has been updated
-[21:41:05] [Server thread/INFO]: [Player746: Set own game mode to Creative Mode]
-[21:41:05] [Client thread/INFO]: [CHAT] Your game mode has been updated
-[21:44:16] [Server thread/INFO]: Saving and pausing game...
-[21:44:16] [Server thread/INFO]: Saving chunks for level 'Test'/Overworld
-[21:44:16] [Server thread/INFO]: Saving chunks for level 'Test'/Nether
-[21:44:16] [Server thread/INFO]: Saving chunks for level 'Test'/The End
-[21:44:32] [Server thread/INFO]: Saving and pausing game...
-[21:44:32] [Server thread/INFO]: Saving chunks for level 'Test'/Overworld
-[21:44:32] [Server thread/INFO]: Saving chunks for level 'Test'/Nether
-[21:44:32] [Server thread/INFO]: Saving chunks for level 'Test'/The End
-[21:47:18] [Client thread/INFO]: Stopping!
-[21:47:18] [Server thread/INFO]: Stopping server
-[21:47:18] [Server thread/INFO]: Saving players
-[21:47:18] [Server thread/INFO]: Saving worlds
-[21:47:18] [Server thread/INFO]: Saving chunks for level 'Test'/Overworld
-[21:47:18] [Server thread/INFO]: Saving chunks for level 'Test'/Nether
-[21:47:18] [Server thread/INFO]: Saving chunks for level 'Test'/The End
+[20:52:13] [main/INFO]: Setting user: Player463
+[20:52:14] [Client thread/INFO]: LWJGL Version: 2.9.1
+[20:52:15] [Client thread/ERROR]: Couldn't initialize twitch stream
+[20:52:23] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:BitCrafting
+[20:52:24] [Sound Library Loader/INFO]: Sound engine started
+[20:52:25] [Client thread/INFO]: Created: 16x16 textures/blocks-atlas
+[20:52:25] [Client thread/INFO]: Created: 16x16 textures/items-atlas
+[20:52:25] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:BitCrafting
+[20:52:26] [Client thread/INFO]: Created: 512x256 textures/blocks-atlas
+[20:52:26] [Client thread/INFO]: Created: 512x256 textures/items-atlas
+[20:52:27] [Sound Library Loader/INFO]: Sound engine started
+[20:52:29] [Server thread/INFO]: Starting integrated minecraft server version 1.7.10
+[20:52:29] [Server thread/INFO]: Generating keypair
+[20:52:30] [Server thread/INFO]: Preparing start region for level 0
+[20:52:31] [Server thread/INFO]: Changing view distance to 12, from 10
+[20:52:31] [Server thread/INFO]: Player463[local:E:537b0d44] logged in with entity id 362 at (-319.30768770787074, 69.0, 939.4823720549708)
+[20:52:31] [Server thread/INFO]: Player463 joined the game
+[20:52:43] [Server thread/INFO]: Player463 has just earned the achievement [Taking Inventory]
+[20:52:43] [Client thread/INFO]: [CHAT] Player463 has just earned the achievement [Taking Inventory]
+[20:53:27] [Client thread/INFO]: Stopping!
+[20:53:27] [Server thread/INFO]: Stopping server
+[20:53:27] [Server thread/INFO]: Saving players
+[20:53:27] [Server thread/INFO]: Saving worlds
+[20:53:27] [Server thread/INFO]: Saving chunks for level 'Test'/Overworld
+[20:53:27] [Server thread/INFO]: Saving chunks for level 'Test'/Nether
+[20:53:27] [Server thread/INFO]: Saving chunks for level 'Test'/The End
+[20:53:27] [Client Shutdown Thread/INFO]: Stopping server
+[20:53:27] [Client Shutdown Thread/INFO]: Saving players
