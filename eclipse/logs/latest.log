@@ -1,28 +1,38 @@
-[23:10:02] [main/INFO]: Setting user: Player937
-[23:10:04] [Client thread/INFO]: LWJGL Version: 2.9.1
-[23:10:05] [Client thread/ERROR]: Couldn't initialize twitch stream
-[23:10:11] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:BitCrafting
-[23:10:12] [Sound Library Loader/INFO]: Sound engine started
-[23:10:12] [Client thread/INFO]: Created: 16x16 textures/blocks-atlas
-[23:10:12] [Client thread/INFO]: Created: 16x16 textures/items-atlas
-[23:10:13] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:BitCrafting
-[23:10:13] [Client thread/INFO]: Created: 512x256 textures/blocks-atlas
-[23:10:13] [Client thread/INFO]: Created: 512x256 textures/items-atlas
-[23:10:14] [Sound Library Loader/INFO]: Sound engine started
-[23:10:17] [Server thread/INFO]: Starting integrated minecraft server version 1.7.10
-[23:10:17] [Server thread/INFO]: Generating keypair
-[23:10:17] [Server thread/INFO]: Preparing start region for level 0
-[23:10:18] [Server thread/INFO]: Changing view distance to 12, from 10
-[23:10:18] [Server thread/INFO]: Player937[local:E:70bca418] logged in with entity id 329 at (-319.07217203253094, 69.0, 940.1550967832284)
-[23:10:18] [Server thread/INFO]: Player937 joined the game
-[23:10:21] [Server thread/INFO]: Player937 has just earned the achievement [Taking Inventory]
-[23:10:21] [Client thread/INFO]: [CHAT] Player937 has just earned the achievement [Taking Inventory]
-[23:12:09] [Client thread/INFO]: Stopping!
-[23:12:09] [Server thread/INFO]: Stopping server
-[23:12:09] [Server thread/INFO]: Saving players
-[23:12:10] [Server thread/INFO]: Saving worlds
-[23:12:10] [Server thread/INFO]: Saving chunks for level 'Test'/Overworld
-[23:12:10] [Server thread/INFO]: Saving chunks for level 'Test'/Nether
-[23:12:10] [Server thread/INFO]: Saving chunks for level 'Test'/The End
-[23:12:10] [Client Shutdown Thread/INFO]: Stopping server
-[23:12:10] [Client Shutdown Thread/INFO]: Saving players
+[14:21:04] [main/INFO]: Setting user: Player657
+[14:21:06] [Client thread/INFO]: LWJGL Version: 2.9.1
+[14:21:07] [Client thread/ERROR]: Couldn't initialize twitch stream
+[14:21:14] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:BitCrafting
+[14:21:14] [Sound Library Loader/INFO]: Sound engine started
+[14:21:15] [Client thread/INFO]: Created: 16x16 textures/blocks-atlas
+[14:21:15] [Client thread/INFO]: Created: 16x16 textures/items-atlas
+[14:21:15] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:BitCrafting
+[14:21:16] [Client thread/INFO]: Created: 512x256 textures/blocks-atlas
+[14:21:16] [Client thread/INFO]: Created: 512x256 textures/items-atlas
+[14:21:17] [Sound Library Loader/INFO]: Sound engine started
+[14:21:21] [Server thread/INFO]: Starting integrated minecraft server version 1.7.10
+[14:21:21] [Server thread/INFO]: Generating keypair
+[14:21:21] [Server thread/INFO]: Preparing start region for level 0
+[14:21:22] [Server thread/INFO]: Changing view distance to 12, from 10
+[14:21:22] [Server thread/INFO]: Player657[local:E:e8a6eb75] logged in with entity id 472 at (-319.6685719034799, 69.0, 939.1679795629045)
+[14:21:22] [Server thread/INFO]: Player657 joined the game
+[14:21:23] [Server thread/INFO]: Saving and pausing game...
+[14:21:23] [Server thread/INFO]: Saving chunks for level 'Test'/Overworld
+[14:21:23] [Server thread/INFO]: Saving chunks for level 'Test'/Nether
+[14:21:23] [Server thread/INFO]: Saving chunks for level 'Test'/The End
+[14:21:24] [Server thread/INFO]: Player657 has just earned the achievement [Taking Inventory]
+[14:21:24] [Client thread/INFO]: [CHAT] Player657 has just earned the achievement [Taking Inventory]
+[14:21:47] [Server thread/INFO]: [Player657: Set own game mode to Survival Mode]
+[14:21:47] [Client thread/INFO]: [CHAT] Your game mode has been updated
+[14:21:59] [Server thread/INFO]: [Player657: Set own game mode to Creative Mode]
+[14:21:59] [Client thread/INFO]: [CHAT] Your game mode has been updated
+[14:22:06] [Server thread/INFO]: Saving and pausing game...
+[14:22:06] [Server thread/INFO]: Saving chunks for level 'Test'/Overworld
+[14:22:06] [Server thread/INFO]: Saving chunks for level 'Test'/Nether
+[14:22:06] [Server thread/INFO]: Saving chunks for level 'Test'/The End
+[14:22:07] [Server thread/INFO]: Stopping server
+[14:22:07] [Server thread/INFO]: Saving players
+[14:22:07] [Server thread/INFO]: Saving worlds
+[14:22:07] [Server thread/INFO]: Saving chunks for level 'Test'/Overworld
+[14:22:07] [Server thread/INFO]: Saving chunks for level 'Test'/Nether
+[14:22:07] [Server thread/INFO]: Saving chunks for level 'Test'/The End
+[14:22:08] [Client thread/INFO]: Stopping!

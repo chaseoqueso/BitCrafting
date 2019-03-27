@@ -115,6 +115,38 @@ public class ItemBit extends Item {
 		return stack;
 	}
 
+	public static ItemStack setBit(ItemStack stack, String color, String shade, float damage, float durability,
+			float enchantability, String effect, float chance, float power) {
+		if (!stack.hasTagCompound())
+			stack.setTagCompound(new NBTTagCompound());
+		NBTTagCompound itemData = stack.getTagCompound();
+		itemData.setString("color", color);
+		itemData.setString("shade", shade);
+		itemData.setFloat("damage", damage);
+		itemData.setFloat("durability", durability);
+		itemData.setFloat("enchantability", enchantability);
+		itemData.setString("effect", effect);
+		itemData.setFloat("effectChance", chance);
+		itemData.setFloat("effectPower", power);
+		return stack;
+	}
+
+	public static ItemStack setBit(ItemStack stack, int color, int shade, float damage, float durability,
+			float enchantability, int effect, float chance, float power) {
+		if (!stack.hasTagCompound())
+			stack.setTagCompound(new NBTTagCompound());
+		NBTTagCompound itemData = stack.getTagCompound();
+		itemData.setString("color", colors[color]);
+		itemData.setString("shade", shades[shade]);
+		itemData.setFloat("damage", damage);
+		itemData.setFloat("durability", durability);
+		itemData.setFloat("enchantability", enchantability);
+		itemData.setString("effect", effects[effect]);
+		itemData.setFloat("effectChance", chance);
+		itemData.setFloat("effectPower", power);
+		return stack;
+	}
+
 	public static boolean bitsAreEqual(ItemStack stack1, ItemStack stack2) {
 		if (!stack1.hasTagCompound() || !stack2.hasTagCompound())
 			return false;
