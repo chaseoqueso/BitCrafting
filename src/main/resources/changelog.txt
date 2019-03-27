@@ -1,5 +1,6 @@
 Changelog:
 
+<<<<<<< HEAD
 -----------
 ***1.0.1***
 -----------
@@ -13,6 +14,8 @@ Fixes:
     -fusion table no longer crashes when players put random crap into it
     -fusion table can no longer give upgraded bits for free
 
+=======
+>>>>>>> parent of c8806d0... Changelog Edit & .jar Build
 ----------
 ***BETA***
 ----------
