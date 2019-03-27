@@ -19,7 +19,6 @@ public class BlockBitOre extends BlockOre {
 	public BlockBitOre() {
 		super();
 		this.setHarvestLevel("pickaxe", 2);
-		this.setLightLevel(0.5F);
 	}
 	
 	@Override
