@@ -4,7 +4,7 @@ import com.chaseoqueso.bitcrafting.blocks.BlockBitCrucible;
 import com.chaseoqueso.bitcrafting.blocks.BlockBitDyeTable;
 import com.chaseoqueso.bitcrafting.blocks.BlockBitForge;
 import com.chaseoqueso.bitcrafting.blocks.BlockBitFusionTable;
-import com.chaseoqueso.bitcrafting.blocks.BlockFireOre;
+import com.chaseoqueso.bitcrafting.blocks.BlockBitOre;
 import com.chaseoqueso.bitcrafting.gui.GUIHandler;
 import com.chaseoqueso.bitcrafting.items.ItemBit;
 import com.chaseoqueso.bitcrafting.items.ItemBitSword;
@@ -45,6 +45,10 @@ public class BitCraftingMod {
 	public static Block blockBitDyeTable;
 	public static Block blockBitFusionTable;
 	public static Block blockFireOre;
+	public static Block blockEarthOre;
+	public static Block blockLightningOre;
+	public static Block blockIceOre;
+	public static Block blockSpatialOre;
 	
 	@Instance(MODID)
 	public static BitCraftingMod instance;
@@ -60,7 +64,11 @@ public class BitCraftingMod {
 		blockBitForge = new BlockBitForge(Material.iron).setBlockName("BlockBitForge").setCreativeTab(tabBitCraftingMod).setHardness(5.0F).setResistance(10.0F).setStepSound(Block.soundTypeMetal);
 		blockBitDyeTable = new BlockBitDyeTable(Material.iron).setBlockName("BlockBitDyeTable").setCreativeTab(tabBitCraftingMod).setHardness(3.0F).setResistance(10.0F).setStepSound(Block.soundTypeMetal);
 		blockBitFusionTable = new BlockBitFusionTable(Material.iron).setBlockName("BlockBitFusionTable").setCreativeTab(tabBitCraftingMod).setHardness(5.0F).setResistance(10.0F).setStepSound(Block.soundTypeMetal);
-		blockFireOre = new BlockFireOre().setBlockName("BlockFireOre").setCreativeTab(tabBitCraftingMod).setHardness(3.0F).setResistance(5.0F).setStepSound(Block.soundTypePiston).setBlockTextureName("bcm:FireOre");
+		blockFireOre = new BlockBitOre().setBlockName("BlockFireOre").setCreativeTab(tabBitCraftingMod).setHardness(3.0F).setResistance(5.0F).setStepSound(Block.soundTypePiston).setBlockTextureName("bcm:FireOre");
+		blockEarthOre = new BlockBitOre().setBlockName("BlockEarthOre").setCreativeTab(tabBitCraftingMod).setHardness(3.0F).setResistance(5.0F).setStepSound(Block.soundTypePiston).setBlockTextureName("bcm:EarthOre");
+		blockLightningOre = new BlockBitOre().setBlockName("BlockLightningOre").setCreativeTab(tabBitCraftingMod).setHardness(3.0F).setResistance(5.0F).setStepSound(Block.soundTypePiston).setBlockTextureName("bcm:LightningOre");
+		blockIceOre = new BlockBitOre().setBlockName("BlockIceOre").setCreativeTab(tabBitCraftingMod).setHardness(3.0F).setResistance(5.0F).setStepSound(Block.soundTypePiston).setBlockTextureName("bcm:IceOre");
+		blockSpatialOre = new BlockBitOre().setBlockName("BlockSpatialOre").setCreativeTab(tabBitCraftingMod).setHardness(3.0F).setResistance(5.0F).setStepSound(Block.soundTypePiston).setBlockTextureName("bcm:SpatialOre");
 		
 		GameRegistry.registerItem(itemBit, itemBit.getUnlocalizedName().substring(5));
 		GameRegistry.registerItem(itemClearBit, itemClearBit.getUnlocalizedName().substring(5));
@@ -71,6 +79,10 @@ public class BitCraftingMod {
 		GameRegistry.registerBlock(blockBitDyeTable, blockBitDyeTable.getUnlocalizedName().substring(5));
 		GameRegistry.registerBlock(blockBitFusionTable, blockBitFusionTable.getUnlocalizedName().substring(5));
 		GameRegistry.registerBlock(blockFireOre, blockFireOre.getUnlocalizedName().substring(5));
+		GameRegistry.registerBlock(blockEarthOre, blockEarthOre.getUnlocalizedName().substring(5));
+		GameRegistry.registerBlock(blockLightningOre, blockLightningOre.getUnlocalizedName().substring(5));
+		GameRegistry.registerBlock(blockIceOre, blockIceOre.getUnlocalizedName().substring(5));
+		GameRegistry.registerBlock(blockSpatialOre, blockSpatialOre.getUnlocalizedName().substring(5));
 		
 		proxy.registerRenderThings();
 		proxy.registerTileEntities();
