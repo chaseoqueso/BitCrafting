@@ -54,9 +54,7 @@ public class TileEntityBitDyeTable extends TileEntity implements IInventory {
 			} else {
 				itemstack = this.tableItemStacks[par1].splitStack(par2);
 				if(this.tableItemStacks[par1].stackSize == 0)
-				{
 					this.tableItemStacks[par1] = null;
-				}
                 this.eventhandler.onCraftMatrixChanged(this);
 				return itemstack;
 			}

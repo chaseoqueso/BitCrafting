@@ -1,6 +1,12 @@
 Changelog:
 
 -----------
+***1.0.1***
+-----------
+Features:
+    -dye table no longer consumes water bucket for clear bits
+
+-----------
 ***1.0.0***
 -----------
 Fixes:
