@@ -1,28 +1,28 @@
-[20:52:13] [main/INFO]: Setting user: Player463
-[20:52:14] [Client thread/INFO]: LWJGL Version: 2.9.1
-[20:52:15] [Client thread/ERROR]: Couldn't initialize twitch stream
-[20:52:23] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:BitCrafting
-[20:52:24] [Sound Library Loader/INFO]: Sound engine started
-[20:52:25] [Client thread/INFO]: Created: 16x16 textures/blocks-atlas
-[20:52:25] [Client thread/INFO]: Created: 16x16 textures/items-atlas
-[20:52:25] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:BitCrafting
-[20:52:26] [Client thread/INFO]: Created: 512x256 textures/blocks-atlas
-[20:52:26] [Client thread/INFO]: Created: 512x256 textures/items-atlas
-[20:52:27] [Sound Library Loader/INFO]: Sound engine started
-[20:52:29] [Server thread/INFO]: Starting integrated minecraft server version 1.7.10
-[20:52:29] [Server thread/INFO]: Generating keypair
-[20:52:30] [Server thread/INFO]: Preparing start region for level 0
-[20:52:31] [Server thread/INFO]: Changing view distance to 12, from 10
-[20:52:31] [Server thread/INFO]: Player463[local:E:537b0d44] logged in with entity id 362 at (-319.30768770787074, 69.0, 939.4823720549708)
-[20:52:31] [Server thread/INFO]: Player463 joined the game
-[20:52:43] [Server thread/INFO]: Player463 has just earned the achievement [Taking Inventory]
-[20:52:43] [Client thread/INFO]: [CHAT] Player463 has just earned the achievement [Taking Inventory]
-[20:53:27] [Client thread/INFO]: Stopping!
-[20:53:27] [Server thread/INFO]: Stopping server
-[20:53:27] [Server thread/INFO]: Saving players
-[20:53:27] [Server thread/INFO]: Saving worlds
-[20:53:27] [Server thread/INFO]: Saving chunks for level 'Test'/Overworld
-[20:53:27] [Server thread/INFO]: Saving chunks for level 'Test'/Nether
-[20:53:27] [Server thread/INFO]: Saving chunks for level 'Test'/The End
-[20:53:27] [Client Shutdown Thread/INFO]: Stopping server
-[20:53:27] [Client Shutdown Thread/INFO]: Saving players
+[23:10:02] [main/INFO]: Setting user: Player937
+[23:10:04] [Client thread/INFO]: LWJGL Version: 2.9.1
+[23:10:05] [Client thread/ERROR]: Couldn't initialize twitch stream
+[23:10:11] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:BitCrafting
+[23:10:12] [Sound Library Loader/INFO]: Sound engine started
+[23:10:12] [Client thread/INFO]: Created: 16x16 textures/blocks-atlas
+[23:10:12] [Client thread/INFO]: Created: 16x16 textures/items-atlas
+[23:10:13] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:BitCrafting
+[23:10:13] [Client thread/INFO]: Created: 512x256 textures/blocks-atlas
+[23:10:13] [Client thread/INFO]: Created: 512x256 textures/items-atlas
+[23:10:14] [Sound Library Loader/INFO]: Sound engine started
+[23:10:17] [Server thread/INFO]: Starting integrated minecraft server version 1.7.10
+[23:10:17] [Server thread/INFO]: Generating keypair
+[23:10:17] [Server thread/INFO]: Preparing start region for level 0
+[23:10:18] [Server thread/INFO]: Changing view distance to 12, from 10
+[23:10:18] [Server thread/INFO]: Player937[local:E:70bca418] logged in with entity id 329 at (-319.07217203253094, 69.0, 940.1550967832284)
+[23:10:18] [Server thread/INFO]: Player937 joined the game
+[23:10:21] [Server thread/INFO]: Player937 has just earned the achievement [Taking Inventory]
+[23:10:21] [Client thread/INFO]: [CHAT] Player937 has just earned the achievement [Taking Inventory]
+[23:12:09] [Client thread/INFO]: Stopping!
+[23:12:09] [Server thread/INFO]: Stopping server
+[23:12:09] [Server thread/INFO]: Saving players
+[23:12:10] [Server thread/INFO]: Saving worlds
+[23:12:10] [Server thread/INFO]: Saving chunks for level 'Test'/Overworld
+[23:12:10] [Server thread/INFO]: Saving chunks for level 'Test'/Nether
+[23:12:10] [Server thread/INFO]: Saving chunks for level 'Test'/The End
+[23:12:10] [Client Shutdown Thread/INFO]: Stopping server
+[23:12:10] [Client Shutdown Thread/INFO]: Saving players

@@ -60,8 +60,6 @@ public class ItemBit extends Item {
 			stack.setTagCompound(new NBTTagCompound());
 		NBTTagCompound itemData = stack.getTagCompound();
 		itemData.setString("effect", effect);
-		itemData.setFloat("effectChance", chance);
-		itemData.setFloat("effectPower", power);
 		return stack;
 	}
 
@@ -360,8 +358,6 @@ public class ItemBit extends Item {
 			itemData.setFloat("durability", 20F);
 			itemData.setFloat("enchantability", .2F);
 			itemData.setString("effect", effects[eff]);
-			itemData.setFloat("effectChance", 1F);
-			itemData.setFloat("effectPower", 1F);
 
 			itemList.add(bitStack);
 		}

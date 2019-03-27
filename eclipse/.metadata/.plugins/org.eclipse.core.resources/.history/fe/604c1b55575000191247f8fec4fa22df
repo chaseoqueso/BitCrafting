@@ -45,23 +45,19 @@ public class ItemBit extends Item {
 		return stack;
 	}
 
-	public static ItemStack setEffect(ItemStack stack, int effect, float chance, float power) {
+	public static ItemStack setEffect(ItemStack stack, int effect) {
 		if (!stack.hasTagCompound())
 			stack.setTagCompound(new NBTTagCompound());
 		NBTTagCompound itemData = stack.getTagCompound();
 		itemData.setString("effect", effects[effect]);
-		itemData.setFloat("effectChance", chance);
-		itemData.setFloat("effectPower", power);
 		return stack;
 	}
 
-	public static ItemStack setEffect(ItemStack stack, String effect, float chance, float power) {
+	public static ItemStack setEffect(ItemStack stack, String effect) {
 		if (!stack.hasTagCompound())
 			stack.setTagCompound(new NBTTagCompound());
 		NBTTagCompound itemData = stack.getTagCompound();
 		itemData.setString("effect", effect);
-		itemData.setFloat("effectChance", chance);
-		itemData.setFloat("effectPower", power);
 		return stack;
 	}
 
@@ -355,13 +351,11 @@ public class ItemBit extends Item {
 
 			bitStack.setTagCompound(itemData);
 			itemData.setString("color", "gray");
-			itemData.setString("shade", "darkest");
+			itemData.setString("shade", "lightest");
 			itemData.setFloat("damage", .1F);
 			itemData.setFloat("durability", 20F);
 			itemData.setFloat("enchantability", .2F);
 			itemData.setString("effect", effects[eff]);
-			itemData.setFloat("effectChance", 1F);
-			itemData.setFloat("effectPower", 1F);
 
 			itemList.add(bitStack);
 		}

@@ -65,6 +65,11 @@ item.pink.name=Pink Bit
 item.darkpink.name=Dark Pink Bit
 item.darkestpink.name=Darkest Pink Bit
 item.clearbit.name=Clear Bit
+item.firebit.name=Fire Bit
+item.earthbit.name=Earth Bit
+item.lightningbit.name=Lightning Bit
+item.icebit.name=Ice Bit
+item.spatialbit.name=Spatial Bit
 item.ItemBitSword.name=Bit Sword
 
 tile.BlockBitCrucible.name=Bit Crucible

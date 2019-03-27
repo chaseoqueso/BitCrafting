@@ -43,7 +43,6 @@ public class BitCraftingMod {
 	public static Block blockBitForge;
 	public static Block blockBitDyeTable;
 	public static Block blockBitFusionTable;
-	public static Block blockBitOre;
 	
 	@Instance(MODID)
 	public static BitCraftingMod instance;
