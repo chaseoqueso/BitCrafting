@@ -420,7 +420,7 @@ public class ItemBit extends Item {
 												? EnumChatFormatting.AQUA + "Frostbite" + EnumChatFormatting.RESET
 												: EnumChatFormatting.DARK_PURPLE + "" + EnumChatFormatting.OBFUSCATED
 														+ "Anomolize" + EnumChatFormatting.RESET);
-				tooltips.add(text + " (" + itemData.getFloat("chance")*100 + "%, " + itemData.getFloat("power") + ")");
+				tooltips.add(text + " (" + String.format("%.3f", itemData.getFloat("chance")*100) + "%, " + String.format("%.3f", itemData.getFloat("power")) + ")");
 			}
 		}
 	}
