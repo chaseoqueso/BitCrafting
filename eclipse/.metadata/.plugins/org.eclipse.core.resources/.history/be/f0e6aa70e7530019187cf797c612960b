@@ -83,7 +83,6 @@ public class BitCraftingMod {
 		GameRegistry.addRecipe(new ItemStack(blockBitForge), new Object[] {"IBI", "CTC", "ICI", 'I', Items.iron_ingot, 'C', Blocks.cobblestone, 'T', Blocks.crafting_table, 'B', Blocks.iron_bars});
 		GameRegistry.addRecipe(new ItemStack(blockBitDyeTable), new Object[] {"GSG", "CTC", "GCG", 'G', Items.gold_ingot, 'C', Blocks.cobblestone, 'T', Blocks.crafting_table, 'S', Blocks.stone_slab});
 		GameRegistry.addRecipe(new ItemStack(blockBitFusionTable), new Object[] {"DGD", "CTC", "DCD", 'D', Items.diamond, 'C', Blocks.cobblestone, 'T', Blocks.crafting_table, 'G', Blocks.glowstone});
-		GameRegistry.addRecipe(new ItemStack(blockBitChest), new Object[] {"BBB", "BCB", "BBB", 'B', itemBit, 'C', Blocks.chest});
 		GameRegistry.addShapelessRecipe(new ItemStack(Items.netherbrick, 4), Blocks.nether_brick);
 
 		NetworkRegistry.INSTANCE.registerGuiHandler(BitCraftingMod.instance, new GUIHandler());
