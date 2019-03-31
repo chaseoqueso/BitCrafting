@@ -1,48 +1,26 @@
-[15:44:28] [main/INFO]: Setting user: Player210
-[15:44:30] [Client thread/INFO]: LWJGL Version: 2.9.1
-[15:44:31] [Client thread/ERROR]: Couldn't initialize twitch stream
-[15:44:37] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:BitCrafting
-[15:44:38] [Sound Library Loader/INFO]: Sound engine started
-[15:44:39] [Client thread/INFO]: Created: 16x16 textures/blocks-atlas
-[15:44:39] [Client thread/INFO]: Created: 16x16 textures/items-atlas
-[15:44:39] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:BitCrafting
-[15:44:39] [Client thread/INFO]: Created: 512x256 textures/blocks-atlas
-[15:44:40] [Client thread/INFO]: Created: 512x256 textures/items-atlas
-[15:44:41] [Sound Library Loader/INFO]: Sound engine started
-[15:44:45] [Server thread/INFO]: Starting integrated minecraft server version 1.7.10
-[15:44:45] [Server thread/INFO]: Generating keypair
-[15:44:45] [Server thread/INFO]: Preparing start region for level 0
-[15:44:46] [Server thread/INFO]: Changing view distance to 12, from 10
-[15:44:46] [Server thread/INFO]: Player210[local:E:859d181d] logged in with entity id 434 at (-317.6865359784282, 69.0, 939.6940556159435)
-[15:44:46] [Server thread/INFO]: Player210 joined the game
-[15:44:47] [Server thread/INFO]: Saving and pausing game...
-[15:44:47] [Server thread/INFO]: Saving chunks for level 'Test'/Overworld
-[15:44:47] [Server thread/INFO]: Saving chunks for level 'Test'/Nether
-[15:44:47] [Server thread/INFO]: Saving chunks for level 'Test'/The End
-[15:44:51] [Server thread/INFO]: Stopping server
-[15:44:51] [Server thread/INFO]: Saving players
-[15:44:51] [Server thread/INFO]: Saving worlds
-[15:44:51] [Server thread/INFO]: Saving chunks for level 'Test'/Overworld
-[15:44:51] [Server thread/INFO]: Saving chunks for level 'Test'/Nether
-[15:44:51] [Server thread/INFO]: Saving chunks for level 'Test'/The End
-[15:44:52] [Client thread/FATAL]: Unreported exception thrown!
-java.lang.ClassCastException: com.chaseoqueso.bitcrafting.tileentity.TileEntityBitChest cannot be cast to com.chaseoqueso.bitcrafting.tileentity.TileEntityBitCrucible
-	at com.chaseoqueso.bitcrafting.gui.GUIHandler.getClientGuiElement(GUIHandler.java:48) ~[GUIHandler.class:?]
-	at cpw.mods.fml.common.network.NetworkRegistry.getLocalGuiContainer(NetworkRegistry.java:265) ~[NetworkRegistry.class:?]
-	at cpw.mods.fml.common.network.internal.FMLNetworkHandler.openGui(FMLNetworkHandler.java:93) ~[FMLNetworkHandler.class:?]
-	at net.minecraft.entity.player.EntityPlayer.openGui(EntityPlayer.java:2501) ~[EntityPlayer.class:?]
-	at com.chaseoqueso.bitcrafting.blocks.BlockBitChest.onBlockActivated(BlockBitChest.java:186) ~[BlockBitChest.class:?]
-	at net.minecraft.client.multiplayer.PlayerControllerMP.onPlayerRightClick(PlayerControllerMP.java:376) ~[PlayerControllerMP.class:?]
-	at net.minecraft.client.Minecraft.func_147121_ag(Minecraft.java:1529) ~[Minecraft.class:?]
-	at net.minecraft.client.Minecraft.runTick(Minecraft.java:2044) ~[Minecraft.class:?]
-	at net.minecraft.client.Minecraft.runGameLoop(Minecraft.java:1039) ~[Minecraft.class:?]
-	at net.minecraft.client.Minecraft.run(Minecraft.java:962) [Minecraft.class:?]
-	at net.minecraft.client.main.Main.main(Main.java:164) [Main.class:?]
-	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_191]
-	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source) ~[?:1.8.0_191]
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source) ~[?:1.8.0_191]
-	at java.lang.reflect.Method.invoke(Unknown Source) ~[?:1.8.0_191]
-	at net.minecraft.launchwrapper.Launch.launch(Launch.java:135) [launchwrapper-1.12.jar:?]
-	at net.minecraft.launchwrapper.Launch.main(Launch.java:28) [launchwrapper-1.12.jar:?]
-	at net.minecraftforge.gradle.GradleStartCommon.launch(Unknown Source) [start/:?]
-	at GradleStart.main(Unknown Source) [start/:?]
+[02:49:41] [main/INFO]: Setting user: Player398
+[02:49:42] [Client thread/INFO]: LWJGL Version: 2.9.1
+[02:49:44] [Client thread/ERROR]: Couldn't initialize twitch stream
+[02:49:50] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:BitCrafting
+[02:49:51] [Sound Library Loader/INFO]: Sound engine started
+[02:49:52] [Client thread/INFO]: Created: 16x16 textures/blocks-atlas
+[02:49:52] [Client thread/INFO]: Created: 16x16 textures/items-atlas
+[02:49:52] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:BitCrafting
+[02:49:52] [Client thread/INFO]: Created: 512x256 textures/blocks-atlas
+[02:49:52] [Client thread/INFO]: Created: 512x256 textures/items-atlas
+[02:49:53] [Sound Library Loader/INFO]: Sound engine started
+[02:50:09] [Server thread/INFO]: Starting integrated minecraft server version 1.7.10
+[02:50:09] [Server thread/INFO]: Generating keypair
+[02:50:10] [Server thread/INFO]: Preparing start region for level 0
+[02:50:10] [Server thread/INFO]: Changing view distance to 12, from 10
+[02:50:11] [Server thread/INFO]: Player398[local:E:7e3ee7d7] logged in with entity id 330 at (-318.23156814366376, 69.0, 939.8601444608825)
+[02:50:11] [Server thread/INFO]: Player398 joined the game
+[02:50:18] [Client thread/INFO]: Stopping!
+[02:50:18] [Server thread/INFO]: Stopping server
+[02:50:18] [Server thread/INFO]: Saving players
+[02:50:18] [Server thread/INFO]: Saving worlds
+[02:50:18] [Server thread/INFO]: Saving chunks for level 'Test'/Overworld
+[02:50:18] [Server thread/INFO]: Saving chunks for level 'Test'/Nether
+[02:50:18] [Server thread/INFO]: Saving chunks for level 'Test'/The End
+[02:50:18] [Client Shutdown Thread/INFO]: Stopping server
+[02:50:18] [Client Shutdown Thread/INFO]: Saving players

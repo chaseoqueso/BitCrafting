@@ -22,7 +22,6 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
@@ -133,7 +132,7 @@ public class BlockBitChest extends BlockContainer {
 
     public void breakBlock(World p_149749_1_, int p_149749_2_, int p_149749_3_, int p_149749_4_, Block p_149749_5_, int p_149749_6_)
     {
-        TileEntityChest tileentitychest = (TileEntityChest)p_149749_1_.getTileEntity(p_149749_2_, p_149749_3_, p_149749_4_);
+        TileEntityBitChest tileentitychest = (TileEntityBitChest)p_149749_1_.getTileEntity(p_149749_2_, p_149749_3_, p_149749_4_);
 
         if (tileentitychest != null)
         {

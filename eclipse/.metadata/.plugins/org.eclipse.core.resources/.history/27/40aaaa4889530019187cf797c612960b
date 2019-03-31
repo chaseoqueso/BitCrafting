@@ -1,0 +1,31 @@
+package com.chaseoqueso.bitcrafting.alt_vanilla;
+
+import net.minecraft.client.model.ModelChest;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.client.IItemRenderer;
+
+public class ItemRenderBitChest implements IItemRenderer {
+	
+	private ModelChest chestModel;
+	
+	public ItemRenderBitChest() {
+		chestModel = new ModelChest();
+	}
+	
+	@Override
+	public boolean handleRenderType(ItemStack item, ItemRenderType type) {
+		return true;
+	}
+
+	@Override
+	public boolean shouldUseRenderHelper(ItemRenderType type, ItemStack item, ItemRendererHelper helper) {
+		return true;
+	}
+
+	@Override
+	public void renderItem(ItemRenderType type, ItemStack item, Object... data) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

@@ -4,7 +4,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockChest;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -130,7 +129,7 @@ public class TileEntityBitChest extends TileEntity implements IInventory {
 	@Override
     public void closeInventory()
     {
-        if (this.getBlockType() instanceof BlockChest)
+        if (this.getBlockType() instanceof BlockBitChest)
         {
             --this.numPlayersUsing;
             this.worldObj.addBlockEvent(this.xCoord, this.yCoord, this.zCoord, this.getBlockType(), 1, this.numPlayersUsing);
