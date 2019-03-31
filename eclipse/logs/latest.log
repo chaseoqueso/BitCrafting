@@ -1,28 +1,26 @@
-[03:02:56] [main/INFO]: Setting user: Player738
-[03:02:57] [Client thread/INFO]: LWJGL Version: 2.9.1
-[03:02:58] [Client thread/ERROR]: Couldn't initialize twitch stream
-[03:03:04] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:BitCrafting
-[03:03:05] [Sound Library Loader/INFO]: Sound engine started
-[03:03:06] [Client thread/INFO]: Created: 16x16 textures/blocks-atlas
-[03:03:06] [Client thread/INFO]: Created: 16x16 textures/items-atlas
-[03:03:06] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:BitCrafting
-[03:03:06] [Client thread/INFO]: Created: 512x256 textures/blocks-atlas
-[03:03:06] [Client thread/INFO]: Created: 512x256 textures/items-atlas
-[03:03:07] [Sound Library Loader/INFO]: Sound engine started
-[03:03:11] [Server thread/INFO]: Starting integrated minecraft server version 1.7.10
-[03:03:11] [Server thread/INFO]: Generating keypair
-[03:03:11] [Server thread/INFO]: Preparing start region for level 0
-[03:03:12] [Server thread/INFO]: Changing view distance to 12, from 10
-[03:03:13] [Server thread/INFO]: Player738[local:E:365291b3] logged in with entity id 330 at (-318.6603243861893, 69.0, 939.1417394831719)
-[03:03:13] [Server thread/INFO]: Player738 joined the game
-[03:03:18] [Server thread/INFO]: Player738 has just earned the achievement [Taking Inventory]
-[03:03:18] [Client thread/INFO]: [CHAT] Player738 has just earned the achievement [Taking Inventory]
-[03:03:19] [Client thread/INFO]: Stopping!
-[03:03:19] [Server thread/INFO]: Stopping server
-[03:03:19] [Server thread/INFO]: Saving players
-[03:03:19] [Server thread/INFO]: Saving worlds
-[03:03:19] [Server thread/INFO]: Saving chunks for level 'Test'/Overworld
-[03:03:19] [Server thread/INFO]: Saving chunks for level 'Test'/Nether
-[03:03:19] [Server thread/INFO]: Saving chunks for level 'Test'/The End
-[03:03:19] [Client Shutdown Thread/INFO]: Stopping server
-[03:03:19] [Client Shutdown Thread/INFO]: Saving players
+[03:08:16] [main/INFO]: Setting user: Player629
+[03:08:17] [Client thread/INFO]: LWJGL Version: 2.9.1
+[03:08:18] [Client thread/ERROR]: Couldn't initialize twitch stream
+[03:08:24] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:BitCrafting
+[03:08:25] [Sound Library Loader/INFO]: Sound engine started
+[03:08:26] [Client thread/INFO]: Created: 16x16 textures/blocks-atlas
+[03:08:26] [Client thread/INFO]: Created: 16x16 textures/items-atlas
+[03:08:26] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:BitCrafting
+[03:08:26] [Client thread/INFO]: Created: 512x256 textures/blocks-atlas
+[03:08:26] [Client thread/INFO]: Created: 512x256 textures/items-atlas
+[03:08:27] [Sound Library Loader/INFO]: Sound engine started
+[03:08:30] [Server thread/INFO]: Starting integrated minecraft server version 1.7.10
+[03:08:30] [Server thread/INFO]: Generating keypair
+[03:08:31] [Server thread/INFO]: Preparing start region for level 0
+[03:08:32] [Server thread/INFO]: Changing view distance to 12, from 10
+[03:08:32] [Server thread/INFO]: Player629[local:E:75558fe1] logged in with entity id 300 at (-319.4613850743572, 69.0, 937.8894061033992)
+[03:08:32] [Server thread/INFO]: Player629 joined the game
+[03:08:41] [Client thread/INFO]: Stopping!
+[03:08:41] [Server thread/INFO]: Stopping server
+[03:08:41] [Server thread/INFO]: Saving players
+[03:08:41] [Server thread/INFO]: Saving worlds
+[03:08:41] [Server thread/INFO]: Saving chunks for level 'Test'/Overworld
+[03:08:41] [Server thread/INFO]: Saving chunks for level 'Test'/Nether
+[03:08:41] [Server thread/INFO]: Saving chunks for level 'Test'/The End
+[03:08:41] [Client Shutdown Thread/INFO]: Stopping server
+[03:08:41] [Client Shutdown Thread/INFO]: Saving players

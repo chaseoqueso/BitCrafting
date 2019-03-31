@@ -24,7 +24,7 @@ public class ContainerBitChest extends Container {
 		tileentity.openInventory();
 		world = player.player.worldObj;
 
-		int xAmount = 16, yAmount = 16, xStart = 5, yStart = -37;
+		int xAmount = 16, yAmount = 16, xStart = 4, yStart = -37;
 		for (int y = 0; y < yAmount; y++) {
 			for (int x = 0; x < xAmount; x++) {
 				this.addSlotToContainer(new BitSlot(tileentity, x + y * 16, xStart + x * 10, yStart + y * 10));

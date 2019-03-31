@@ -71,6 +71,5 @@ tile.BlockBitCrucible.name=Bit Crucible
 tile.BlockBitForge.name=Bit Forge
 tile.BlockBitDyeTable.name=Bit Dye Table
 tile.BlockBitFusionTable.name=Bit Fusion Table
-tile.BlockBitChest.name=Bit Chest
 
 itemGroup.tabBitCraftingMod=BitCrafting
