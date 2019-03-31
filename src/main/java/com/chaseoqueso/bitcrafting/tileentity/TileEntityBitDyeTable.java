@@ -50,12 +50,14 @@ public class TileEntityBitDyeTable extends TileEntity implements IInventory {
 				itemstack = this.tableItemStacks[par1];
 				this.tableItemStacks[par1] = null;
                 this.eventhandler.onCraftMatrixChanged(this);
+                this.markDirty();
 				return itemstack;
 			} else {
 				itemstack = this.tableItemStacks[par1].splitStack(par2);
 				if(this.tableItemStacks[par1].stackSize == 0)
 					this.tableItemStacks[par1] = null;
                 this.eventhandler.onCraftMatrixChanged(this);
+                this.markDirty();
 				return itemstack;
 			}
 		}
@@ -76,12 +78,10 @@ public class TileEntityBitDyeTable extends TileEntity implements IInventory {
 	@Override
 	public void setInventorySlotContents(int slot, ItemStack itemstack) {
 		this.tableItemStacks[slot] = itemstack;
-		
 		if(itemstack != null && itemstack.stackSize > this.getInventoryStackLimit())
-		{
 			itemstack.stackSize = this.getInventoryStackLimit();
-		}
         this.eventhandler.onCraftMatrixChanged(this);
+        this.markDirty();
 	}
 
 	@Override

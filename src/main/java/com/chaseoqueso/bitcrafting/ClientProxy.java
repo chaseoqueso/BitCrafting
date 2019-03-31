@@ -1,6 +1,11 @@
 package com.chaseoqueso.bitcrafting;
 
-import net.minecraftforge.client.IItemRenderer;
+import com.chaseoqueso.bitcrafting.alt_vanilla.BitChestRenderer;
+import com.chaseoqueso.bitcrafting.alt_vanilla.ItemRenderBitChest;
+import com.chaseoqueso.bitcrafting.tileentity.TileEntityBitChest;
+
+import cpw.mods.fml.client.registry.ClientRegistry;
+import net.minecraft.item.Item;
 import net.minecraftforge.client.MinecraftForgeClient;
 
 public class ClientProxy extends ServerProxy {
@@ -8,7 +13,8 @@ public class ClientProxy extends ServerProxy {
 	@Override
 	public void registerRenderThings()
 	{
-		//MinecraftForgeClient.registerItemRenderer(BitCraftingMod.itemBitSword, (IItemRenderer) new CustomItemRenderer());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityBitChest.class, new BitChestRenderer());
+		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(BitCraftingMod.blockBitChest), new ItemRenderBitChest());
 	}
 
 }

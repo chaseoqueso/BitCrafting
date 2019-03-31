@@ -1,6 +1,7 @@
 package com.chaseoqueso.bitcrafting;
 
 import com.chaseoqueso.bitcrafting.gui.GUIHandler;
+import com.chaseoqueso.bitcrafting.tileentity.TileEntityBitChest;
 import com.chaseoqueso.bitcrafting.tileentity.TileEntityBitCrucible;
 import com.chaseoqueso.bitcrafting.tileentity.TileEntityBitDyeTable;
 import com.chaseoqueso.bitcrafting.tileentity.TileEntityBitForge;
@@ -23,6 +24,7 @@ public class ServerProxy {
 	
 	public void registerTileEntities()
 	{
+		GameRegistry.registerTileEntity(TileEntityBitChest.class, BitCraftingMod.MODID + "TileEntityBitChest");
 		GameRegistry.registerTileEntity(TileEntityBitCrucible.class, BitCraftingMod.MODID + "TileEntityBitCrucible");
 		GameRegistry.registerTileEntity(TileEntityBitForge.class, BitCraftingMod.MODID + "TileEntityBitForge");
 		GameRegistry.registerTileEntity(TileEntityBitDyeTable.class, BitCraftingMod.MODID + "TileEntityBitDyeTable");

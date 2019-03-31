@@ -1,5 +1,6 @@
 package com.chaseoqueso.bitcrafting;
 
+import com.chaseoqueso.bitcrafting.blocks.BlockBitChest;
 import com.chaseoqueso.bitcrafting.blocks.BlockBitCrucible;
 import com.chaseoqueso.bitcrafting.blocks.BlockBitDyeTable;
 import com.chaseoqueso.bitcrafting.blocks.BlockBitForge;
@@ -43,6 +44,7 @@ public class BitCraftingMod {
 	public static Block blockBitForge;
 	public static Block blockBitDyeTable;
 	public static Block blockBitFusionTable;
+	public static Block blockBitChest;
 	
 	@Instance(MODID)
 	public static BitCraftingMod instance;
@@ -58,6 +60,7 @@ public class BitCraftingMod {
 		blockBitForge = new BlockBitForge(Material.iron).setBlockName("BlockBitForge").setCreativeTab(tabBitCraftingMod).setHardness(5.0F).setResistance(10.0F).setStepSound(Block.soundTypeMetal);
 		blockBitDyeTable = new BlockBitDyeTable(Material.iron).setBlockName("BlockBitDyeTable").setCreativeTab(tabBitCraftingMod).setHardness(3.0F).setResistance(10.0F).setStepSound(Block.soundTypeMetal);
 		blockBitFusionTable = new BlockBitFusionTable(Material.iron).setBlockName("BlockBitFusionTable").setCreativeTab(tabBitCraftingMod).setHardness(5.0F).setResistance(10.0F).setStepSound(Block.soundTypeMetal);
+		blockBitChest = new BlockBitChest(Material.wood).setBlockName("BlockBitChest").setCreativeTab(tabBitCraftingMod).setHardness(3.0F).setResistance(5.0F).setStepSound(Block.soundTypeWood);
 		
 		GameRegistry.registerItem(itemBit, itemBit.getUnlocalizedName().substring(5));
 		GameRegistry.registerItem(itemClearBit, itemClearBit.getUnlocalizedName().substring(5));
@@ -67,6 +70,7 @@ public class BitCraftingMod {
 		GameRegistry.registerBlock(blockBitForge, blockBitForge.getUnlocalizedName().substring(5));
 		GameRegistry.registerBlock(blockBitDyeTable, blockBitDyeTable.getUnlocalizedName().substring(5));
 		GameRegistry.registerBlock(blockBitFusionTable, blockBitFusionTable.getUnlocalizedName().substring(5));
+		GameRegistry.registerBlock(blockBitChest, blockBitChest.getUnlocalizedName().substring(5));
 		
 		proxy.registerRenderThings();
 		proxy.registerTileEntities();
