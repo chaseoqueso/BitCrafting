@@ -21,7 +21,6 @@ public class ContainerBitChest extends Container {
 
 	public ContainerBitChest(InventoryPlayer player, TileEntityBitChest tileentity) {
 		this.tileChest = tileentity;
-		tileentity.openInventory();
 		world = player.player.worldObj;
 
 		int xAmount = 16, yAmount = 16, xStart = -35, yStart = -37;
@@ -81,12 +80,4 @@ public class ContainerBitChest extends Container {
 		return itemstack;
 	}
 
-    /**
-     * Called when the container is closed.
-     */
-    public void onContainerClosed(EntityPlayer p_75134_1_)
-    {
-        super.onContainerClosed(p_75134_1_);
-        this.tileChest.closeInventory();
-    }
 }
