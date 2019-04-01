@@ -31,7 +31,6 @@ public class BlockBitChest extends BlockContainer {
     
 	public BlockBitChest(Material p_i45386_1_) {
 		super(p_i45386_1_);
-		// TODO Auto-generated constructor stub
 	}
 	
     /**
@@ -197,8 +196,6 @@ public class BlockBitChest extends BlockContainer {
     {
         this.blockIcon = p_149651_1_.registerIcon("planks_oak");
     }
-    
-
 
     public void func_149954_e(World p_149954_1_, int p_149954_2_, int p_149954_3_, int p_149954_4_)
     {

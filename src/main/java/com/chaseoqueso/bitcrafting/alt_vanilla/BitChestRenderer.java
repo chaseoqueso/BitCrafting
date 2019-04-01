@@ -19,18 +19,6 @@ public class BitChestRenderer extends TileEntitySpecialRenderer {
 
     private static final ResourceLocation field_147504_g = new ResourceLocation("bcm:textures/blocks/BitChest.png");
     private ModelChest field_147510_h = new ModelChest();
-    private boolean field_147509_j;
-    private static final String __OBFID = "CL_00000965";
-
-    public BitChestRenderer()
-    {
-        Calendar calendar = Calendar.getInstance();
-
-        if (calendar.get(2) + 1 == 12 && calendar.get(5) >= 24 && calendar.get(5) <= 26)
-        {
-            this.field_147509_j = true;
-        }
-    }
 
     public void renderTileEntityAt(TileEntityBitChest p_147500_1_, double p_147500_2_, double p_147500_4_, double p_147500_6_, float p_147500_8_)
     {
@@ -53,7 +41,7 @@ public class BitChestRenderer extends TileEntitySpecialRenderer {
                 }
                 catch (ClassCastException e)
                 {
-                    FMLLog.severe("Attempted to render a chest at %d,  %d, %d that was not a chest", p_147500_1_.xCoord, p_147500_1_.yCoord, p_147500_1_.zCoord);
+                    FMLLog.severe("Attempted to render a BitChest at %d,  %d, %d that was not a BitChest", p_147500_1_.xCoord, p_147500_1_.yCoord, p_147500_1_.zCoord);
                 }
                 i = p_147500_1_.getBlockMetadata();
             }

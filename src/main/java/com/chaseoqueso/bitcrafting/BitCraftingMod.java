@@ -60,7 +60,7 @@ public class BitCraftingMod {
 		blockBitForge = new BlockBitForge(Material.iron).setBlockName("BlockBitForge").setCreativeTab(tabBitCraftingMod).setHardness(5.0F).setResistance(10.0F).setStepSound(Block.soundTypeMetal);
 		blockBitDyeTable = new BlockBitDyeTable(Material.iron).setBlockName("BlockBitDyeTable").setCreativeTab(tabBitCraftingMod).setHardness(3.0F).setResistance(10.0F).setStepSound(Block.soundTypeMetal);
 		blockBitFusionTable = new BlockBitFusionTable(Material.iron).setBlockName("BlockBitFusionTable").setCreativeTab(tabBitCraftingMod).setHardness(5.0F).setResistance(10.0F).setStepSound(Block.soundTypeMetal);
-		blockBitChest = new BlockBitChest(Material.wood).setBlockName("BlockBitChest").setCreativeTab(tabBitCraftingMod).setHardness(3.0F).setResistance(5.0F).setStepSound(Block.soundTypeWood);
+		blockBitChest = new BlockBitChest(Material.wood).setBlockName("BlockBitChest").setCreativeTab(tabBitCraftingMod).setHardness(1.0F).setResistance(2.0F).setStepSound(Block.soundTypeWood);
 		
 		GameRegistry.registerItem(itemBit, itemBit.getUnlocalizedName().substring(5));
 		GameRegistry.registerItem(itemClearBit, itemClearBit.getUnlocalizedName().substring(5));

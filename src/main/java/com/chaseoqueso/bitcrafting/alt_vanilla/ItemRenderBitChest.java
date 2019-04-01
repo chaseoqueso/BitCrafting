@@ -30,16 +30,11 @@ public class ItemRenderBitChest implements IItemRenderer {
 
 	@Override
 	public void renderItem(ItemRenderType type, ItemStack item, Object... data) {
-        GL11.glPushMatrix();
 		GL11.glTranslatef(0F, 0F, 1F);
 		GL11.glRotatef(90F, 0, 1, 0);
-		//RenderHelper.disableStandardItemLighting();
 		TileEntityRendererDispatcher.instance.renderTileEntityAt(new TileEntityBitChest(), 0D, 0D, 0D, 0F);
-		//RenderHelper.enableGUIStandardItemLighting();
-        //RenderHelper.enableStandardItemLighting();
 		GL11.glTranslatef(0F, 0F, 0F);
 		GL11.glRotatef(-90F, 0, 1, 0);
-        GL11.glPopMatrix();
 	}
 
 }

@@ -1,26 +1,38 @@
-[20:52:53] [main/INFO]: Setting user: Player246
-[20:52:54] [Client thread/INFO]: LWJGL Version: 2.9.1
-[20:52:55] [Client thread/ERROR]: Couldn't initialize twitch stream
-[20:53:01] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:BitCrafting
-[20:53:02] [Sound Library Loader/INFO]: Sound engine started
-[20:53:05] [Client thread/INFO]: Created: 16x16 textures/blocks-atlas
-[20:53:05] [Client thread/INFO]: Created: 16x16 textures/items-atlas
-[20:53:05] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:BitCrafting
-[20:53:06] [Client thread/INFO]: Created: 512x256 textures/blocks-atlas
-[20:53:06] [Client thread/INFO]: Created: 512x256 textures/items-atlas
-[20:53:07] [Sound Library Loader/INFO]: Sound engine started
-[20:53:12] [Server thread/INFO]: Starting integrated minecraft server version 1.7.10
-[20:53:12] [Server thread/INFO]: Generating keypair
-[20:53:12] [Server thread/INFO]: Preparing start region for level 0
-[20:53:13] [Server thread/INFO]: Changing view distance to 12, from 10
-[20:53:13] [Server thread/INFO]: Player246[local:E:83b74a6e] logged in with entity id 382 at (-319.5221144167715, 69.0, 937.9587685502245)
-[20:53:13] [Server thread/INFO]: Player246 joined the game
-[20:53:56] [Client thread/INFO]: Stopping!
-[20:53:56] [Server thread/INFO]: Stopping server
-[20:53:56] [Server thread/INFO]: Saving players
-[20:53:56] [Server thread/INFO]: Saving worlds
-[20:53:56] [Server thread/INFO]: Saving chunks for level 'Test'/Overworld
-[20:53:56] [Server thread/INFO]: Saving chunks for level 'Test'/Nether
-[20:53:56] [Server thread/INFO]: Saving chunks for level 'Test'/The End
-[20:53:56] [Client Shutdown Thread/INFO]: Stopping server
-[20:53:56] [Client Shutdown Thread/INFO]: Saving players
+[22:23:30] [main/INFO]: Setting user: Player637
+[22:23:31] [Client thread/INFO]: LWJGL Version: 2.9.1
+[22:23:32] [Client thread/ERROR]: Couldn't initialize twitch stream
+[22:23:38] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:BitCrafting
+[22:23:39] [Sound Library Loader/INFO]: Sound engine started
+[22:23:42] [Client thread/INFO]: Created: 16x16 textures/blocks-atlas
+[22:23:42] [Client thread/INFO]: Created: 16x16 textures/items-atlas
+[22:23:42] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:BitCrafting
+[22:23:42] [Client thread/INFO]: Created: 512x256 textures/blocks-atlas
+[22:23:42] [Client thread/INFO]: Created: 512x256 textures/items-atlas
+[22:23:43] [Sound Library Loader/INFO]: Sound engine started
+[22:23:48] [Server thread/INFO]: Starting integrated minecraft server version 1.7.10
+[22:23:48] [Server thread/INFO]: Generating keypair
+[22:23:49] [Server thread/INFO]: Preparing start region for level 0
+[22:23:49] [Server thread/INFO]: Changing view distance to 12, from 10
+[22:23:50] [Server thread/INFO]: Player637[local:E:f23aef29] logged in with entity id 211 at (-190.30000001192093, 58.0, 11.587075546673482)
+[22:23:50] [Server thread/INFO]: Player637 joined the game
+[22:23:51] [Server thread/INFO]: Saving and pausing game...
+[22:23:51] [Server thread/INFO]: Saving chunks for level 'S Test'/Overworld
+[22:23:51] [Server thread/INFO]: Saving chunks for level 'S Test'/Nether
+[22:23:51] [Server thread/INFO]: Saving chunks for level 'S Test'/The End
+[22:24:10] [Server thread/INFO]: Saving and pausing game...
+[22:24:10] [Server thread/INFO]: Saving chunks for level 'S Test'/Overworld
+[22:24:10] [Server thread/INFO]: Saving chunks for level 'S Test'/Nether
+[22:24:10] [Server thread/INFO]: Saving chunks for level 'S Test'/The End
+[22:24:36] [Server thread/INFO]: Player637 has just earned the achievement [Taking Inventory]
+[22:24:36] [Client thread/INFO]: [CHAT] Player637 has just earned the achievement [Taking Inventory]
+[22:26:10] [Server thread/INFO]: Saving and pausing game...
+[22:26:10] [Server thread/INFO]: Saving chunks for level 'S Test'/Overworld
+[22:26:10] [Server thread/INFO]: Saving chunks for level 'S Test'/Nether
+[22:26:10] [Server thread/INFO]: Saving chunks for level 'S Test'/The End
+[22:26:11] [Server thread/INFO]: Stopping server
+[22:26:11] [Server thread/INFO]: Saving players
+[22:26:11] [Server thread/INFO]: Saving worlds
+[22:26:11] [Server thread/INFO]: Saving chunks for level 'S Test'/Overworld
+[22:26:11] [Server thread/INFO]: Saving chunks for level 'S Test'/Nether
+[22:26:11] [Server thread/INFO]: Saving chunks for level 'S Test'/The End
+[22:35:36] [Client thread/INFO]: Stopping!
