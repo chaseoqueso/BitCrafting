@@ -1,32 +1,26 @@
-[12:16:54] [main/INFO]: Setting user: Player976
-[12:16:55] [Client thread/INFO]: LWJGL Version: 2.9.1
-[12:16:56] [Client thread/ERROR]: Couldn't initialize twitch stream
-[12:17:04] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:BitCrafting
-[12:17:04] [Sound Library Loader/INFO]: Sound engine started
-[12:17:07] [Client thread/INFO]: Created: 16x16 textures/blocks-atlas
-[12:17:07] [Client thread/INFO]: Created: 16x16 textures/items-atlas
-[12:17:08] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:BitCrafting
-[12:17:08] [Client thread/INFO]: Created: 512x256 textures/blocks-atlas
-[12:17:08] [Client thread/INFO]: Created: 512x256 textures/items-atlas
-[12:17:09] [Sound Library Loader/INFO]: Sound engine started
-[12:17:15] [Server thread/INFO]: Starting integrated minecraft server version 1.7.10
-[12:17:15] [Server thread/INFO]: Generating keypair
-[12:17:15] [Server thread/INFO]: Preparing start region for level 0
-[12:17:16] [Server thread/INFO]: Changing view distance to 12, from 10
-[12:17:17] [Server thread/INFO]: Player976[local:E:52809b3b] logged in with entity id 424 at (-317.576208578165, 70.0, 938.75599034608)
-[12:17:17] [Server thread/INFO]: Player976 joined the game
-[12:17:17] [Server thread/INFO]: Saving and pausing game...
-[12:17:17] [Server thread/INFO]: Saving chunks for level 'Test'/Overworld
-[12:17:17] [Server thread/INFO]: Saving chunks for level 'Test'/Nether
-[12:17:17] [Server thread/INFO]: Saving chunks for level 'Test'/The End
-[12:17:27] [Server thread/INFO]: Player976 has just earned the achievement [Taking Inventory]
-[12:17:27] [Client thread/INFO]: [CHAT] Player976 has just earned the achievement [Taking Inventory]
-[12:17:29] [Client thread/INFO]: Stopping!
-[12:17:29] [Server thread/INFO]: Stopping server
-[12:17:29] [Server thread/INFO]: Saving players
-[12:17:29] [Server thread/INFO]: Saving worlds
-[12:17:29] [Server thread/INFO]: Saving chunks for level 'Test'/Overworld
-[12:17:29] [Server thread/INFO]: Saving chunks for level 'Test'/Nether
-[12:17:29] [Server thread/INFO]: Saving chunks for level 'Test'/The End
-[12:17:29] [Client Shutdown Thread/INFO]: Stopping server
-[12:17:29] [Client Shutdown Thread/INFO]: Saving players
+[20:52:53] [main/INFO]: Setting user: Player246
+[20:52:54] [Client thread/INFO]: LWJGL Version: 2.9.1
+[20:52:55] [Client thread/ERROR]: Couldn't initialize twitch stream
+[20:53:01] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:BitCrafting
+[20:53:02] [Sound Library Loader/INFO]: Sound engine started
+[20:53:05] [Client thread/INFO]: Created: 16x16 textures/blocks-atlas
+[20:53:05] [Client thread/INFO]: Created: 16x16 textures/items-atlas
+[20:53:05] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:BitCrafting
+[20:53:06] [Client thread/INFO]: Created: 512x256 textures/blocks-atlas
+[20:53:06] [Client thread/INFO]: Created: 512x256 textures/items-atlas
+[20:53:07] [Sound Library Loader/INFO]: Sound engine started
+[20:53:12] [Server thread/INFO]: Starting integrated minecraft server version 1.7.10
+[20:53:12] [Server thread/INFO]: Generating keypair
+[20:53:12] [Server thread/INFO]: Preparing start region for level 0
+[20:53:13] [Server thread/INFO]: Changing view distance to 12, from 10
+[20:53:13] [Server thread/INFO]: Player246[local:E:83b74a6e] logged in with entity id 382 at (-319.5221144167715, 69.0, 937.9587685502245)
+[20:53:13] [Server thread/INFO]: Player246 joined the game
+[20:53:56] [Client thread/INFO]: Stopping!
+[20:53:56] [Server thread/INFO]: Stopping server
+[20:53:56] [Server thread/INFO]: Saving players
+[20:53:56] [Server thread/INFO]: Saving worlds
+[20:53:56] [Server thread/INFO]: Saving chunks for level 'Test'/Overworld
+[20:53:56] [Server thread/INFO]: Saving chunks for level 'Test'/Nether
+[20:53:56] [Server thread/INFO]: Saving chunks for level 'Test'/The End
+[20:53:56] [Client Shutdown Thread/INFO]: Stopping server
+[20:53:56] [Client Shutdown Thread/INFO]: Saving players
