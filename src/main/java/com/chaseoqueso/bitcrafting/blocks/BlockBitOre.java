@@ -15,13 +15,13 @@ import com.chaseoqueso.bitcrafting.BitCraftingMod;
 import com.chaseoqueso.bitcrafting.items.ItemBit;
 
 public class BlockBitOre extends BlockOre {
-	
+
 	public BlockBitOre() {
 		super();
 		this.setHarvestLevel("pickaxe", 2);
 		this.setLightLevel(0.5F);
 	}
-	
+
 	@Override
 	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_) {
 		return BitCraftingMod.itemBit;
@@ -56,11 +56,11 @@ public class BlockBitOre extends BlockOre {
 	@Override
 	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
 		ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
-		String[] bitdata = this == BitCraftingMod.blockFireOre ? new String[] { "orange", "", "fire" }
-				: (this == BitCraftingMod.blockEarthOre ? new String[] { "brown", "dark", "earth" }
-						: (this == BitCraftingMod.blockLightningOre ? new String[] { "yellow", "light", "lightning" }
-								: (this == BitCraftingMod.blockIceOre ? new String[] { "lightblue", "light", "ice" }
-										: new String[] { "purple", "", "spatial" })));
+		String[] bitdata = (this == BitCraftingMod.blockFireOre ? new String[] { "orange", "", "fire" }
+								: (this == BitCraftingMod.blockEarthOre ? new String[] { "brown", "dark", "earth" }
+										: (this == BitCraftingMod.blockLightningOre ? new String[] { "yellow", "light", "lightning" }
+												: (this == BitCraftingMod.blockIceOre ? new String[] { "lightblue", "light", "ice" }
+														: new String[] { "purple", "", "spatial" }))));
 		int count = quantityDropped(metadata, fortune, world.rand);
 		for (int i = 0; i < count; i++) {
 			Item item = getItemDropped(metadata, world.rand, fortune);

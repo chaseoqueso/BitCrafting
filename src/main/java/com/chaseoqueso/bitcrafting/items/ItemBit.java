@@ -388,8 +388,29 @@ public class ItemBit extends Item {
 			NBTTagCompound itemData = new NBTTagCompound();
 
 			bitStack.setTagCompound(itemData);
-			itemData.setString("color", "gray");
-			itemData.setString("shade", "darkest");
+			
+			switch(eff)
+			{
+			case 0:
+				itemData.setString("color", "orange");
+				itemData.setString("shade", "");
+			case 1:
+				itemData.setString("color", "brown");
+				itemData.setString("shade", "dark");
+			case 2:
+				itemData.setString("color", "yellow");
+				itemData.setString("shade", "light");
+			case 3:
+				itemData.setString("color", "lightblue");
+				itemData.setString("shade", "light");
+			case 4:
+				itemData.setString("color", "purple");
+				itemData.setString("shade", "");
+			default:
+				itemData.setString("color", "gray");
+				itemData.setString("shade", "darkest");
+			}
+			
 			itemData.setFloat("damage", .1F);
 			itemData.setFloat("durability", 20F);
 			itemData.setFloat("enchantability", .2F);
