@@ -1,0 +1,16 @@
+package com.chaseoqueso.bitcrafting.blocks;
+
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockChest;
+import net.minecraft.tileentity.TileEntityChest;
+import net.minecraft.world.World;
+
+public class BlockBitChest extends BlockChest {
+
+	public BlockBitChest(int p_i45397_1_) {
+		super(p_i45397_1_);
+	}
+	
+	public void onNeighborBlockChange(World p_149695_1_, int p_149695_2_, int p_149695_3_, int p_149695_4_, Block p_149695_5_) {}
+
+}

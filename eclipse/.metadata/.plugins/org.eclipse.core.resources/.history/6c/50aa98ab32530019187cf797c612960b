@@ -1,0 +1,5 @@
+package com.chaseoqueso.bitcrafting.container;
+
+public class ContainerBitChest extends Container {
+
+}

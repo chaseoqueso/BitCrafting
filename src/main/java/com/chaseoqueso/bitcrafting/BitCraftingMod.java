@@ -1,5 +1,6 @@
 package com.chaseoqueso.bitcrafting;
 
+import com.chaseoqueso.bitcrafting.blocks.BlockBitChest;
 import com.chaseoqueso.bitcrafting.blocks.BlockBitCrucible;
 import com.chaseoqueso.bitcrafting.blocks.BlockBitDyeTable;
 import com.chaseoqueso.bitcrafting.blocks.BlockBitForge;
@@ -49,6 +50,7 @@ public class BitCraftingMod {
 	public static Block blockLightningOre;
 	public static Block blockIceOre;
 	public static Block blockSpatialOre;
+	public static Block blockBitChest;
 	
 	@Instance(MODID)
 	public static BitCraftingMod instance;
@@ -69,6 +71,7 @@ public class BitCraftingMod {
 		blockLightningOre = new BlockBitOre().setBlockName("BlockLightningOre").setCreativeTab(tabBitCraftingMod).setHardness(3.0F).setResistance(5.0F).setStepSound(Block.soundTypePiston).setBlockTextureName("bcm:LightningOre");
 		blockIceOre = new BlockBitOre().setBlockName("BlockIceOre").setCreativeTab(tabBitCraftingMod).setHardness(3.0F).setResistance(5.0F).setStepSound(Block.soundTypePiston).setBlockTextureName("bcm:IceOre");
 		blockSpatialOre = new BlockBitOre().setBlockName("BlockSpatialOre").setCreativeTab(tabBitCraftingMod).setHardness(3.0F).setResistance(5.0F).setStepSound(Block.soundTypePiston).setBlockTextureName("bcm:SpatialOre");
+		blockBitChest = new BlockBitChest(Material.wood).setBlockName("BlockBitChest").setCreativeTab(tabBitCraftingMod).setHardness(1.0F).setResistance(2.0F).setStepSound(Block.soundTypeWood);
 		
 		GameRegistry.registerItem(itemBit, itemBit.getUnlocalizedName().substring(5));
 		GameRegistry.registerItem(itemClearBit, itemClearBit.getUnlocalizedName().substring(5));
@@ -83,6 +86,7 @@ public class BitCraftingMod {
 		GameRegistry.registerBlock(blockLightningOre, blockLightningOre.getUnlocalizedName().substring(5));
 		GameRegistry.registerBlock(blockIceOre, blockIceOre.getUnlocalizedName().substring(5));
 		GameRegistry.registerBlock(blockSpatialOre, blockSpatialOre.getUnlocalizedName().substring(5));
+		GameRegistry.registerBlock(blockBitChest, blockBitChest.getUnlocalizedName().substring(5));
 		
 		proxy.registerRenderThings();
 		proxy.registerTileEntities();
@@ -95,6 +99,7 @@ public class BitCraftingMod {
 		GameRegistry.addRecipe(new ItemStack(blockBitForge), new Object[] {"IBI", "CTC", "ICI", 'I', Items.iron_ingot, 'C', Blocks.cobblestone, 'T', Blocks.crafting_table, 'B', Blocks.iron_bars});
 		GameRegistry.addRecipe(new ItemStack(blockBitDyeTable), new Object[] {"GSG", "CTC", "GCG", 'G', Items.gold_ingot, 'C', Blocks.cobblestone, 'T', Blocks.crafting_table, 'S', Blocks.stone_slab});
 		GameRegistry.addRecipe(new ItemStack(blockBitFusionTable), new Object[] {"DGD", "CTC", "DCD", 'D', Items.diamond, 'C', Blocks.cobblestone, 'T', Blocks.crafting_table, 'G', Blocks.glowstone});
+		GameRegistry.addRecipe(new ItemStack(blockBitChest), new Object[] {"BBB", "BCB", "BBB", 'B', itemBit, 'C', Blocks.chest});
 		GameRegistry.addShapelessRecipe(new ItemStack(Items.netherbrick, 4), Blocks.nether_brick);
 
 		NetworkRegistry.INSTANCE.registerGuiHandler(BitCraftingMod.instance, new GUIHandler());

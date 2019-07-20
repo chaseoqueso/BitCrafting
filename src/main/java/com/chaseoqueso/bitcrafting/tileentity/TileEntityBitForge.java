@@ -56,6 +56,7 @@ public class TileEntityBitForge extends TileEntity implements IInventory {
 				itemstack = this.forgeItemStacks[par1];
 				this.forgeItemStacks[par1] = null;
                 this.eventhandler.onCraftMatrixChanged(this);
+                this.markDirty();
 				return itemstack;
 			} else {
 				itemstack = this.forgeItemStacks[par1].splitStack(par2);
@@ -64,6 +65,7 @@ public class TileEntityBitForge extends TileEntity implements IInventory {
 					this.forgeItemStacks[par1] = null;
 				}
                 this.eventhandler.onCraftMatrixChanged(this);
+                this.markDirty();
 				return itemstack;
 			}
 		}
@@ -78,13 +80,13 @@ public class TileEntityBitForge extends TileEntity implements IInventory {
 			{
 				itemstack = this.forgeItemStacks[par1];
 				this.forgeItemStacks[par1] = null;
+		        this.markDirty();
 				return itemstack;
 			} else {
 				itemstack = this.forgeItemStacks[par1].splitStack(par2);
 				if(this.forgeItemStacks[par1].stackSize == 0)
-				{
 					this.forgeItemStacks[par1] = null;
-				}
+		        this.markDirty();
 				return itemstack;
 			}
 		}
@@ -103,12 +105,10 @@ public class TileEntityBitForge extends TileEntity implements IInventory {
 
 	public void setInventorySlotContents(int slot, ItemStack itemstack) {
 		this.forgeItemStacks[slot] = itemstack;
-		
 		if(itemstack != null && itemstack.stackSize > this.getInventoryStackLimit())
-		{
 			itemstack.stackSize = this.getInventoryStackLimit();
-		}
         this.eventhandler.onCraftMatrixChanged(this);
+        this.markDirty();
 	}
 
 	public void setInventorySlotContentsNoUpdate(int slot, ItemStack itemstack) {

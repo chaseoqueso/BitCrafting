@@ -1,0 +1,11 @@
+package com.chaseoqueso.bitcrafting.blocks;
+
+import net.minecraft.block.BlockChest;
+
+public class BlockBitChest extends BlockChest {
+
+	public BlockBitChest(int p_i45397_1_) {
+		super(p_i45397_1_);
+	}
+
+}

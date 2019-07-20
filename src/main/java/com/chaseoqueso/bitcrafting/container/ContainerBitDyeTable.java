@@ -1,6 +1,7 @@
 package com.chaseoqueso.bitcrafting.container;
 
 import com.chaseoqueso.bitcrafting.items.ItemBit;
+import com.chaseoqueso.bitcrafting.slots.DyeSlot;
 import com.chaseoqueso.bitcrafting.tileentity.TileEntityBitDyeTable;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -29,7 +30,7 @@ public class ContainerBitDyeTable extends Container {
 
 		int i;
 		for(i = 0; i < 5; i++)
-			this.addSlotToContainer(new SlotCrafting(player.player, tileentity, craftResult[i], i + 2, 44 + i*18, 48));
+			this.addSlotToContainer(new DyeSlot(player.player, tileentity, craftResult[i], i + 2, 44 + i*18, 48));
 		
 		for(i = 0; i < 3; i++)
 		{

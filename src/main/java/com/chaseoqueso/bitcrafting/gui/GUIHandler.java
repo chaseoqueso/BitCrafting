@@ -1,9 +1,11 @@
 package com.chaseoqueso.bitcrafting.gui;
 
+import com.chaseoqueso.bitcrafting.container.ContainerBitChest;
 import com.chaseoqueso.bitcrafting.container.ContainerBitCrucible;
 import com.chaseoqueso.bitcrafting.container.ContainerBitDyeTable;
 import com.chaseoqueso.bitcrafting.container.ContainerBitForge;
 import com.chaseoqueso.bitcrafting.container.ContainerBitFusionTable;
+import com.chaseoqueso.bitcrafting.tileentity.TileEntityBitChest;
 import com.chaseoqueso.bitcrafting.tileentity.TileEntityBitCrucible;
 import com.chaseoqueso.bitcrafting.tileentity.TileEntityBitDyeTable;
 import com.chaseoqueso.bitcrafting.tileentity.TileEntityBitForge;
@@ -31,6 +33,9 @@ public class GUIHandler implements IGuiHandler {
 		} else if(ID == 3) {
 			TileEntityBitFusionTable tileentity = (TileEntityBitFusionTable) world.getTileEntity(x, y, z);
 			return new ContainerBitFusionTable(player.inventory, tileentity);
+		} else if(ID == 4) {
+			TileEntityBitChest tileentity = (TileEntityBitChest) world.getTileEntity(x, y, z);
+			return new ContainerBitChest(player.inventory, tileentity);
 		}
 		return null;
 	}
@@ -51,6 +56,9 @@ public class GUIHandler implements IGuiHandler {
 		} else if(ID == 3) {
 			TileEntityBitFusionTable tileentity = (TileEntityBitFusionTable) world.getTileEntity(x, y, z);
 			return new GUIBitFusionTable(player.inventory, tileentity);
+		} else if(ID == 4) {
+			TileEntityBitChest tileentity = (TileEntityBitChest) world.getTileEntity(x, y, z);
+			return new GUIBitChest(player.inventory, tileentity);
 		}
 		return null;
 	}

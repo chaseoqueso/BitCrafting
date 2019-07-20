@@ -81,5 +81,6 @@ tile.BlockEarthOre.name=Earth Bit Ore
 tile.BlockLightningOre.name=Lightning Bit Ore
 tile.BlockIceOre.name=Ice Bit Ore
 tile.BlockSpatialOre.name=Spatial Bit Ore
+tile.BlockBitChest.name=Bit Chest
 
 itemGroup.tabBitCraftingMod=BitCrafting

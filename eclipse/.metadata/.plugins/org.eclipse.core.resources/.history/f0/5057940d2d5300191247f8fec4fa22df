@@ -1,0 +1,7 @@
+package com.chaseoqueso.bitcrafting.tileentity;
+
+import net.minecraft.tileentity.TileEntity;
+
+public class TileEntityBitChest extends TileEntity {
+
+}

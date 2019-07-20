@@ -64,13 +64,13 @@ public class TileEntityBitCrucible extends TileEntity implements ISidedInventory
 			{
 				itemstack = this.crucibleItemStacks[par1];
 				this.crucibleItemStacks[par1] = null;
+		        this.markDirty();
 				return itemstack;
 			} else {
 				itemstack = this.crucibleItemStacks[par1].splitStack(par2);
 				if(this.crucibleItemStacks[par1].stackSize == 0)
-				{
 					this.crucibleItemStacks[par1] = null;
-				}
+		        this.markDirty();
 				return itemstack;
 			}
 		}
@@ -89,11 +89,9 @@ public class TileEntityBitCrucible extends TileEntity implements ISidedInventory
 
 	public void setInventorySlotContents(int slot, ItemStack itemstack) {
 		this.crucibleItemStacks[slot] = itemstack;
-		
 		if(itemstack != null && itemstack.stackSize > this.getInventoryStackLimit())
-		{
 			itemstack.stackSize = this.getInventoryStackLimit();
-		}
+        this.markDirty();
 	}
 
 	public String getInventoryName() {
