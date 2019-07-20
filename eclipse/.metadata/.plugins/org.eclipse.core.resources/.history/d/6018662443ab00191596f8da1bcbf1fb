@@ -34,11 +34,7 @@ public class BitOreGeneration implements IWorldGenerator {
 	}
 	
 	public void generateOverworld(World world, Random rand, int x, int z) {
-		generateOre(BitCraftingMod.blockFireOre, world, rand, x, z, 2, 4, 2, 0, 50, Blocks.stone);
-		generateOre(BitCraftingMod.blockEarthOre, world, rand, x, z, 2, 4, 2, 0, 50, Blocks.stone);
-		generateOre(BitCraftingMod.blockLightningOre, world, rand, x, z, 2, 4, 2, 0, 50, Blocks.stone);
-		generateOre(BitCraftingMod.blockIceOre, world, rand, x, z, 2, 4, 2, 0, 50, Blocks.stone);
-		generateOre(BitCraftingMod.blockSpatialOre, world, rand, x, z, 2, 4, 2, 0, 50, Blocks.stone);
+		generateOre(BitCraftingMod.blockFireOre, world, rand, x, z, 2, 4, 5, 0, 50, Blocks.stone);
 	}
 	
 	public void generateEnd(World world, Random rand, int x, int z) {
@@ -55,7 +51,6 @@ public class BitOreGeneration implements IWorldGenerator {
 			int xrand = chunkX * 16 + rand.nextInt(16);
 			int yrand = rand.nextInt(heightRange) + minY;
 			int zrand = chunkZ * 16 + rand.nextInt(16);
-			gen.generate(world, rand, xrand, yrand, zrand);
 		}
 	}
 

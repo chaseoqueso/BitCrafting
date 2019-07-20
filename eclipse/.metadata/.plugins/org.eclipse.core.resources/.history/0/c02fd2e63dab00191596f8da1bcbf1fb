@@ -76,7 +76,6 @@ public class BitCraftingMod {
 		GameRegistry.registerItem(itemBit, itemBit.getUnlocalizedName().substring(5));
 		GameRegistry.registerItem(itemClearBit, itemClearBit.getUnlocalizedName().substring(5));
 		GameRegistry.registerItem(itemBitSword, itemBitSword.getUnlocalizedName().substring(5));
-		
 		GameRegistry.registerBlock(blockBitCrucible, blockBitCrucible.getUnlocalizedName().substring(5));
 		GameRegistry.registerBlock(blockBitCrucibleActive, blockBitCrucibleActive.getUnlocalizedName().substring(5));
 		GameRegistry.registerBlock(blockBitForge, blockBitForge.getUnlocalizedName().substring(5));
@@ -88,8 +87,6 @@ public class BitCraftingMod {
 		GameRegistry.registerBlock(blockIceOre, blockIceOre.getUnlocalizedName().substring(5));
 		GameRegistry.registerBlock(blockSpatialOre, blockSpatialOre.getUnlocalizedName().substring(5));
 		GameRegistry.registerBlock(blockBitChest, blockBitChest.getUnlocalizedName().substring(5));
-		
-		GameRegistry.registerWorldGenerator(new BitOreGeneration(), 1);
 		
 		proxy.registerRenderThings();
 		proxy.registerTileEntities();

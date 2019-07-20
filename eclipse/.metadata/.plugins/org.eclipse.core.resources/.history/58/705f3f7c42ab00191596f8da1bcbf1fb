@@ -89,7 +89,7 @@ public class BitCraftingMod {
 		GameRegistry.registerBlock(blockSpatialOre, blockSpatialOre.getUnlocalizedName().substring(5));
 		GameRegistry.registerBlock(blockBitChest, blockBitChest.getUnlocalizedName().substring(5));
 		
-		GameRegistry.registerWorldGenerator(new BitOreGeneration(), 1);
+		GameRegistry.registerWorldGenerator(new BitOreGeneration(), 0);
 		
 		proxy.registerRenderThings();
 		proxy.registerTileEntities();
