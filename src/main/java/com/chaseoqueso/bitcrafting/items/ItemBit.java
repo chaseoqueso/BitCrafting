@@ -394,18 +394,23 @@ public class ItemBit extends Item {
 			case 0:
 				itemData.setString("color", "orange");
 				itemData.setString("shade", "");
+				break;
 			case 1:
 				itemData.setString("color", "brown");
 				itemData.setString("shade", "dark");
+				break;
 			case 2:
 				itemData.setString("color", "yellow");
 				itemData.setString("shade", "light");
+				break;
 			case 3:
 				itemData.setString("color", "lightblue");
 				itemData.setString("shade", "light");
+				break;
 			case 4:
 				itemData.setString("color", "purple");
 				itemData.setString("shade", "");
+				break;
 			default:
 				itemData.setString("color", "gray");
 				itemData.setString("shade", "darkest");

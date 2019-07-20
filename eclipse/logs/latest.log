@@ -1,43 +1,30 @@
-[16:17:10] [main/INFO]: Setting user: Player699
-[16:17:12] [Client thread/INFO]: LWJGL Version: 2.9.1
-[16:17:13] [Client thread/ERROR]: Couldn't initialize twitch stream
-[16:17:22] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:BitCrafting
-[16:17:23] [Sound Library Loader/INFO]: Sound engine started
-[16:17:28] [Client thread/INFO]: Created: 16x16 textures/blocks-atlas
-[16:17:28] [Client thread/INFO]: Created: 16x16 textures/items-atlas
-[16:17:29] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:BitCrafting
-[16:17:29] [Client thread/INFO]: Created: 512x256 textures/blocks-atlas
-[16:17:29] [Client thread/INFO]: Created: 512x256 textures/items-atlas
-[16:17:30] [Sound Library Loader/INFO]: Sound engine started
-[16:17:37] [Client thread/INFO]: Deleting level Ore Test
-[16:17:37] [Client thread/INFO]: Attempt 1...
-[16:17:48] [Server thread/INFO]: Starting integrated minecraft server version 1.7.10
-[16:17:48] [Server thread/INFO]: Generating keypair
-[16:17:48] [Server thread/INFO]: Converting map!
-[16:17:48] [Server thread/INFO]: Scanning folders...
-[16:17:48] [Server thread/INFO]: Total conversion count is 0
-[16:17:49] [Server thread/INFO]: Preparing start region for level 0
-[16:17:50] [Server thread/INFO]: Preparing spawn area: 9%
-[16:17:51] [Server thread/INFO]: Preparing spawn area: 25%
-[16:17:52] [Server thread/INFO]: Preparing spawn area: 45%
-[16:17:53] [Server thread/INFO]: Preparing spawn area: 69%
-[16:17:54] [Server thread/INFO]: Preparing spawn area: 96%
-[16:17:54] [Server thread/INFO]: Changing view distance to 12, from 10
-[16:17:55] [Server thread/INFO]: Player699[local:E:760aa170] logged in with entity id 136 at (250.5, 67.0, 226.5)
-[16:17:55] [Server thread/INFO]: Player699 joined the game
-[16:18:02] [Client thread/INFO]: Warning: Clientside chunk ticking took 112 ms
-[16:18:02] [Client thread/INFO]: Warning: Clientside chunk ticking took 104 ms
-[16:18:02] [Client thread/INFO]: Warning: Clientside chunk ticking took 114 ms
-[16:18:15] [Server thread/INFO]: Player699 has just earned the achievement [Taking Inventory]
-[16:18:15] [Client thread/INFO]: [CHAT] Player699 has just earned the achievement [Taking Inventory]
-[16:20:23] [Server thread/INFO]: Saving and pausing game...
-[16:20:23] [Server thread/INFO]: Saving chunks for level 'Ore Test'/Overworld
-[16:20:23] [Server thread/INFO]: Saving chunks for level 'Ore Test'/Nether
-[16:20:23] [Server thread/INFO]: Saving chunks for level 'Ore Test'/The End
-[16:20:25] [Server thread/INFO]: Stopping server
-[16:20:25] [Server thread/INFO]: Saving players
-[16:20:25] [Server thread/INFO]: Saving worlds
-[16:20:25] [Server thread/INFO]: Saving chunks for level 'Ore Test'/Overworld
-[16:20:25] [Server thread/INFO]: Saving chunks for level 'Ore Test'/Nether
-[16:20:25] [Server thread/INFO]: Saving chunks for level 'Ore Test'/The End
-[16:20:26] [Client thread/INFO]: Stopping!
+[16:43:47] [main/INFO]: Setting user: Player529
+[16:43:49] [Client thread/INFO]: LWJGL Version: 2.9.1
+[16:43:50] [Client thread/ERROR]: Couldn't initialize twitch stream
+[16:43:59] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:BitCrafting
+[16:44:00] [Sound Library Loader/INFO]: Sound engine started
+[16:44:06] [Client thread/INFO]: Created: 16x16 textures/blocks-atlas
+[16:44:06] [Client thread/INFO]: Created: 16x16 textures/items-atlas
+[16:44:06] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:BitCrafting
+[16:44:07] [Client thread/INFO]: Created: 512x256 textures/blocks-atlas
+[16:44:07] [Client thread/INFO]: Created: 512x256 textures/items-atlas
+[16:44:08] [Sound Library Loader/INFO]: Sound engine started
+[16:44:16] [Server thread/INFO]: Starting integrated minecraft server version 1.7.10
+[16:44:16] [Server thread/INFO]: Generating keypair
+[16:44:17] [Server thread/INFO]: Preparing start region for level 0
+[16:44:18] [Server thread/INFO]: Changing view distance to 12, from 10
+[16:44:18] [Server thread/INFO]: Player529[local:E:49ac8a3b] logged in with entity id 276 at (-319.7081863021646, 69.0, 938.0324332985409)
+[16:44:18] [Server thread/INFO]: Player529 joined the game
+[16:44:22] [Server thread/INFO]: Player529 has just earned the achievement [Taking Inventory]
+[16:44:22] [Client thread/INFO]: [CHAT] Player529 has just earned the achievement [Taking Inventory]
+[16:44:28] [Server thread/INFO]: Saving and pausing game...
+[16:44:28] [Server thread/INFO]: Saving chunks for level 'Test'/Overworld
+[16:44:28] [Server thread/INFO]: Saving chunks for level 'Test'/Nether
+[16:44:28] [Server thread/INFO]: Saving chunks for level 'Test'/The End
+[16:44:29] [Server thread/INFO]: Stopping server
+[16:44:29] [Server thread/INFO]: Saving players
+[16:44:29] [Server thread/INFO]: Saving worlds
+[16:44:29] [Server thread/INFO]: Saving chunks for level 'Test'/Overworld
+[16:44:29] [Server thread/INFO]: Saving chunks for level 'Test'/Nether
+[16:44:29] [Server thread/INFO]: Saving chunks for level 'Test'/The End
+[16:44:30] [Client thread/INFO]: Stopping!
