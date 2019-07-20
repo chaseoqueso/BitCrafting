@@ -1,84 +1,30 @@
-<<<<<<< HEAD
-[17:16:04] [main/INFO]: Setting user: Player130
-[17:16:05] [Client thread/INFO]: LWJGL Version: 2.9.1
-[17:16:06] [Client thread/ERROR]: Couldn't initialize twitch stream
-[17:16:12] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:BitCrafting
-[17:16:13] [Sound Library Loader/INFO]: Sound engine started
-[17:16:14] [Client thread/INFO]: Created: 16x16 textures/blocks-atlas
-[17:16:14] [Client thread/INFO]: Created: 16x16 textures/items-atlas
-[17:16:14] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:BitCrafting
-[17:16:15] [Client thread/INFO]: Created: 512x256 textures/blocks-atlas
-[17:16:15] [Client thread/INFO]: Created: 512x256 textures/items-atlas
-[17:16:16] [Sound Library Loader/INFO]: Sound engine started
-[17:16:59] [Server thread/INFO]: Starting integrated minecraft server version 1.7.10
-[17:16:59] [Server thread/INFO]: Generating keypair
-[17:16:59] [Server thread/INFO]: Preparing start region for level 0
-[17:17:00] [Server thread/INFO]: Changing view distance to 12, from 10
-[17:17:06] [Server thread/INFO]: Stopping server
-[17:17:06] [Server thread/INFO]: Saving players
-[17:17:06] [Server thread/INFO]: Saving worlds
-[17:17:06] [Server thread/INFO]: Saving chunks for level 'Test'/Overworld
-[17:17:06] [Server thread/INFO]: Saving chunks for level 'Test'/Nether
-[17:17:06] [Server thread/INFO]: Saving chunks for level 'Test'/The End
-[17:17:06] [Server thread/INFO]: Starting integrated minecraft server version 1.7.10
-[17:17:06] [Server thread/INFO]: Generating keypair
-[17:17:06] [Server thread/INFO]: Preparing start region for level 0
-[17:17:07] [Server thread/INFO]: Changing view distance to 12, from 10
-[17:17:07] [Server thread/INFO]: Player130[local:E:c5a8bd24] logged in with entity id 634 at (-314.5, 89.0, 1001.5)
-[17:17:07] [Server thread/INFO]: Player130 joined the game
-[17:17:07] [Server thread/INFO]: Saving and pausing game...
-[17:17:07] [Server thread/INFO]: Saving chunks for level 'Test'/Overworld
-[17:17:07] [Server thread/INFO]: Saving chunks for level 'Test'/Nether
-[17:17:07] [Server thread/INFO]: Saving chunks for level 'Test'/The End
-[17:17:14] [Client thread/INFO]: Warning: Clientside chunk ticking took 140 ms
-[17:17:38] [Server thread/INFO]: Player130 has just earned the achievement [Taking Inventory]
-[17:17:38] [Client thread/INFO]: [CHAT] Player130 has just earned the achievement [Taking Inventory]
-[17:18:54] [Client thread/INFO]: Stopping!
-[17:18:54] [Server thread/INFO]: Stopping server
-[17:18:54] [Server thread/INFO]: Saving players
-[17:18:54] [Server thread/INFO]: Saving worlds
-[17:18:54] [Server thread/INFO]: Saving chunks for level 'Test'/Overworld
-[17:18:54] [Server thread/INFO]: Saving chunks for level 'Test'/Nether
-[17:18:54] [Server thread/INFO]: Saving chunks for level 'Test'/The End
-[17:18:54] [Client Shutdown Thread/INFO]: Stopping server
-[17:18:54] [Client Shutdown Thread/INFO]: Saving players
-=======
-[22:23:30] [main/INFO]: Setting user: Player637
-[22:23:31] [Client thread/INFO]: LWJGL Version: 2.9.1
-[22:23:32] [Client thread/ERROR]: Couldn't initialize twitch stream
-[22:23:38] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:BitCrafting
-[22:23:39] [Sound Library Loader/INFO]: Sound engine started
-[22:23:42] [Client thread/INFO]: Created: 16x16 textures/blocks-atlas
-[22:23:42] [Client thread/INFO]: Created: 16x16 textures/items-atlas
-[22:23:42] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:BitCrafting
-[22:23:42] [Client thread/INFO]: Created: 512x256 textures/blocks-atlas
-[22:23:42] [Client thread/INFO]: Created: 512x256 textures/items-atlas
-[22:23:43] [Sound Library Loader/INFO]: Sound engine started
-[22:23:48] [Server thread/INFO]: Starting integrated minecraft server version 1.7.10
-[22:23:48] [Server thread/INFO]: Generating keypair
-[22:23:49] [Server thread/INFO]: Preparing start region for level 0
-[22:23:49] [Server thread/INFO]: Changing view distance to 12, from 10
-[22:23:50] [Server thread/INFO]: Player637[local:E:f23aef29] logged in with entity id 211 at (-190.30000001192093, 58.0, 11.587075546673482)
-[22:23:50] [Server thread/INFO]: Player637 joined the game
-[22:23:51] [Server thread/INFO]: Saving and pausing game...
-[22:23:51] [Server thread/INFO]: Saving chunks for level 'S Test'/Overworld
-[22:23:51] [Server thread/INFO]: Saving chunks for level 'S Test'/Nether
-[22:23:51] [Server thread/INFO]: Saving chunks for level 'S Test'/The End
-[22:24:10] [Server thread/INFO]: Saving and pausing game...
-[22:24:10] [Server thread/INFO]: Saving chunks for level 'S Test'/Overworld
-[22:24:10] [Server thread/INFO]: Saving chunks for level 'S Test'/Nether
-[22:24:10] [Server thread/INFO]: Saving chunks for level 'S Test'/The End
-[22:24:36] [Server thread/INFO]: Player637 has just earned the achievement [Taking Inventory]
-[22:24:36] [Client thread/INFO]: [CHAT] Player637 has just earned the achievement [Taking Inventory]
-[22:26:10] [Server thread/INFO]: Saving and pausing game...
-[22:26:10] [Server thread/INFO]: Saving chunks for level 'S Test'/Overworld
-[22:26:10] [Server thread/INFO]: Saving chunks for level 'S Test'/Nether
-[22:26:10] [Server thread/INFO]: Saving chunks for level 'S Test'/The End
-[22:26:11] [Server thread/INFO]: Stopping server
-[22:26:11] [Server thread/INFO]: Saving players
-[22:26:11] [Server thread/INFO]: Saving worlds
-[22:26:11] [Server thread/INFO]: Saving chunks for level 'S Test'/Overworld
-[22:26:11] [Server thread/INFO]: Saving chunks for level 'S Test'/Nether
-[22:26:11] [Server thread/INFO]: Saving chunks for level 'S Test'/The End
-[22:35:36] [Client thread/INFO]: Stopping!
->>>>>>> bcm-1.0.X
+[14:54:19] [main/INFO]: Setting user: Player840
+[14:54:21] [Client thread/INFO]: LWJGL Version: 2.9.1
+[14:54:23] [Client thread/ERROR]: Couldn't initialize twitch stream
+[14:54:31] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:BitCrafting
+[14:54:32] [Sound Library Loader/INFO]: Sound engine started
+[14:54:36] [Client thread/INFO]: Created: 16x16 textures/blocks-atlas
+[14:54:36] [Client thread/INFO]: Created: 16x16 textures/items-atlas
+[14:54:36] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:BitCrafting
+[14:54:36] [Client thread/INFO]: Created: 512x256 textures/blocks-atlas
+[14:54:37] [Client thread/INFO]: Created: 512x256 textures/items-atlas
+[14:54:37] [Sound Library Loader/INFO]: Sound engine started
+[14:54:46] [Server thread/INFO]: Starting integrated minecraft server version 1.7.10
+[14:54:46] [Server thread/INFO]: Generating keypair
+[14:54:47] [Server thread/INFO]: Preparing start region for level 0
+[14:54:48] [Server thread/INFO]: Changing view distance to 12, from 10
+[14:54:49] [Server thread/INFO]: Player840[local:E:ffc5594e] logged in with entity id 389 at (-319.0661983831841, 69.0, 938.561572258046)
+[14:54:49] [Server thread/INFO]: Player840 joined the game
+[14:54:52] [Server thread/INFO]: Player840 has just earned the achievement [Taking Inventory]
+[14:54:52] [Client thread/INFO]: [CHAT] Player840 has just earned the achievement [Taking Inventory]
+[14:56:26] [Server thread/INFO]: Saving and pausing game...
+[14:56:26] [Server thread/INFO]: Saving chunks for level 'Test'/Overworld
+[14:56:26] [Server thread/INFO]: Saving chunks for level 'Test'/Nether
+[14:56:26] [Server thread/INFO]: Saving chunks for level 'Test'/The End
+[14:56:27] [Server thread/INFO]: Stopping server
+[14:56:27] [Server thread/INFO]: Saving players
+[14:56:27] [Server thread/INFO]: Saving worlds
+[14:56:27] [Server thread/INFO]: Saving chunks for level 'Test'/Overworld
+[14:56:27] [Server thread/INFO]: Saving chunks for level 'Test'/Nether
+[14:56:27] [Server thread/INFO]: Saving chunks for level 'Test'/The End
+[14:56:28] [Client thread/INFO]: Stopping!
