@@ -22,6 +22,8 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.EnumHelper;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class TileEntityBitForge extends TileEntity implements IInventory {
@@ -210,8 +212,10 @@ public class TileEntityBitForge extends TileEntity implements IInventory {
 	{
 		if(this.canForge())
 		{
-			int count = 0;
 			float damage = 0, durability = 0, enchantability = 0;
+			ArrayList<String> effects = new ArrayList<String>();
+			ArrayList<Float> effectChances = new ArrayList<Float>();
+			ArrayList<Float> effectPowers = new ArrayList<Float>();
 			
 			for(int i = 0; i < 256; i++)
 			{
@@ -225,11 +229,27 @@ public class TileEntityBitForge extends TileEntity implements IInventory {
 						durability += itemData.getFloat("durability");
 						enchantability += itemData.getFloat("enchantability");
 		            }
-					count++;
+		            
+		            if (itemData.hasKey("effect"))
+		            {
+		            	String e = itemData.getString("effect");
+		            	if(effects.contains(e))
+		            	{
+		            		int index = effects.indexOf(e);
+		            		effectChances.set(index, 1 - ((1 - effectChances.get(index)) * (1 - itemData.getFloat("chance"))));
+		            		effectPowers.set(index, 1 - ((1 - effectPowers.get(index)) * (1 - itemData.getFloat("power"))));
+		            	}
+		            	else
+		            	{
+			            	effects.add(e);
+			            	effectChances.add(itemData.getFloat("chance"));
+			            	effectPowers.add(itemData.getFloat("power"));
+		            	}
+		            }
 		        }
 			}
 
-			return ItemBitSword.initialize(new ItemStack(BitCraftingMod.itemBitSword), (ItemStack[])Arrays.copyOf(forgeItemStacks, 256), damage, durability, enchantability).copy();
+			return ItemBitSword.initialize(new ItemStack(BitCraftingMod.itemBitSword), (ItemStack[])Arrays.copyOf(forgeItemStacks, 256), damage, durability, enchantability, effects, effectChances, effectPowers).copy();
 			//Returns the new weapon that is created based on certain damage, durability, etc. Also gives the new weapon an array of the Bits used for image generating purposes.
 		}
 		return null;

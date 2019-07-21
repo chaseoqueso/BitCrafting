@@ -420,8 +420,8 @@ public class ItemBit extends Item {
 			itemData.setFloat("durability", 20F);
 			itemData.setFloat("enchantability", .2F);
 			itemData.setString("effect", effects[eff]);
-			itemData.setFloat("effectChance", 1F);
-			itemData.setFloat("effectPower", 1F);
+			itemData.setFloat("chance", .01F);
+			itemData.setFloat("power", 1F);
 
 			itemList.add(bitStack);
 		}

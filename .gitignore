@@ -88,3 +88,11 @@ eclipse/saves/Test/stats/25887e3a-1ce2-3acf-9352-3d844017a709\.json
 eclipse/saves/Test/stats/989691b1-d197-3995-a55e-281cda3663ae\.json
 
 *.snap
+
+*.log
+
+*.dat
+
+eclipse/saves/Test/stats/
+
+eclipse/\.metadata/\.plugins/org\.eclipse\.core\.resources/\.projects/Minecraft/\.indexes/e4/b9/22/81/3c/31/c0/
