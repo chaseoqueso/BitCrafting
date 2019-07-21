@@ -250,10 +250,47 @@ public class ItemBitSword extends ItemSword {
 	        itemData.setInteger("Uses", itemData.getInteger("Uses") + 1);
 	        if(itemData.getInteger("Uses") >= itemData.getFloat("Durability"))
 	        	stack.stackSize--;
+	        if(itemData.hasKey("EffectArray"))
+	        {
+	        	Random rand = new Random();
+	        	NBTTagList effectlist = itemData.getTagList("EffectArray", 10);
+	        	for(int i = 0; i < effectlist.tagCount(); ++i)
+	        	{
+	        		NBTTagCompound effectData = effectlist.getCompoundTagAt(i);
+	        		if(rand.nextFloat() < effectData.getFloat("chance"))
+	        		{
+	        			activateEffect(effectData.getString("effect"), effectData.getFloat("power"));
+	        		}
+	        	}
+	        }
 		}
         return true;
     }
 	
+	private void activateEffect(String effect, float power) 
+	{
+		if(effect.equals("fire"))
+		{
+			return;
+		}
+		if(effect.equals("earth"))
+		{
+			return;
+		}
+		if(effect.equals("lightning"))
+		{
+			return;
+		}
+		if(effect.equals("ice"))
+		{
+			return;
+		}
+		if(effect.equals("spatial"))
+		{
+			return;
+		}
+	}
+
 	@Override
 	public boolean onBlockDestroyed(ItemStack stack, World p_150894_2_, Block p_150894_3_, int p_150894_4_, int p_150894_5_, int p_150894_6_, EntityLivingBase par7)
     {
