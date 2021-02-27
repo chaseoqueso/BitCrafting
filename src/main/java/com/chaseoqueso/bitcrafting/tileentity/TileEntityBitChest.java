@@ -3,104 +3,93 @@ package com.chaseoqueso.bitcrafting.tileentity;
 import java.util.Iterator;
 import java.util.List;
 
-import net.minecraft.block.Block;
+import com.chaseoqueso.bitcrafting.BitCraftingMod;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.init.SoundEvents;
+import net.minecraft.inventory.Container;
+import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.tileentity.TileEntityLockableLoot;
+import net.minecraft.util.math.AxisAlignedBB;
 
 import com.chaseoqueso.bitcrafting.blocks.BlockBitChest;
 import com.chaseoqueso.bitcrafting.container.ContainerBitChest;
 import com.chaseoqueso.bitcrafting.items.ItemBit;
+import net.minecraft.util.ITickable;
+import net.minecraft.util.NonNullList;
+import net.minecraft.util.SoundCategory;
 
-public class TileEntityBitChest extends TileEntity implements IInventory {
+public class TileEntityBitChest extends TileEntityLockableLoot implements ITickable {
 
-    private ItemStack[] chestContents = new ItemStack[256];
+    private NonNullList<ItemStack> chestContents = NonNullList.<ItemStack>withSize(256, ItemStack.EMPTY);
     
     /** The number of players currently using this chest */
     public int numPlayersUsing;
+    private int ticksSinceSync;
     /** The current angle of the lid (between 0 and 1) */
     public float lidAngle;
     /** The angle of the lid last tick */
     public float prevLidAngle;
 
-	private String chestName;
-    private int ticksSinceSync;
-    private int cachedChestType;
-
     public void setChestName(String displayName) {
-		this.chestName = displayName;
+		this.customName = displayName;
 	}
+
+	@Override
+	public boolean isEmpty()
+    {
+        for(ItemStack stack : this.chestContents)
+        {
+            if(!stack.isEmpty())
+                return false;
+        }
+
+        return true;
+    }
     
     /**
      * Returns the name of the inventory
      */
-    public String getInventoryName()
+    @Override
+    public String getName()
     {
-        return this.hasCustomInventoryName() ? this.chestName : "Bit Chest";
+        return this.hasCustomName() ? this.customName : "Bit Chest";
     }
 
     /**
      * Returns if the inventory is named
      */
-    public boolean hasCustomInventoryName()
+    @Override
+    public boolean hasCustomName()
     {
-        return this.chestName != null && this.chestName.length() > 0;
+        return this.customName != null && this.customName.length() > 0;
     }
 
 	@Override
 	public int getSizeInventory() {
-		return this.chestContents.length;
+		return this.chestContents.size();
 	}
 
 	@Override
-	public ItemStack getStackInSlot(int index) {
-		return this.chestContents[index];
-	}
+    public Container createContainer(InventoryPlayer inventory, EntityPlayer player)
+    {
+        return new ContainerBitChest(inventory, this, player);
+    }
 
-	@Override
-	public ItemStack decrStackSize(int par1, int par2) {
-		if(this.chestContents[par1] != null)
-		{
-			ItemStack itemstack;
-			if(this.chestContents[par1].stackSize <= par2)
-			{
-				itemstack = this.chestContents[par1];
-				this.chestContents[par1] = null;
-		        this.markDirty();
-				return itemstack;
-			} else {
-				itemstack = this.chestContents[par1].splitStack(par2);
-				if(this.chestContents[par1].stackSize == 0)
-					this.chestContents[par1] = null;
-		        this.markDirty();
-				return itemstack;
-			}
-		}
-		return null;
-	}
+    @Override
+    public String getGuiID()
+    {
+        return BitCraftingMod.MODID + ":BitChest";
+    }
 
-	@Override
-	public ItemStack getStackInSlotOnClosing(int slot) {
-		if(this.chestContents[slot] != null)
-		{
-			ItemStack itemstack = this.chestContents[slot];
-			this.chestContents[slot] = null;
-			return itemstack;
-		}
-		return null;
-	}
-
-	@Override
-	public void setInventorySlotContents(int slot, ItemStack itemstack) {
-		this.chestContents[slot] = itemstack;
-		if(itemstack != null && itemstack.stackSize > this.getInventoryStackLimit())
-			itemstack.stackSize = this.getInventoryStackLimit();
-        this.markDirty();
-	}
+    @Override
+    protected NonNullList<ItemStack> getItems()
+    {
+        return chestContents;
+    }
 
 	@Override
 	public int getInventoryStackLimit() {
@@ -108,12 +97,7 @@ public class TileEntityBitChest extends TileEntity implements IInventory {
 	}
 
 	@Override
-	public boolean isUseableByPlayer(EntityPlayer player) {
-		return this.worldObj.getTileEntity(this.xCoord, this.yCoord, this.zCoord) != this ? false : player.getDistanceSq((double) this.xCoord + .5D, (double) this.yCoord + .5D, (double) this.zCoord + .5D) <= 64;
-	}
-
-	@Override
-    public void openInventory()
+    public void openInventory(EntityPlayer player)
     {
         if (this.numPlayersUsing < 0)
         {
@@ -121,20 +105,18 @@ public class TileEntityBitChest extends TileEntity implements IInventory {
         }
 
         ++this.numPlayersUsing;
-        this.worldObj.addBlockEvent(this.xCoord, this.yCoord, this.zCoord, this.getBlockType(), 1, this.numPlayersUsing);
-        this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.getBlockType());
-        this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord - 1, this.zCoord, this.getBlockType());
+        this.world.addBlockEvent(pos, this.getBlockType(), 1, this.numPlayersUsing);
+        this.world.notifyNeighborsOfStateChange(pos, this.getBlockType(), false);
     }
 
 	@Override
-    public void closeInventory()
+    public void closeInventory(EntityPlayer player)
     {
         if (this.getBlockType() instanceof BlockBitChest)
         {
             --this.numPlayersUsing;
-            this.worldObj.addBlockEvent(this.xCoord, this.yCoord, this.zCoord, this.getBlockType(), 1, this.numPlayersUsing);
-            this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.getBlockType());
-            this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord - 1, this.zCoord, this.getBlockType());
+            this.world.addBlockEvent(pos, this.getBlockType(), 1, this.numPlayersUsing);
+            this.world.notifyNeighborsOfStateChange(pos, this.getBlockType(), false);
         }
     }
 	
@@ -143,61 +125,41 @@ public class TileEntityBitChest extends TileEntity implements IInventory {
 	{
 		super.readFromNBT(tag);
         NBTTagList nbttaglist = tag.getTagList("Items", 10);
-        this.chestContents = new ItemStack[this.getSizeInventory()];
+        this.chestContents = NonNullList.<ItemStack>withSize(getSizeInventory(), ItemStack.EMPTY);
         
-        for (int i = 0; i < nbttaglist.tagCount(); ++i)
-        {
-            NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt(i);
-            int b0 = nbttagcompound1.getInteger("Slot");
-            
-            if (b0 >= 0 && b0 < this.chestContents.length)
-            {
-                this.chestContents[b0] = ItemStack.loadItemStackFromNBT(nbttagcompound1);
-            }
-        }
+        if(!this.checkLootAndRead(tag))
+            ItemStackHelper.loadAllItems(tag, chestContents);
 
-        if (tag.hasKey("CustomName", 8))
-        {
-            this.chestName = tag.getString("CustomName");
-        }
+        if(tag.hasKey("CustomName", 8))
+            customName = tag.getString("CustomName");
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound tagCompound)
+	public NBTTagCompound writeToNBT(NBTTagCompound tag)
 	{
-		super.writeToNBT(tagCompound);
+		super.writeToNBT(tag);
         NBTTagList nbttaglist = new NBTTagList();
-        
-        for (int i = 0; i < this.chestContents.length; ++i)
-        {
-            if (this.chestContents[i] != null)
-            {
-                NBTTagCompound nbttagcompound1 = new NBTTagCompound();
-                nbttagcompound1.setInteger("Slot", i);
-                this.chestContents[i].writeToNBT(nbttagcompound1);
-                nbttaglist.appendTag(nbttagcompound1);
-            }
-        }
 
-        tagCompound.setTag("Items", nbttaglist);
+        if(!this.checkLootAndWrite(tag))
+            ItemStackHelper.saveAllItems(tag, chestContents);
 
-        if (this.hasCustomInventoryName())
-        {
-            tagCompound.setString("CustomName", this.chestName);
-        }
+        if(tag.hasKey("CustomName", 8))
+            tag.setString("CustomName", this.customName);
+
+        return tag;
 	}
 
-    public void updateEntity()
+	@Override
+    public void update()
     {
-        super.updateEntity();
         ++this.ticksSinceSync;
         float f;
 
-        if (!this.worldObj.isRemote && this.numPlayersUsing != 0 && (this.ticksSinceSync + this.xCoord + this.yCoord + this.zCoord) % 200 == 0)
+        if (!this.world.isRemote && this.numPlayersUsing != 0 && (this.ticksSinceSync + pos.getX() + pos.getY() + pos.getZ()) % 200 == 0)
         {
             this.numPlayersUsing = 0;
             f = 5.0F;
-            List list = this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox((double)((float)this.xCoord - f), (double)((float)this.yCoord - f), (double)((float)this.zCoord - f), (double)((float)(this.xCoord + 1) + f), (double)((float)(this.yCoord + 1) + f), (double)((float)(this.zCoord + 1) + f)));
+            List list = this.world.getEntitiesWithinAABB(EntityPlayer.class, new AxisAlignedBB((double)((float)pos.getX() - 5.0F), (double)((float)pos.getY() - 5.0F), (double)((float)pos.getZ() - 5.0F), (double)((float)(pos.getX() + 1) + 5.0F), (double)((float)(pos.getY() + 1) + 5.0F), (double)((float)(pos.getZ() + 1) + 5.0F)));
             Iterator iterator = list.iterator();
 
             while (iterator.hasNext())
@@ -220,10 +182,10 @@ public class TileEntityBitChest extends TileEntity implements IInventory {
 
         if (this.numPlayersUsing > 0 && this.lidAngle == 0.0F)
         {
-            double d1 = (double)this.xCoord + 0.5D;
-            d2 = (double)this.zCoord + 0.5D;
+            double d1 = (double)pos.getX() + 0.5D;
+            d2 = (double)pos.getZ() + 0.5D;
 
-            this.worldObj.playSoundEffect(d1, (double)this.yCoord + 0.5D, d2, "random.chestopen", 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
+            this.world.playSound(null, d1, (double)pos.getY() + 0.5D, d2, SoundEvents.BLOCK_CHEST_OPEN, SoundCategory.BLOCKS, 0.5F, this.world.rand.nextFloat() * 0.1F + 0.9F);
         }
 
         if (this.numPlayersUsing == 0 && this.lidAngle > 0.0F || this.numPlayersUsing > 0 && this.lidAngle < 1.0F)
@@ -248,10 +210,10 @@ public class TileEntityBitChest extends TileEntity implements IInventory {
 
             if (this.lidAngle < f2 && f1 >= f2)
             {
-                d2 = (double)this.xCoord + 0.5D;
-                double d0 = (double)this.zCoord + 0.5D;
+                d2 = (double)pos.getX() + 0.5D;
+                double d0 = (double)pos.getZ() + 0.5D;
 
-                this.worldObj.playSoundEffect(d2, (double)this.yCoord + 0.5D, d0, "random.chestclosed", 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
+                this.world.playSound(null, d2, (double)pos.getY() + 0.5D, d2, SoundEvents.BLOCK_CHEST_CLOSE, SoundCategory.BLOCKS, 0.5F, this.world.rand.nextFloat() * 0.1F + 0.9F);
             }
 
             if (this.lidAngle < 0.0F)

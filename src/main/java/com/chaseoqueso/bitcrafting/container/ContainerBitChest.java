@@ -16,13 +16,10 @@ import net.minecraft.world.World;
 public class ContainerBitChest extends Container {
 
 	public TileEntityBitChest tileChest;
-	private int numRows;
-	private World world;
 
-	public ContainerBitChest(InventoryPlayer player, TileEntityBitChest tileentity) {
+	public ContainerBitChest(InventoryPlayer inventory, TileEntityBitChest tileentity, EntityPlayer player) {
 		this.tileChest = tileentity;
 		tileentity.openInventory();
-		world = player.player.worldObj;
 
 		int xAmount = 16, yAmount = 16, xStart = 5, yStart = -37;
 		for (int y = 0; y < yAmount; y++) {
@@ -31,15 +28,14 @@ public class ContainerBitChest extends Container {
 			}
 		}
 
-		int i;
-		for (i = 0; i < 3; i++) {
+		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 9; j++) {
-				this.addSlotToContainer(new Slot(player, j + i * 9 + 9, 8 + j * 18, 128 + i * 18));
+				this.addSlotToContainer(new Slot(inventory, j + i * 9 + 9, 8 + j * 18, 128 + i * 18));
 			}
 		}
 
-		for (i = 0; i < 9; i++) {
-			this.addSlotToContainer(new Slot(player, i, 8 + i * 18, 184));
+		for (int i = 0; i < 9; i++) {
+			this.addSlotToContainer(new Slot(inventory, i, 8 + i * 18, 184));
 		}
 	}
 
@@ -54,7 +50,7 @@ public class ContainerBitChest extends Container {
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int par2) {
 		ItemStack itemstack = null;
-		Slot slot = (Slot) this.inventorySlots.get(par2);
+		Slot slot = this.inventorySlots.get(par2);
 
 		if (slot != null && slot.getHasStack()) {
 			ItemStack itemstack1 = slot.getStack();
@@ -69,14 +65,16 @@ public class ContainerBitChest extends Container {
 			} else if (par2 >= 283 && par2 < 292 && (!this.mergeItemStack(itemstack1, 256, 283, false))) {
 				return null;
 			}
-			if (itemstack1.stackSize == 0) {
-				slot.putStack((ItemStack) null);
+
+			if (itemstack1.isEmpty()) {
+				slot.putStack(null);
 			} else {
 				slot.onSlotChanged();
 			}
-			if (itemstack1.stackSize == itemstack.stackSize)
+
+			if (itemstack1.getCount() == itemstack.getCount())
 				return null;
-			slot.onPickupFromSlot(player, itemstack1);
+			//slot.onPickupFromSlot(player, itemstack1);
 		}
 		return itemstack;
 	}

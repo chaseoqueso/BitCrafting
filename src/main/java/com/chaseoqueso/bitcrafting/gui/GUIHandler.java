@@ -11,9 +11,10 @@ import com.chaseoqueso.bitcrafting.tileentity.TileEntityBitDyeTable;
 import com.chaseoqueso.bitcrafting.tileentity.TileEntityBitForge;
 import com.chaseoqueso.bitcrafting.tileentity.TileEntityBitFusionTable;
 
-import cpw.mods.fml.common.network.IGuiHandler;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.network.IGuiHandler;
 
 public class GUIHandler implements IGuiHandler {
 	
@@ -22,20 +23,20 @@ public class GUIHandler implements IGuiHandler {
 	{
 		if(ID == 0)
 		{
-			TileEntityBitCrucible tileentity = (TileEntityBitCrucible) world.getTileEntity(x, y, z);
+			TileEntityBitCrucible tileentity = (TileEntityBitCrucible) world.getTileEntity(new BlockPos(x, y, z));
 			return new ContainerBitCrucible(player.inventory, tileentity);
 		} else if(ID == 1) {
-			TileEntityBitForge tileentity = (TileEntityBitForge) world.getTileEntity(x, y, z);
+			TileEntityBitForge tileentity = (TileEntityBitForge) world.getTileEntity(new BlockPos(x, y, z));
 			return new ContainerBitForge(player.inventory, tileentity);
 		} else if(ID == 2) {
-			TileEntityBitDyeTable tileentity = (TileEntityBitDyeTable) world.getTileEntity(x, y, z);
+			TileEntityBitDyeTable tileentity = (TileEntityBitDyeTable) world.getTileEntity(new BlockPos(x, y, z));
 			return new ContainerBitDyeTable(player.inventory, tileentity);
 		} else if(ID == 3) {
-			TileEntityBitFusionTable tileentity = (TileEntityBitFusionTable) world.getTileEntity(x, y, z);
+			TileEntityBitFusionTable tileentity = (TileEntityBitFusionTable) world.getTileEntity(new BlockPos(x, y, z));
 			return new ContainerBitFusionTable(player.inventory, tileentity);
 		} else if(ID == 4) {
-			TileEntityBitChest tileentity = (TileEntityBitChest) world.getTileEntity(x, y, z);
-			return new ContainerBitChest(player.inventory, tileentity);
+			TileEntityBitChest tileentity = (TileEntityBitChest) world.getTileEntity(new BlockPos(x, y, z));
+			return new ContainerBitChest(player.inventory, tileentity, player);
 		}
 		return null;
 	}
@@ -45,20 +46,20 @@ public class GUIHandler implements IGuiHandler {
 	{
 		if(ID == 0)
 		{
-			TileEntityBitCrucible tileentity = (TileEntityBitCrucible) world.getTileEntity(x, y, z);
+			TileEntityBitCrucible tileentity = (TileEntityBitCrucible) world.getTileEntity(new BlockPos(x, y, z));
 			return new GUIBitCrucible(player.inventory, tileentity);
 		} else if(ID == 1) {
-			TileEntityBitForge tileentity = (TileEntityBitForge) world.getTileEntity(x, y, z);
+			TileEntityBitForge tileentity = (TileEntityBitForge) world.getTileEntity(new BlockPos(x, y, z));
 			return new GUIBitForge(player.inventory, tileentity);
 		} else if(ID == 2) {
-			TileEntityBitDyeTable tileentity = (TileEntityBitDyeTable) world.getTileEntity(x, y, z);
+			TileEntityBitDyeTable tileentity = (TileEntityBitDyeTable) world.getTileEntity(new BlockPos(x, y, z));
 			return new GUIBitDyeTable(player.inventory, tileentity);
 		} else if(ID == 3) {
-			TileEntityBitFusionTable tileentity = (TileEntityBitFusionTable) world.getTileEntity(x, y, z);
+			TileEntityBitFusionTable tileentity = (TileEntityBitFusionTable) world.getTileEntity(new BlockPos(x, y, z));
 			return new GUIBitFusionTable(player.inventory, tileentity);
 		} else if(ID == 4) {
-			TileEntityBitChest tileentity = (TileEntityBitChest) world.getTileEntity(x, y, z);
-			return new GUIBitChest(player.inventory, tileentity);
+			TileEntityBitChest tileentity = (TileEntityBitChest) world.getTileEntity(new BlockPos(x, y, z));
+			return new GUIBitChest(player.inventory, tileentity, player);
 		}
 		return null;
 	}

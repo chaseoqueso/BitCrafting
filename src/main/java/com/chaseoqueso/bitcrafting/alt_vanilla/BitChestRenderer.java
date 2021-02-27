@@ -1,103 +1,59 @@
 package com.chaseoqueso.bitcrafting.alt_vanilla;
 
-import java.util.Calendar;
+import net.minecraft.client.renderer.GlStateManager;
 
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
-
-import com.chaseoqueso.bitcrafting.blocks.BlockBitChest;
 import com.chaseoqueso.bitcrafting.tileentity.TileEntityBitChest;
 
-import cpw.mods.fml.common.FMLLog;
-import net.minecraft.block.Block;
 import net.minecraft.client.model.ModelChest;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
-public class BitChestRenderer extends TileEntitySpecialRenderer {
+public class BitChestRenderer extends TileEntitySpecialRenderer<TileEntityBitChest> {
 
-    private static final ResourceLocation field_147504_g = new ResourceLocation("bcm:textures/blocks/BitChest.png");
-    private ModelChest field_147510_h = new ModelChest();
+    private static final ResourceLocation texture = new ResourceLocation("bcm", ":textures/blocks/BitChest.png");
+    private ModelChest model = new ModelChest();
 
-    public void renderTileEntityAt(TileEntityBitChest p_147500_1_, double p_147500_2_, double p_147500_4_, double p_147500_6_, float p_147500_8_)
+    @Override
+    public void render(TileEntityBitChest bitChest, double x, double y, double z, float partialTicks, int destroyStage, float alpha)
     {
-        int i;
+        GlStateManager.enableDepth();
+        GlStateManager.depthFunc(515);
+        GlStateManager.depthMask(true);
 
-        if (!p_147500_1_.hasWorldObj())
+        if (destroyStage >= 0)
         {
-            i = 0;
+            this.bindTexture(DESTROY_STAGES[destroyStage]);
+            GlStateManager.matrixMode(5890);
+            GlStateManager.pushMatrix();
+            GlStateManager.scale(4.0F, 4.0F, 1.0F);
+            GlStateManager.translate(0.0625F, 0.0625F, 0.0625F);
+            GlStateManager.matrixMode(5888);
         }
-        else
+        else this.bindTexture(texture);
+
+        GlStateManager.pushMatrix();
+        GlStateManager.enableRescaleNormal();
+        GlStateManager.translate((float)x, (float)y + 1.0F, (float)z + 1.0F);
+        GlStateManager.scale(1.0F, -1.0F, -1.0F);
+        GlStateManager.translate(0.5F, 0.5F, 0.5F);
+        GlStateManager.translate(-0.5F, -0.5F, -0.5F);
+
+        float f = bitChest.prevLidAngle + (bitChest.lidAngle - bitChest.prevLidAngle) * partialTicks;
+        f = 1.0F - f;
+        f = 1.0F - f * f * f;
+        model.chestLid.rotateAngleX = -(f * ((float)Math.PI / 2F));
+        model.renderAll();
+        GlStateManager.disableRescaleNormal();
+        GlStateManager.popMatrix();
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+
+        if (destroyStage >= 0)
         {
-            Block block = p_147500_1_.getBlockType();
-            i = p_147500_1_.getBlockMetadata();
-
-            if (block instanceof BlockBitChest && i == 0)
-            {
-                try
-                {
-                ((BlockBitChest)block).func_149954_e(p_147500_1_.getWorldObj(), p_147500_1_.xCoord, p_147500_1_.yCoord, p_147500_1_.zCoord);
-                }
-                catch (ClassCastException e)
-                {
-                    FMLLog.severe("Attempted to render a BitChest at %d,  %d, %d that was not a BitChest", p_147500_1_.xCoord, p_147500_1_.yCoord, p_147500_1_.zCoord);
-                }
-                i = p_147500_1_.getBlockMetadata();
-            }
+            GlStateManager.matrixMode(5890);
+            GlStateManager.popMatrix();
+            GlStateManager.matrixMode(5888);
         }
-
-        ModelChest modelchest;
-
-        
-        modelchest = this.field_147510_h;
-        this.bindTexture(field_147504_g);
-
-        GL11.glPushMatrix();
-        GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        GL11.glTranslatef((float)p_147500_2_, (float)p_147500_4_ + 1.0F, (float)p_147500_6_ + 1.0F);
-        GL11.glScalef(1.0F, -1.0F, -1.0F);
-        GL11.glTranslatef(0.5F, 0.5F, 0.5F);
-        short short1 = 0;
-
-        if (i == 2)
-        {
-            short1 = 180;
-        }
-
-        if (i == 3)
-        {
-            short1 = 0;
-        }
-
-        if (i == 4)
-        {
-            short1 = 90;
-        }
-
-        if (i == 5)
-        {
-            short1 = -90;
-        }
-
-        GL11.glRotatef((float)short1, 0.0F, 1.0F, 0.0F);
-        GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
-        float f1 = p_147500_1_.prevLidAngle + (p_147500_1_.lidAngle - p_147500_1_.prevLidAngle) * p_147500_8_;
-        float f2;
-
-        f1 = 1.0F - f1;
-        f1 = 1.0F - f1 * f1 * f1;
-        modelchest.chestLid.rotateAngleX = -(f1 * (float)Math.PI / 2.0F);
-        modelchest.renderAll();
-        GL11.glDisable(GL12.GL_RESCALE_NORMAL);
-        GL11.glPopMatrix();
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-    }
-
-    public void renderTileEntityAt(TileEntity p_147500_1_, double p_147500_2_, double p_147500_4_, double p_147500_6_, float p_147500_8_)
-    {
-        this.renderTileEntityAt((TileEntityBitChest)p_147500_1_, p_147500_2_, p_147500_4_, p_147500_6_, p_147500_8_);
     }
 
 }

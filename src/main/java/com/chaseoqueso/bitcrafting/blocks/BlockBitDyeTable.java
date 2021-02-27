@@ -9,6 +9,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
@@ -29,6 +30,10 @@ public class BlockBitDyeTable extends BlockContainer {
 	
 	public BlockBitDyeTable(Material material) {
 		super(material);
+		setCreativeTab(BitCraftingMod.tabBitCraftingMod);
+		setHardness(3.0F);
+		setResistance(10.0F);
+		setSoundType(SoundType.METAL);
 	}
 	
 	@Override

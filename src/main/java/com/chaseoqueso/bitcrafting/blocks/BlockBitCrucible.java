@@ -12,6 +12,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
@@ -36,7 +37,9 @@ public class BlockBitCrucible extends BlockContainer {
 	
 	public BlockBitCrucible(Material material, boolean isActive) {
 		super(material);
-		this.setHardness(1.0F);
+		setCreativeTab(BitCraftingMod.tabBitCraftingMod);
+		setHardness(5.0F).setResistance(10.0F);
+		setSoundType(SoundType.METAL);
 		isBurning2 = isActive;
 	}
 	

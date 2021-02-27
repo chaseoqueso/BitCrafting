@@ -2,17 +2,20 @@ package com.chaseoqueso.bitcrafting;
 
 import java.util.Random;
 
-import cpw.mods.fml.common.IWorldGenerator;
+import com.chaseoqueso.bitcrafting.init.BitCraftingBlocks;
+
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
+import net.minecraft.world.gen.IChunkGenerator;
 import net.minecraft.world.gen.feature.WorldGenMinable;
+import net.minecraftforge.fml.common.IWorldGenerator;
 
 public class BitOreGeneration implements IWorldGenerator {
 
 	@Override
-	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator,
+	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator,
 			IChunkProvider chunkProvider) {
 		switch(world.provider.dimensionId)
 		{
@@ -34,11 +37,11 @@ public class BitOreGeneration implements IWorldGenerator {
 	}
 	
 	public void generateOverworld(World world, Random rand, int x, int z) {
-		generateOre(BitCraftingMod.blockFireOre, world, rand, x, z, 2, 4, 2, 0, 50, Blocks.stone);
-		generateOre(BitCraftingMod.blockEarthOre, world, rand, x, z, 2, 4, 2, 0, 50, Blocks.stone);
-		generateOre(BitCraftingMod.blockLightningOre, world, rand, x, z, 2, 4, 2, 0, 50, Blocks.stone);
-		generateOre(BitCraftingMod.blockIceOre, world, rand, x, z, 2, 4, 2, 0, 50, Blocks.stone);
-		generateOre(BitCraftingMod.blockSpatialOre, world, rand, x, z, 2, 4, 2, 0, 50, Blocks.stone);
+		generateOre(BitCraftingBlocks.blockFireOre, world, rand, x, z, 2, 4, 2, 0, 50, Blocks.STONE);
+		generateOre(BitCraftingBlocks.blockEarthOre, world, rand, x, z, 2, 4, 2, 0, 50, Blocks.STONE);
+		generateOre(BitCraftingBlocks.blockLightningOre, world, rand, x, z, 2, 4, 2, 0, 50, Blocks.STONE);
+		generateOre(BitCraftingBlocks.blockIceOre, world, rand, x, z, 2, 4, 2, 0, 50, Blocks.STONE);
+		generateOre(BitCraftingBlocks.blockSpatialOre, world, rand, x, z, 2, 4, 2, 0, 50, Blocks.STONE);
 	}
 	
 	public void generateEnd(World world, Random rand, int x, int z) {

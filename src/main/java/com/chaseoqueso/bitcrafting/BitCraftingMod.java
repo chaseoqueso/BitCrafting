@@ -1,55 +1,31 @@
 package com.chaseoqueso.bitcrafting;
 
-import com.chaseoqueso.bitcrafting.blocks.BlockBitChest;
-import com.chaseoqueso.bitcrafting.blocks.BlockBitCrucible;
-import com.chaseoqueso.bitcrafting.blocks.BlockBitDyeTable;
-import com.chaseoqueso.bitcrafting.blocks.BlockBitForge;
-import com.chaseoqueso.bitcrafting.blocks.BlockBitFusionTable;
-import com.chaseoqueso.bitcrafting.blocks.BlockBitOre;
 import com.chaseoqueso.bitcrafting.gui.GUIHandler;
-import com.chaseoqueso.bitcrafting.items.ItemBit;
-import com.chaseoqueso.bitcrafting.items.ItemBitSword;
-import com.chaseoqueso.bitcrafting.items.ItemClearBit;
+import com.chaseoqueso.bitcrafting.init.BitCraftingBlocks;
+import com.chaseoqueso.bitcrafting.init.BitCraftingItems;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
-@Mod(modid = BitCraftingMod.MODID, name = "BitCrafting", version = "BETA")
+@Mod(modid = BitCraftingMod.MODID, name = "BitCrafting", version = "1.2")
 public class BitCraftingMod {
 	
 	@SidedProxy(clientSide = "com.chaseoqueso.bitcrafting.ClientProxy", serverSide = "com.chaseoqueso.bitcrafting.ServerProxy")
 	public static ServerProxy proxy;
 	
 	public static final String MODID = "bcm";
-	public static Item itemBit;
-	public static Item itemClearBit;
-	public static Item itemBitSword;
-	public static Block blockBitCrucible;
-	public static Block blockBitCrucibleActive;
-	public static Block blockBitForge;
-	public static Block blockBitDyeTable;
-	public static Block blockBitFusionTable;
-	public static Block blockFireOre;
-	public static Block blockEarthOre;
-	public static Block blockLightningOre;
-	public static Block blockIceOre;
-	public static Block blockSpatialOre;
-	public static Block blockBitChest;
 	
 	@Instance(MODID)
 	public static BitCraftingMod instance;
@@ -57,52 +33,27 @@ public class BitCraftingMod {
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
 	{
-		itemBit = new ItemBit().setUnlocalizedName("ItemBit").setTextureName("bcm:itembit").setCreativeTab(tabBitCraftingMod);
-		itemClearBit = new ItemClearBit().setUnlocalizedName("ItemClearBit").setTextureName("bcm:itemclearbit").setCreativeTab(tabBitCraftingMod);
-		itemBitSword = new ItemBitSword().setUnlocalizedName("ItemBitSword").setCreativeTab(null);
-		blockBitCrucible = new BlockBitCrucible(Material.iron, false).setBlockName("BlockBitCrucible").setCreativeTab(tabBitCraftingMod).setHardness(5.0F).setResistance(10.0F).setStepSound(Block.soundTypeMetal);
-		blockBitCrucibleActive = new BlockBitCrucible(Material.iron, true).setBlockName("BlockBitCrucibleActive").setHardness(5.0F).setResistance(10.0F).setStepSound(Block.soundTypeMetal);
-		blockBitForge = new BlockBitForge(Material.iron).setBlockName("BlockBitForge").setCreativeTab(tabBitCraftingMod).setHardness(5.0F).setResistance(10.0F).setStepSound(Block.soundTypeMetal);
-		blockBitDyeTable = new BlockBitDyeTable(Material.iron).setBlockName("BlockBitDyeTable").setCreativeTab(tabBitCraftingMod).setHardness(3.0F).setResistance(10.0F).setStepSound(Block.soundTypeMetal);
-		blockBitFusionTable = new BlockBitFusionTable(Material.iron).setBlockName("BlockBitFusionTable").setCreativeTab(tabBitCraftingMod).setHardness(5.0F).setResistance(10.0F).setStepSound(Block.soundTypeMetal);
-		blockFireOre = new BlockBitOre().setBlockName("BlockFireOre").setCreativeTab(tabBitCraftingMod).setHardness(3.0F).setResistance(5.0F).setStepSound(Block.soundTypePiston).setBlockTextureName("bcm:FireOre");
-		blockEarthOre = new BlockBitOre().setBlockName("BlockEarthOre").setCreativeTab(tabBitCraftingMod).setHardness(3.0F).setResistance(5.0F).setStepSound(Block.soundTypePiston).setBlockTextureName("bcm:EarthOre");
-		blockLightningOre = new BlockBitOre().setBlockName("BlockLightningOre").setCreativeTab(tabBitCraftingMod).setHardness(3.0F).setResistance(5.0F).setStepSound(Block.soundTypePiston).setBlockTextureName("bcm:LightningOre");
-		blockIceOre = new BlockBitOre().setBlockName("BlockIceOre").setCreativeTab(tabBitCraftingMod).setHardness(3.0F).setResistance(5.0F).setStepSound(Block.soundTypePiston).setBlockTextureName("bcm:IceOre");
-		blockSpatialOre = new BlockBitOre().setBlockName("BlockSpatialOre").setCreativeTab(tabBitCraftingMod).setHardness(3.0F).setResistance(5.0F).setStepSound(Block.soundTypePiston).setBlockTextureName("bcm:SpatialOre");
-		blockBitChest = new BlockBitChest(Material.wood).setBlockName("BlockBitChest").setCreativeTab(tabBitCraftingMod).setHardness(1.0F).setResistance(2.0F).setStepSound(Block.soundTypeWood);
-		
-		GameRegistry.registerItem(itemBit, itemBit.getUnlocalizedName().substring(5));
-		GameRegistry.registerItem(itemClearBit, itemClearBit.getUnlocalizedName().substring(5));
-		GameRegistry.registerItem(itemBitSword, itemBitSword.getUnlocalizedName().substring(5));
-		
-		GameRegistry.registerBlock(blockBitCrucible, blockBitCrucible.getUnlocalizedName().substring(5));
-		GameRegistry.registerBlock(blockBitCrucibleActive, blockBitCrucibleActive.getUnlocalizedName().substring(5));
-		GameRegistry.registerBlock(blockBitForge, blockBitForge.getUnlocalizedName().substring(5));
-		GameRegistry.registerBlock(blockBitDyeTable, blockBitDyeTable.getUnlocalizedName().substring(5));
-		GameRegistry.registerBlock(blockBitFusionTable, blockBitFusionTable.getUnlocalizedName().substring(5));
-		GameRegistry.registerBlock(blockFireOre, blockFireOre.getUnlocalizedName().substring(5));
-		GameRegistry.registerBlock(blockEarthOre, blockEarthOre.getUnlocalizedName().substring(5));
-		GameRegistry.registerBlock(blockLightningOre, blockLightningOre.getUnlocalizedName().substring(5));
-		GameRegistry.registerBlock(blockIceOre, blockIceOre.getUnlocalizedName().substring(5));
-		GameRegistry.registerBlock(blockSpatialOre, blockSpatialOre.getUnlocalizedName().substring(5));
-		GameRegistry.registerBlock(blockBitChest, blockBitChest.getUnlocalizedName().substring(5));
+		BitCraftingItems.init();
+		BitCraftingItems.register();
+
+		BitCraftingBlocks.init();
+		BitCraftingBlocks.register();
 		
 		GameRegistry.registerWorldGenerator(new BitOreGeneration(), 1);
 		
-		proxy.registerRenderThings();
+		proxy.registerRenders();
 		proxy.registerTileEntities();
 	}
 	
 	@EventHandler
 	public void init(FMLInitializationEvent event)
 	{
-		GameRegistry.addRecipe(new ItemStack(blockBitCrucible), new Object[] {"ICI", "CFC", "ICI", 'I', Items.iron_ingot, 'C', Blocks.cobblestone, 'F', Blocks.furnace});
-		GameRegistry.addRecipe(new ItemStack(blockBitForge), new Object[] {"IBI", "CTC", "ICI", 'I', Items.iron_ingot, 'C', Blocks.cobblestone, 'T', Blocks.crafting_table, 'B', Blocks.iron_bars});
-		GameRegistry.addRecipe(new ItemStack(blockBitDyeTable), new Object[] {"GSG", "CTC", "GCG", 'G', Items.gold_ingot, 'C', Blocks.cobblestone, 'T', Blocks.crafting_table, 'S', Blocks.stone_slab});
-		GameRegistry.addRecipe(new ItemStack(blockBitFusionTable), new Object[] {"DGD", "CTC", "DCD", 'D', Items.diamond, 'C', Blocks.cobblestone, 'T', Blocks.crafting_table, 'G', Blocks.glowstone});
-		GameRegistry.addRecipe(new ItemStack(blockBitChest), new Object[] {"BBB", "BCB", "BBB", 'B', itemBit, 'C', Blocks.chest});
-		GameRegistry.addShapelessRecipe(new ItemStack(Items.netherbrick, 4), Blocks.nether_brick);
+		RecipeHelper.addShaped(new ItemStack(BitCraftingBlocks.blockBitCrucible), 3, 3, new Object[] {"ICI", "CFC", "ICI", 'I', Items.IRON_INGOT, 'C', Blocks.COBBLESTONE, 'F', Blocks.FURNACE});
+		RecipeHelper.addShaped(new ItemStack(BitCraftingBlocks.blockBitForge), 3, 3, new Object[] {"IBI", "CTC", "ICI", 'I', Items.IRON_INGOT, 'C', Blocks.COBBLESTONE, 'T', Blocks.CRAFTING_TABLE, 'B', Blocks.IRON_BARS});
+		RecipeHelper.addShaped(new ItemStack(BitCraftingBlocks.blockBitDyeTable), 3, 3, new Object[] {"GSG", "CTC", "GCG", 'G', Items.GOLD_INGOT, 'C', Blocks.COBBLESTONE, 'T', Blocks.CRAFTING_TABLE, 'S', Blocks.STONE_SLAB});
+		RecipeHelper.addShaped(new ItemStack(BitCraftingBlocks.blockBitFusionTable), 3, 3, new Object[] {"DGD", "CTC", "DCD", 'D', Items.DIAMOND, 'C', Blocks.COBBLESTONE, 'T', Blocks.CRAFTING_TABLE, 'G', Blocks.GLOWSTONE});
+		RecipeHelper.addShaped(new ItemStack(BitCraftingBlocks.blockBitChest), 3, 3, new Object[] {"BBB", "BCB", "BBB", 'B', BitCraftingItems.itemBit, 'C', Blocks.CHEST});
+		RecipeHelper.addShapeless(new ItemStack(Items.NETHERBRICK, 4), Blocks.NETHER_BRICK);
 
 		NetworkRegistry.INSTANCE.registerGuiHandler(BitCraftingMod.instance, new GUIHandler());
 	}
@@ -115,8 +66,8 @@ public class BitCraftingMod {
 	
 	public static CreativeTabs tabBitCraftingMod = new CreativeTabs("tabBitCraftingMod") {
 		@Override
-		public Item getTabIconItem() {
-			return Item.getItemFromBlock(blockBitForge);
+		public ItemStack getTabIconItem() {
+			return new ItemStack(Item.getItemFromBlock(BitCraftingBlocks.blockBitForge));
 		}
 	};
 		
