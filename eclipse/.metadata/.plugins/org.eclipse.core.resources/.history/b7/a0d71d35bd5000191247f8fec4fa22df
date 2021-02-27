@@ -1,9 +1,0 @@
-package com.chaseoqueso.bitcrafting.blocks;
-
-import net.minecraft.block.BlockOre;
-import net.minecraft.block.material.Material;
-import net.minecraft.creativetab.CreativeTabs;
-
-public class BlockFireOre extends BlockOre {
-
-}
