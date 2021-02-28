@@ -3,29 +3,30 @@ package com.chaseoqueso.bitcrafting.blocks;
 import java.util.Random;
 
 import com.chaseoqueso.bitcrafting.BitCraftingMod;
+import com.chaseoqueso.bitcrafting.init.BitCraftingBlocks;
+import com.chaseoqueso.bitcrafting.tileentity.TileEntityBitChest;
 import com.chaseoqueso.bitcrafting.tileentity.TileEntityBitDyeTable;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class BlockBitDyeTable extends BlockContainer {
-	
-	private IIcon top;
-	private IIcon bottom;
+
     private final Random random = new Random();
 	
 	public BlockBitDyeTable(Material material) {
@@ -37,84 +38,42 @@ public class BlockBitDyeTable extends BlockContainer {
 	}
 	
 	@Override
-	@SideOnly(Side.CLIENT)
-    public void registerBlockIcons(IIconRegister reg)
-    {
-        this.bottom = reg.registerIcon(BitCraftingMod.MODID + ":DyeTable_0");
-        this.top = reg.registerIcon(BitCraftingMod.MODID + ":DyeTable_1");
-        this.blockIcon = reg.registerIcon(BitCraftingMod.MODID + ":DyeTable_2");
-    }
-	
-	@Override
-	public IIcon getIcon(int side, int meta)
+	public boolean onBlockActivated(World world, BlockPos position, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float par7, float par8, float par9)
 	{
-		return side == 0 ? this.bottom : (side == 1 ? this.top : this.blockIcon);
-	}
-	
-	@Override
-	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int par6, float par7, float par8, float par9)
-	{
-		player.openGui(BitCraftingMod.instance, 2, world, x, y, z);
+		player.openGui(BitCraftingMod.instance, 2, world, position.getX(), position.getY(), position.getZ());
 		return true;
 	}
 
 	@Override
-	public Item getItemDropped(int par1, Random random, int par3)
+	public Item getItemDropped(IBlockState state, Random rand, int fortune)
 	{
-		return Item.getItemFromBlock(BitCraftingMod.blockBitDyeTable);
+		return Item.getItemFromBlock(BitCraftingBlocks.blockBitDyeTable);
+	}
+
+	@Override
+	public ItemStack getItem(World world, BlockPos position, IBlockState state)
+	{
+		return new ItemStack(BitCraftingBlocks.blockBitDyeTable);
 	}
 	
-	public Item getItem(World world, int par2, int par3, int par4)
+	public void onBlockPlacedBy(World world, BlockPos position, IBlockState state, EntityLivingBase placer, ItemStack itemStack)
 	{
-		return Item.getItemFromBlock(BitCraftingMod.blockBitDyeTable);
-	}
-	
-	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack itemstack)
-	{
-		if(itemstack.hasDisplayName())
-			((TileEntityBitDyeTable) world.getTileEntity(x, y, z)).setDyeTableName(itemstack.getDisplayName());
-	}
-	
-	public void breakBlock(World world, int x, int y, int z, Block block, int meta)
-	{
-		TileEntityBitDyeTable tileentity = (TileEntityBitDyeTable) world.getTileEntity(x, y, z);
-		if(tileentity != null)
+		if(itemStack.hasDisplayName())
 		{
-			for(int i = 0; i < tileentity.getSizeInventory(); i++)
+			TileEntity tileEntity = world.getTileEntity(position);
+
+			if(tileEntity instanceof TileEntityBitDyeTable)
 			{
-				ItemStack itemstack = tileentity.getStackInSlot(i);
-				if(itemstack != null)
-				{
-					float f = this.random.nextFloat() * .6F + .1F;
-					float f1 = this.random.nextFloat() * .6F + .1F;
-					float f2 = this.random.nextFloat() * .6F + .1F;
-					
-					while(itemstack.stackSize > 0)
-					{
-						int j = this.random.nextInt(21) + 10;
-						
-						if(j > itemstack.stackSize)
-							j = itemstack.stackSize;
-						
-						itemstack.stackSize -= j;
-						EntityItem entityitem = new EntityItem(world, (double) ((float) x + f), (double) ((float) y + f1), (double) ((float) z + f2), new ItemStack(itemstack.getItem(), j, itemstack.getItemDamage()));
-						
-						if(itemstack.hasTagCompound())
-						{
-							entityitem.getEntityItem().setTagCompound((NBTTagCompound) itemstack.getTagCompound().copy());
-						}
-						
-						float f3 = .025F;
-						entityitem.motionX = (double) ((float) this.random.nextGaussian() * f3);
-						entityitem.motionY = (double) ((float) this.random.nextGaussian() * f3 + .1F);
-						entityitem.motionZ = (double) ((float) this.random.nextGaussian() * f3);
-						world.spawnEntityInWorld(entityitem);
-					}
-				}
+				((TileEntityBitDyeTable)tileEntity).setDyeTableName(itemStack.getDisplayName());
 			}
-			world.func_147453_f(x, y, z, block);
 		}
-		super.breakBlock(world, x, y, z, block, meta);
+	}
+	
+	public void breakBlock(World world, BlockPos position, IBlockState state)
+	{
+		TileEntityBitChest tileentitychest = (TileEntityBitChest) world.getTileEntity(position);
+		InventoryHelper.dropInventoryItems(world, position, tileentitychest);
+		super.breakBlock(world, position, state);
 	}
 
 	@Override

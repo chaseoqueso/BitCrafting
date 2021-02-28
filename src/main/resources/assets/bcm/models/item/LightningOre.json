@@ -1,5 +1,5 @@
 {
-    "parent": "bcm:block/LightningOre",
+    "parent": "bcm:block/BlockLightningOre",
     "display": {
         "thirdperson": {
             "rotation": [10, -45, 170],

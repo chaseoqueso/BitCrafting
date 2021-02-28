@@ -1,0 +1,13 @@
+{
+    "parent": "block/orientable",
+    "textures":
+    {
+        "particle": "bcm:blocks/BitCrucibleInactive",
+        "up": "bcm:blocks/BitCrucibleSide",
+        "down": "bcm:blocks/BitCrucibleSide",
+        "north": "bcm:blocks/BitCrucibleActive",
+        "east": "bcm:blocks/BitCrucibleSide",
+        "south": "bcm:blocks/BitCrucibleSide",
+        "west": "bcm:blocks/BitCrucibleSide"
+    }
+}

@@ -1,5 +1,5 @@
 {
-    "parent": "bcm:block/EarthOre",
+    "parent": "bcm:block/BlockEarthOre",
     "display": {
         "thirdperson": {
             "rotation": [10, -45, 170],

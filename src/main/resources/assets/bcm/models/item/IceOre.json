@@ -1,5 +1,5 @@
 {
-    "parent": "bcm:block/IceOre",
+    "parent": "bcm:block/BlockIceOre",
     "display": {
         "thirdperson": {
             "rotation": [10, -45, 170],

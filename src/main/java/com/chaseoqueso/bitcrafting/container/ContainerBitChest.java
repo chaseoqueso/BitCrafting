@@ -19,7 +19,7 @@ public class ContainerBitChest extends Container {
 
 	public ContainerBitChest(InventoryPlayer inventory, TileEntityBitChest tileentity, EntityPlayer player) {
 		this.tileChest = tileentity;
-		tileentity.openInventory();
+		tileentity.openInventory(player);
 
 		int xAmount = 16, yAmount = 16, xStart = 5, yStart = -37;
 		for (int y = 0; y < yAmount; y++) {
@@ -40,7 +40,7 @@ public class ContainerBitChest extends Container {
 	}
 
 	public boolean canInteractWith(EntityPlayer player) {
-		return this.tileChest.isUseableByPlayer(player);
+		return this.tileChest.isUsableByPlayer(player);
 	}
 
 	/**
@@ -82,9 +82,9 @@ public class ContainerBitChest extends Container {
     /**
      * Called when the container is closed.
      */
-    public void onContainerClosed(EntityPlayer p_75134_1_)
+    public void onContainerClosed(EntityPlayer player)
     {
-        super.onContainerClosed(p_75134_1_);
-        this.tileChest.closeInventory();
+        super.onContainerClosed(player);
+        this.tileChest.closeInventory(player);
     }
 }

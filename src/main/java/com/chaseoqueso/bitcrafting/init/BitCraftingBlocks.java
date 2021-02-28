@@ -18,7 +18,6 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
 public class BitCraftingBlocks {
 
 	public static Block blockBitCrucible;
-	public static Block blockBitCrucibleActive;
 	public static Block blockBitForge;
 	public static Block blockBitDyeTable;
 	public static Block blockBitFusionTable;
@@ -32,7 +31,6 @@ public class BitCraftingBlocks {
     public static void init()
     {
 		blockBitCrucible = new BlockBitCrucible(Material.IRON, false).setUnlocalizedName("BlockBitCrucible");
-		blockBitCrucibleActive = new BlockBitCrucible(Material.IRON, true).setUnlocalizedName("BlockBitCrucibleActive");
 		blockBitForge = new BlockBitForge(Material.IRON).setUnlocalizedName("BlockBitForge");
 		blockBitDyeTable = new BlockBitDyeTable(Material.IRON).setUnlocalizedName("BlockBitDyeTable");
 		blockBitFusionTable = new BlockBitFusionTable(Material.IRON).setUnlocalizedName("BlockBitFusionTable");
@@ -47,7 +45,6 @@ public class BitCraftingBlocks {
     public static void register()
     {
 		ForgeRegistries.BLOCKS.register(blockBitCrucible);
-		ForgeRegistries.BLOCKS.register(blockBitCrucibleActive);
 		ForgeRegistries.BLOCKS.register(blockBitForge);
 		ForgeRegistries.BLOCKS.register(blockBitDyeTable);
 		ForgeRegistries.BLOCKS.register(blockBitFusionTable);
@@ -62,7 +59,6 @@ public class BitCraftingBlocks {
     public static void registerRenders()
     {
         registerRender(blockBitCrucible);
-        registerRender(blockBitCrucibleActive);
         registerRender(blockBitForge);
         registerRender(blockBitDyeTable);
         registerRender(blockBitFusionTable);

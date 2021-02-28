@@ -1,5 +1,5 @@
 {
-    "parent": "bcm:block/BlockFireOre",
+    "parent": "bcm:block/BlockBitCrucible",
     "display": {
         "thirdperson": {
             "rotation": [10, -45, 170],

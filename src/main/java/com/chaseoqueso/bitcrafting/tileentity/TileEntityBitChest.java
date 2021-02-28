@@ -24,7 +24,7 @@ import net.minecraft.util.SoundCategory;
 
 public class TileEntityBitChest extends TileEntityLockableLoot implements ITickable {
 
-    private NonNullList<ItemStack> chestContents = NonNullList.<ItemStack>withSize(256, ItemStack.EMPTY);
+    private NonNullList<ItemStack> chestContents = NonNullList.withSize(256, ItemStack.EMPTY);
     
     /** The number of players currently using this chest */
     public int numPlayersUsing;
