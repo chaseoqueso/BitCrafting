@@ -28,9 +28,9 @@ public class GUIBitDyeTable extends GuiContainer {
 	@Override
 	protected void drawGuiContainerForegroundLayer(int par, int par2)
 	{
-		String string = this.tileDyeTable.hasCustomInventoryName() ? this.tileDyeTable.getInventoryName() : I18n.format(this.tileDyeTable.getInventoryName(), new Object[0]);
-		this.fontRendererObj.drawString(string, this.xSize/2 - this.fontRendererObj.getStringWidth(string)/2, -1, 4210752);
-		this.fontRendererObj.drawString(I18n.format("container.inventory", new Object[0]), 8, this.ySize - 98, 4210752);
+		String string = this.tileDyeTable.hasCustomName() ? this.tileDyeTable.getName() : I18n.format(this.tileDyeTable.getName(), new Object[0]);
+		this.fontRenderer.drawString(string, this.xSize/2 - this.fontRenderer.getStringWidth(string)/2, -1, 4210752);
+		this.fontRenderer.drawString(I18n.format("container.inventory", new Object[0]), 8, this.ySize - 98, 4210752);
 	}
 	
 	@Override

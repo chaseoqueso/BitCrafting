@@ -1,13 +1,13 @@
 {
     "variants":
     {
-        "burning=false,facing=north": { "model": "bcm:BlockBitCrucible" }
-        "burning=false,facing=east": { "model": "bcm:BlockBitCrucible", "y": 90 }
-        "burning=false,facing=south": { "model": "bcm:BlockBitCrucible", "y": 180 }
-        "burning=false,facing=west": { "model": "bcm:BlockBitCrucible", "y": 270 }
-        "burning=true,facing=north": { "model": "bcm:BlockBitCrucibleLit" }
-        "burning=true,facing=east": { "model": "bcm:BlockBitCrucibleLit", "y": 90 }
-        "burning=true,facing=south": { "model": "bcm:BlockBitCrucibleLit", "y": 180 }
+        "burning=false,facing=north": { "model": "bcm:BlockBitCrucible" },
+        "burning=false,facing=east": { "model": "bcm:BlockBitCrucible", "y": 90 },
+        "burning=false,facing=south": { "model": "bcm:BlockBitCrucible", "y": 180 },
+        "burning=false,facing=west": { "model": "bcm:BlockBitCrucible", "y": 270 },
+        "burning=true,facing=north": { "model": "bcm:BlockBitCrucibleLit" },
+        "burning=true,facing=east": { "model": "bcm:BlockBitCrucibleLit", "y": 90 },
+        "burning=true,facing=south": { "model": "bcm:BlockBitCrucibleLit", "y": 180 },
         "burning=true,facing=west": { "model": "bcm:BlockBitCrucibleLit", "y": 270 }
     }
 }

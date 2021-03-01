@@ -1,30 +1,16 @@
 package com.chaseoqueso.bitcrafting.container;
 
-import org.apache.commons.lang3.StringUtils;
-import org.lwjgl.opengl.GL11;
-
 import com.chaseoqueso.bitcrafting.slots.BitSlot;
 import com.chaseoqueso.bitcrafting.slots.ForgeSlot;
 import com.chaseoqueso.bitcrafting.tileentity.TileEntityBitForge;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
-import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryCraftResult;
 import net.minecraft.inventory.Slot;
-import net.minecraft.inventory.SlotCrafting;
-import net.minecraft.inventory.SlotFurnace;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.CraftingManager;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntityFurnace;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
 public class ContainerBitForge extends Container {
@@ -37,7 +23,7 @@ public class ContainerBitForge extends Container {
 	{
 		this.tileForge = tileentity;
 		this.tileForge.setEventHandler(this);
-		world = player.player.worldObj;
+		world = player.player.world;
 		
 		int xAmount = 16, yAmount = 16, xStart = -35, yStart = -37;
 		for(int y = 0; y < yAmount; y++)
@@ -76,30 +62,16 @@ public class ContainerBitForge extends Container {
 				this.craftResult.setInventorySlotContents(0, null);
         }
 	}
-	
-	public void setOutputName(String name)
-	{
-		ItemStack itemstack = this.craftResult.getStackInSlot(0);
-		if (StringUtils.isBlank(name))
-        {
-            if (itemstack.hasDisplayName())
-                itemstack.func_135074_t();
-        }
-        else if (!name.equals(itemstack.getDisplayName()))
-        {
-            itemstack.setStackDisplayName(name);
-        }
-	}
-	
+
 	public boolean canInteractWith(EntityPlayer player) {
-		return this.tileForge.isUseableByPlayer(player);
+		return this.tileForge.isUsableByPlayer(player);
 	}
 	
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int par2)
 	{
 		ItemStack itemstack = null;
-		Slot slot = (Slot) this.inventorySlots.get(par2);
+		Slot slot = this.inventorySlots.get(par2);
 
 		if(slot != null && slot.getHasStack())
 		{
@@ -116,15 +88,15 @@ public class ContainerBitForge extends Container {
 			} else if(par2 >= 284 && par2 < 293 && (!this.mergeItemStack(itemstack1, 257, 284, false))) {
 					return null;
 			}
-			if(itemstack1.stackSize == 0)
+			if(itemstack1.getCount() == 0)
 			{
-				slot.putStack((ItemStack) null);
+				slot.putStack(ItemStack.EMPTY);
 			} else {
 				slot.onSlotChanged();
 			}
-			if(itemstack1.stackSize == itemstack.stackSize)
+			if(itemstack1.getCount() == itemstack.getCount())
 				return null;
-			slot.onPickupFromSlot(player, itemstack1);
+			slot.onTake(player, itemstack1);
 		}
 		return itemstack;
 	}

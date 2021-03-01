@@ -4,16 +4,15 @@ import com.chaseoqueso.bitcrafting.CrucibleRecipes;
 import com.chaseoqueso.bitcrafting.slots.CrucibleSlot;
 import com.chaseoqueso.bitcrafting.tileentity.TileEntityBitCrucible;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
-import net.minecraft.inventory.ICrafting;
+import net.minecraft.inventory.IContainerListener;
 import net.minecraft.inventory.Slot;
-import net.minecraft.inventory.SlotFurnace;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityFurnace;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ContainerBitCrucible extends Container {
 	
@@ -52,32 +51,30 @@ public class ContainerBitCrucible extends Container {
 		}
 	}
 	
-	public void addCraftingToCrafters(ICrafting craft)
+	public void addListener(IContainerListener listener)
 	{
-		super.addCraftingToCrafters(craft);
-		craft.sendProgressBarUpdate(this, 0, this.tileCrucible.cookTime);
-		craft.sendProgressBarUpdate(this, 1, this.tileCrucible.burnTime);
-		craft.sendProgressBarUpdate(this, 2, this.tileCrucible.currentBurnTime);
+		super.addListener(listener);
+		listener.sendAllWindowProperties(this, this.tileCrucible);
 	}
 	
 	public void detectAndSendChanges()
 	{
 		super.detectAndSendChanges();
-		for(int i = 0; i < this.crafters.size(); ++i)
+		for(int i = 0; i < this.listeners.size(); ++i)
 		{
-			ICrafting craft = (ICrafting) this.crafters.get(i);
-			
-			if(this.lastCookTime != this.tileCrucible.cookTime)
-			{
-				craft.sendProgressBarUpdate(this, 0, this.tileCrucible.cookTime);
-			}
+			IContainerListener listener = (IContainerListener) this.listeners.get(i);
+
 			if(this.lastBurnTime != this.tileCrucible.burnTime)
 			{
-				craft.sendProgressBarUpdate(this, 1, this.tileCrucible.burnTime);
+				listener.sendWindowProperty(this, 0, this.tileCrucible.burnTime);
 			}
 			if(this.lastItemBurnTime != this.tileCrucible.currentBurnTime)
 			{
-				craft.sendProgressBarUpdate(this, 2, this.tileCrucible.currentBurnTime);
+				listener.sendWindowProperty(this, 1, this.tileCrucible.currentBurnTime);
+			}
+			if(this.lastCookTime != this.tileCrucible.cookTime)
+			{
+				listener.sendWindowProperty(this, 2, this.tileCrucible.cookTime);
 			}
 		}
 		
@@ -87,62 +84,78 @@ public class ContainerBitCrucible extends Container {
 	}
 	
 	@SideOnly(Side.CLIENT)
-	public void updateProgressBar(int par1, int par2)
+	public void updateProgressBar(int id, int data)
 	{
-		if(par1 == 0)
-			this.tileCrucible.cookTime = par2;
-		if(par1 == 1)
-			this.tileCrucible.burnTime = par2;
-		if(par1 == 2)
-			this.tileCrucible.currentBurnTime = par2;
+		if(id == 0)
+			this.tileCrucible.cookTime = data;
+		if(id == 1)
+			this.tileCrucible.burnTime = data;
+		if(id == 2)
+			this.tileCrucible.currentBurnTime = data;
 		
 	}
 
 	public boolean canInteractWith(EntityPlayer player) {
-		return this.tileCrucible.isUseableByPlayer(player);
+		return this.tileCrucible.isUsableByPlayer(player);
 	}
 	
-	public ItemStack transferStackInSlot(EntityPlayer player, int par2)
+	public ItemStack transferStackInSlot(EntityPlayer player, int index)
 	{
-		ItemStack itemstack = null;
-		Slot slot = (Slot) this.inventorySlots.get(par2);
+		ItemStack itemstack = ItemStack.EMPTY;
+		Slot slot = this.inventorySlots.get(index);
 
 		if(slot != null && slot.getHasStack())
 		{
 			ItemStack itemstack1 = slot.getStack();
 			itemstack = itemstack1.copy();
 
-			if(par2 >= 2 && par2 < 82)
+			if(index >= 2 && index < 82)
 			{
 				if(!this.mergeItemStack(itemstack1, 82, 118, false))
 					return null;
+
 				slot.onSlotChange(itemstack1, itemstack);
-			} else if(par2 != 1 && par2 != 0) {
+			}
+			else if(index != 1 && index != 0)
+			{
 				if(CrucibleRecipes.instance().getBreakDownResult(itemstack1) != null)
 				{
 					if(!this.mergeItemStack(itemstack1, 0, 1, false) && TileEntityFurnace.isItemFuel(itemstack1))
 						return null;
-				} else if(TileEntityFurnace.isItemFuel(itemstack1)) {
+				}
+				else if(TileEntityFurnace.isItemFuel(itemstack1))
+				{
 					if(!this.mergeItemStack(itemstack1, 1, 2, false))
 						return null;
-				} else if(par2 >= 82 && par2 < 109) {
+				}
+				else if(index >= 82 && index < 109)
+				{
 					if(!this.mergeItemStack(itemstack1, 109, 118, false))
 						return null;
-				} else if(par2 >= 109 && par2 < 118 && !this.mergeItemStack(itemstack1, 82, 109, false)) {
+				}
+				else if(index >= 109 && index < 118 && !this.mergeItemStack(itemstack1, 82, 109, false))
+				{
 					return null;
 				} 
-			} else if(!this.mergeItemStack(itemstack1, 82, 118, false)) {
+			}
+			else if(!this.mergeItemStack(itemstack1, 82, 118, false))
+			{
 				return null;
 			}
-			if(itemstack1.stackSize == 0)
+
+			if(itemstack1.getCount() == 0)
 			{
-				slot.putStack((ItemStack) null);
-			} else {
+				slot.putStack(ItemStack.EMPTY);
+			}
+			else
+			{
 				slot.onSlotChanged();
 			}
-			if(itemstack1.stackSize == itemstack.stackSize)
-				return null;
-			slot.onPickupFromSlot(player, itemstack1);
+
+			if(itemstack1.getCount() == itemstack.getCount())
+				return ItemStack.EMPTY;
+
+			slot.onTake(player, itemstack1);
 		}
 		return itemstack;
 	}

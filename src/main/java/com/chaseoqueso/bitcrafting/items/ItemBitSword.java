@@ -1,50 +1,31 @@
 package com.chaseoqueso.bitcrafting.items;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import javax.imageio.ImageIO;
-
 import com.chaseoqueso.bitcrafting.BitCraftingMod;
+import com.chaseoqueso.bitcrafting.init.BitCraftingItems;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 
-import cpw.mods.fml.common.SidedProxy;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.item.EnumAction;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.IIcon;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.EnumHelper;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.texture.DynamicTexture;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.renderer.texture.TextureMap;
-import net.minecraft.client.renderer.texture.TextureUtil;
-import net.minecraft.client.resources.data.AnimationMetadataSection;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ItemBitSword extends ItemSword {
+public class ItemBitSword extends ItemSword implements IItemColor {
 	
 	private IIcon[] pixels = new IIcon[256];
 	private IIcon blank;
@@ -74,7 +55,7 @@ public class ItemBitSword extends ItemSword {
     
 	@Override
     @SideOnly(Side.CLIENT)
-    public int getColorFromItemStack(ItemStack stack, int pass)
+    public int colorMultiplier(ItemStack stack, int pass)
     {
 		if(!stack.hasTagCompound())
 			return 0;
@@ -144,7 +125,7 @@ public class ItemBitSword extends ItemSword {
      * @param name The name of the weapon as determined by the player.
      * @return The ItemStack, but with NBT data attached.
      */
-	public static ItemStack initialize(ItemStack stack, ItemStack[] array, float damage, float durability, float enchantability, ArrayList<String> effects, ArrayList<Float> effectChances, ArrayList<Float> effectPowers)
+	public static ItemStack initialize(ItemStack stack, NonNullList<ItemStack> array, float damage, float durability, float enchantability, ArrayList<String> effects, ArrayList<Float> effectChances, ArrayList<Float> effectPowers)
 	{
     	//Initialize all variables.
 		NBTTagCompound tagCompound = new NBTTagCompound();
@@ -157,19 +138,19 @@ public class ItemBitSword extends ItemSword {
 		stack.setTagCompound(tagCompound);
 		
 		//Goes through the ItemBit array and turns them into NBT data for the BitSword. Turns nulls into dataless Bits. Takes the color of each Bit and puts it in the color array.
-        for(int j = 0, l = 0; j < array.length; j++) 
+        for(int j = 0, l = 0; j < array.size(); j++)
         {
-			if(array[j] == null)
+			if(array.get(j) == ItemStack.EMPTY)
 			{
-				array[j] = new ItemStack(BitCraftingMod.itemBit);
+				array.set(j, new ItemStack(BitCraftingItems.itemBit));
 				passes--;
 			}
-			if(array[j].getItem() instanceof ItemClearBit)
+			if(array.get(j).getItem() instanceof ItemClearBit)
 				passes--;
             NBTTagCompound nbttagcompound = new NBTTagCompound();
-            array[j].writeToNBT(nbttagcompound);
+            array.get(j).writeToNBT(nbttagcompound);
             nbttaglist.appendTag(nbttagcompound);
-            colorArray[j] = ((ItemBit)BitCraftingMod.itemBit).getColorFromStackBothSides(array[j], 0);
+            colorArray[j] = ((ItemBit)BitCraftingItems.itemBit).getColorFromStackBothSides(array.get(j), 0);
         }
         
         int[] indices = new int[passes];

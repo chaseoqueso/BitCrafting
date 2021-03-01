@@ -5,19 +5,24 @@ import java.util.List;
 
 import com.chaseoqueso.bitcrafting.BitCraftingMod;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.resources.I18n;
+import com.chaseoqueso.bitcrafting.init.BitCraftingItems;
+import net.minecraft.client.renderer.color.IItemColor;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.StatCollector;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.NonNullList;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ItemBit extends Item {
+import javax.annotation.Nullable;
+
+public class ItemBit extends Item implements IItemColor {
 
 	public static final String[] colors = { "gray", "brown", "red", "orange", "yellow", "lime", "green", "cyan",
 			"lightblue", "blue", "purple", "magenta", "pink" };
@@ -26,7 +31,6 @@ public class ItemBit extends Item {
 
 	public ItemBit() {
 		setUnlocalizedName("ItemBit");
-		setTextureName(BitCraftingMod.MODID + ":itembit");
 	}
 
 	public static ItemStack setColor(ItemStack stack, int color, int shade) {
@@ -70,9 +74,9 @@ public class ItemBit extends Item {
 	public static ItemStack setClear(ItemStack stack, boolean flag) {
 		ItemStack output;
 		if (flag)
-			output = new ItemStack(BitCraftingMod.itemClearBit, stack.stackSize);
+			output = new ItemStack(BitCraftingItems.itemClearBit, stack.getCount());
 		else
-			output = new ItemStack(BitCraftingMod.itemBit, stack.stackSize);
+			output = new ItemStack(BitCraftingItems.itemBit, stack.getCount());
 		output.setTagCompound(stack.getTagCompound());
 		return output;
 	}
@@ -179,7 +183,7 @@ public class ItemBit extends Item {
 	}
 
 	@Override
-	public int getColorFromItemStack(ItemStack stack, int par2) {
+	public int colorMultiplier(ItemStack stack, int par2) {
 		return getColorFromStackBothSides(stack, par2);
 	}
 
@@ -367,10 +371,10 @@ public class ItemBit extends Item {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void getSubItems(Item item, CreativeTabs tab, List itemList) {
+	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
 		for (int col = 0; col < colors.length; col++) {
 			for (int shd = 0; shd < shades.length; shd++) {
-				ItemStack bitStack = new ItemStack(item);
+				ItemStack bitStack = new ItemStack(this);
 				NBTTagCompound itemData = new NBTTagCompound();
 
 				bitStack.setTagCompound(itemData);
@@ -380,11 +384,11 @@ public class ItemBit extends Item {
 				itemData.setFloat("durability", 20F);
 				itemData.setFloat("enchantability", .2F);
 
-				itemList.add(bitStack);
+				items.add(bitStack);
 			}
 		}
 		for (int eff = 0; eff < effects.length; eff++) {
-			ItemStack bitStack = new ItemStack(item);
+			ItemStack bitStack = new ItemStack(this);
 			NBTTagCompound itemData = new NBTTagCompound();
 
 			bitStack.setTagCompound(itemData);
@@ -423,37 +427,37 @@ public class ItemBit extends Item {
 			itemData.setFloat("chance", .01F);
 			itemData.setFloat("power", 1F);
 
-			itemList.add(bitStack);
+			items.add(bitStack);
 		}
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack stack, EntityPlayer player, List tooltips, boolean isAdvanced) {
+	public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
 		if (stack.hasTagCompound()) {
 			NBTTagCompound itemData = stack.getTagCompound();
-			tooltips.add("Damage Rating: " + String.format("%.3f", itemData.getFloat("damage")));
-			tooltips.add("Durability Rating: " + String.format("%.3f", itemData.getFloat("durability")));
-			tooltips.add("Enchantability Rating: " + String.format("%.3f", itemData.getFloat("enchantability")));
+			tooltip.add("Damage Rating: " + String.format("%.3f", itemData.getFloat("damage")));
+			tooltip.add("Durability Rating: " + String.format("%.3f", itemData.getFloat("durability")));
+			tooltip.add("Enchantability Rating: " + String.format("%.3f", itemData.getFloat("enchantability")));
 			if (itemData.hasKey("effect")) {
 				String text = (String) (itemData.getString("effect").equals("fire")
-						? EnumChatFormatting.RED + "Enflame" + EnumChatFormatting.RESET
+						? TextFormatting.RED + "Enflame" + TextFormatting.RESET
 						: itemData.getString("effect").equals("earth")
-								? EnumChatFormatting.DARK_GRAY + "Stonestrike" + EnumChatFormatting.RESET
+								? TextFormatting.DARK_GRAY + "Stonestrike" + TextFormatting.RESET
 								: itemData.getString("effect").equals("lightning")
-										? EnumChatFormatting.YELLOW + "Stormcall" + EnumChatFormatting.RESET
+										? TextFormatting.YELLOW + "Stormcall" + TextFormatting.RESET
 										: itemData.getString("effect").equals("ice")
-												? EnumChatFormatting.AQUA + "Frostbite" + EnumChatFormatting.RESET
-												: EnumChatFormatting.DARK_PURPLE + "" + EnumChatFormatting.OBFUSCATED
-														+ "Anomolize" + EnumChatFormatting.RESET);
-				tooltips.add(text + " (" + String.format("%.3f", itemData.getFloat("chance")*100) + "%, " + String.format("%.3f", itemData.getFloat("power")) + ")");
+												? TextFormatting.AQUA + "Frostbite" + TextFormatting.RESET
+												: TextFormatting.DARK_PURPLE + "" + TextFormatting.OBFUSCATED
+														+ "Anomolize" + TextFormatting.RESET);
+				tooltip.add(text + " (" + String.format("%.3f", itemData.getFloat("chance")*100) + "%, " + String.format("%.3f", itemData.getFloat("power")) + ")");
 			}
 		}
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public boolean hasEffect(ItemStack stack, int pass) {
+	public boolean hasEffect(ItemStack stack) {
 		if (!stack.hasTagCompound())
 			return false;
 		NBTTagCompound itemData = stack.getTagCompound();
@@ -461,7 +465,7 @@ public class ItemBit extends Item {
 	}
 
 	public static int getColorFromDye(ItemStack stack) {
-		if (stack.getItem() == Items.water_bucket)
+		if (stack.getItem() == Items.WATER_BUCKET)
 			return -2;
 		int color = stack.getItemDamage();
 		switch (color) {

@@ -11,7 +11,6 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryCraftResult;
 import net.minecraft.inventory.Slot;
-import net.minecraft.inventory.SlotCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -50,7 +49,7 @@ public class ContainerBitFusionTable extends Container {
 	}
 
 	@Override
-	public void onCraftMatrixChanged(IInventory p_75130_1_) {
+	public void onCraftMatrixChanged(IInventory inventoryIn) {
 		boolean canFuse = false;
 
 		for (int i = 1; i < 10; i++)
@@ -64,7 +63,7 @@ public class ContainerBitFusionTable extends Container {
 
 		ItemStack stack = tileFusionTable.getStackInSlot(0);
 
-		if (stack == null || !(stack.getItem() instanceof ItemBit || stack.getItem() instanceof ItemBitSword))
+		if (stack.isEmpty() || !(stack.getItem() instanceof ItemBit || stack.getItem() instanceof ItemBitSword))
 			canFuse = false;
 
 		if (!canFuse) {
@@ -77,7 +76,7 @@ public class ContainerBitFusionTable extends Container {
 
 		if (stack.getItem() instanceof ItemBit) {
 			NBTTagCompound tagCompound = stack.getTagCompound();
-			stack.stackSize = 1;
+			stack.setCount(1);
 
 			String effect = tagCompound.getString("effect");
 			float damage = 0, durability = 0, enchantability = 0, chance = 0, power = 0;
@@ -145,40 +144,52 @@ public class ContainerBitFusionTable extends Container {
 		InventoryPlayer inventoryplayer = p_75134_1_.inventory;
 
 		if (inventoryplayer.getItemStack() != null) {
-			p_75134_1_.dropPlayerItemWithRandomChoice(inventoryplayer.getItemStack(), false);
-			inventoryplayer.setItemStack((ItemStack) null);
+			p_75134_1_.dropItem(inventoryplayer.getItemStack(), false);
+			inventoryplayer.setItemStack(ItemStack.EMPTY);
 		}
 	}
 
 	public boolean canInteractWith(EntityPlayer player) {
-		return this.tileFusionTable.isUseableByPlayer(player);
+		return this.tileFusionTable.isUsableByPlayer(player);
 	}
 
 	@Override
-	public ItemStack transferStackInSlot(EntityPlayer player, int par2) {
+	public ItemStack transferStackInSlot(EntityPlayer player, int index) {
 		ItemStack itemstack = null;
-		Slot slot = (Slot) this.inventorySlots.get(par2);
-		if (slot != null && slot.getHasStack()) {
+		Slot slot = this.inventorySlots.get(index);
+
+		if (slot != null && slot.getHasStack())
+		{
 			ItemStack itemstack1 = slot.getStack();
 			itemstack = itemstack1.copy();
 
-			if (par2 < 11) {
+			if (index < 11)
+			{
 				if (!this.mergeItemStack(itemstack1, 11, 47, false))
 					return null;
 				slot.onSlotChange(itemstack1, itemstack);
-			} else if (par2 >= 11 && par2 < 38 && !this.mergeItemStack(itemstack1, 38, 47, false)) {
-				return null;
-			} else if (par2 >= 38 && par2 < 47 && !this.mergeItemStack(itemstack1, 11, 38, false)) {
+			}
+			else if (index >= 11 && index < 38 && !this.mergeItemStack(itemstack1, 38, 47, false))
+			{
 				return null;
 			}
-			if (itemstack1.stackSize == 0) {
-				slot.putStack((ItemStack) null);
-			} else {
+			else if (index >= 38 && index < 47 && !this.mergeItemStack(itemstack1, 11, 38, false))
+			{
+				return null;
+			}
+
+			if (itemstack1.getCount() == 0)
+			{
+				slot.putStack(ItemStack.EMPTY);
+			}
+			else
+			{
 				slot.onSlotChanged();
 			}
-			if (itemstack1.stackSize == itemstack.stackSize)
+
+			if (itemstack1.getCount() == itemstack.getCount())
 				return null;
-			slot.onPickupFromSlot(player, itemstack1);
+			slot.onTake(player, itemstack1);
 		}
 		return itemstack;
 	}

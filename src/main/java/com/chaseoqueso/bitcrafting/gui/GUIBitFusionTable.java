@@ -29,10 +29,10 @@ public class GUIBitFusionTable extends GuiContainer {
 	protected void drawGuiContainerForegroundLayer(int par, int par2)
 	{
 		String string = this.tileFusionTable.hasCustomInventoryName() ? this.tileFusionTable.getInventoryName() : I18n.format(this.tileFusionTable.getInventoryName(), new Object[0]);
-		this.fontRendererObj.drawString(string, this.xSize/2 - this.fontRendererObj.getStringWidth(string)/2, -1, 4210752);
-		this.fontRendererObj.drawString(I18n.format("container.inventory", new Object[0]), 8, this.ySize - 98, 4210752);
+		this.fontRenderer.drawString(string, this.xSize/2 - this.fontRenderer.getStringWidth(string)/2, -1, 4210752);
+		this.fontRenderer.drawString(I18n.format("container.inventory", new Object[0]), 8, this.ySize - 98, 4210752);
 		string = "Fusion Cost: " + ((ContainerBitFusionTable)this.inventorySlots).xpCost;
-        this.fontRendererObj.drawStringWithShadow(string, this.xSize/2 - this.fontRendererObj.getStringWidth(string)/2, this.ySize - 108, 8453920);
+        this.fontRenderer.drawStringWithShadow(string, this.xSize/2 - this.fontRenderer.getStringWidth(string)/2, this.ySize - 108, 8453920);
 	}
 	
 	@Override

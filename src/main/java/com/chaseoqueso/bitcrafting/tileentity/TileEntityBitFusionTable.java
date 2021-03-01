@@ -5,20 +5,31 @@ import com.chaseoqueso.bitcrafting.container.ContainerBitFusionTable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.NonNullList;
 
 public class TileEntityBitFusionTable extends TileEntity implements IInventory {
 	
-	private ItemStack[] tableItemStacks = new ItemStack[11];
+	private NonNullList<ItemStack> tableItemStacks = NonNullList.withSize(11, ItemStack.EMPTY);
 	private String fusionTableName = "Fusion Table";
 	public ContainerBitFusionTable eventhandler;
 	
 	public void setFusionTableName(String displayName) {
 		this.fusionTableName = displayName;
+	}
+
+	@Override
+	public String getName() {
+		return this.hasCustomInventoryName() ? this.fusionTableName : "Fusion Table";
+	}
+
+	public boolean hasCustomName() {
+		return this.fusionTableName != null && this.fusionTableName.length() > 0;
 	}
 	
 	public void setEventHandler(Container handler)
@@ -27,28 +38,28 @@ public class TileEntityBitFusionTable extends TileEntity implements IInventory {
 	}
 
 	public int getSizeInventory() {
-		return this.tableItemStacks.length;
+		return this.tableItemStacks.size();
 	}
 
 	public ItemStack getStackInSlot(int index) {
-		return this.tableItemStacks[index];
+		return this.tableItemStacks.get(index);
 	}
 
-	public ItemStack decrStackSize(int par1, int par2) {
-		if(this.tableItemStacks[par1] != null)
+	public ItemStack decrStackSize(int index, int count) {
+		if(this.tableItemStacks.get(index) != null)
 		{
 			ItemStack itemstack;
-			if(this.tableItemStacks[par1].stackSize <= par2)
+			if(this.tableItemStacks.get(index).getCount() <= count)
 			{
-				itemstack = this.tableItemStacks[par1];
-				this.tableItemStacks[par1] = null;
+				itemstack = this.tableItemStacks.get(index);
+				this.tableItemStacks.set(index, ItemStack.EMPTY);
                 this.eventhandler.onCraftMatrixChanged(this);
                 this.markDirty();
 				return itemstack;
 			} else {
-				itemstack = this.tableItemStacks[par1].splitStack(par2);
-				if(this.tableItemStacks[par1].stackSize == 0)
-					this.tableItemStacks[par1] = null;
+				itemstack = this.tableItemStacks.get(index).splitStack(count);
+				if(this.tableItemStacks.get(index).getCount() == 0)
+					this.tableItemStacks.set(index, ItemStack.EMPTY);
                 this.eventhandler.onCraftMatrixChanged(this);
                 this.markDirty();
 				return itemstack;
@@ -57,20 +68,10 @@ public class TileEntityBitFusionTable extends TileEntity implements IInventory {
 		return null;
 	}
 
-	public ItemStack getStackInSlotOnClosing(int slot) {
-		if(this.tableItemStacks[slot] != null)
-		{
-			ItemStack itemstack = this.tableItemStacks[slot];
-			this.tableItemStacks[slot] = null;
-			return itemstack;
-		}
-		return null;
-	}
-
 	public void setInventorySlotContents(int slot, ItemStack itemstack) {
-		this.tableItemStacks[slot] = itemstack;
-		if(itemstack != null && itemstack.stackSize > this.getInventoryStackLimit())
-			itemstack.stackSize = this.getInventoryStackLimit();
+		this.tableItemStacks.set(slot, itemstack);
+		if(itemstack != null && itemstack.getCount() > this.getInventoryStackLimit())
+			itemstack.setCount(this.getInventoryStackLimit());
         this.eventhandler.onCraftMatrixChanged(this);
         this.markDirty();
 	}
@@ -92,18 +93,8 @@ public class TileEntityBitFusionTable extends TileEntity implements IInventory {
 	{
 		super.readFromNBT(tag);
         NBTTagList nbttaglist = tag.getTagList("Items", 10);
-        this.tableItemStacks = new ItemStack[this.getSizeInventory()];
-        
-        for (int i = 0; i < nbttaglist.tagCount(); ++i)
-        {
-            NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt(i);
-            byte b0 = nbttagcompound1.getByte("Slot");
-            
-            if (b0 >= 0 && b0 < this.tableItemStacks.length)
-            {
-                this.tableItemStacks[b0] = ItemStack.loadItemStackFromNBT(nbttagcompound1);
-            }
-        }
+		this.tableItemStacks = NonNullList.withSize(this.getSizeInventory(), ItemStack.EMPTY);
+		ItemStackHelper.loadAllItems(tag, tableItemStacks);
 
         if (tag.hasKey("CustomName", 8))
         {
@@ -112,45 +103,69 @@ public class TileEntityBitFusionTable extends TileEntity implements IInventory {
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound tagCompound)
+	public NBTTagCompound writeToNBT(NBTTagCompound tag)
 	{
-		super.writeToNBT(tagCompound);
-        NBTTagList nbttaglist = new NBTTagList();
-        
-        for (int i = 0; i < this.tableItemStacks.length; ++i)
-        {
-            if (this.tableItemStacks[i] != null)
-            {
-                NBTTagCompound nbttagcompound1 = new NBTTagCompound();
-                nbttagcompound1.setByte("Slot", (byte) i);
-                this.tableItemStacks[i].writeToNBT(nbttagcompound1);
-                nbttaglist.appendTag(nbttagcompound1);
-            }
-        }
-
-        tagCompound.setTag("Items", nbttaglist);
+		super.writeToNBT(tag);
+		ItemStackHelper.saveAllItems(tag, tableItemStacks);
 
         if (this.hasCustomInventoryName())
         {
-            tagCompound.setString("CustomName", this.fusionTableName);
+			tag.setString("CustomName", this.fusionTableName);
         }
-	}
-	
-	public boolean isUseableByPlayer(EntityPlayer player) {
-		return this.worldObj.getTileEntity(this.xCoord, this.yCoord, this.zCoord) != this ? false : player.getDistanceSq((double) this.xCoord + .5D, (double) this.yCoord + .5D, (double) this.zCoord + .5D) <= 64;
+
+        return tag;
 	}
 
 	@Override
-	public void openInventory() {
+	public boolean isUsableByPlayer(EntityPlayer player) {
+		return world.getTileEntity(pos) != this ? false : player.getDistanceSq((double) pos.getX() + .5D, (double) pos.getY() + .5D, (double) pos.getZ() + .5D) <= 64;
 	}
 
 	@Override
-	public void closeInventory() {
-		
+	public void openInventory(EntityPlayer player)
+	{
+	}
+
+	@Override
+	public void closeInventory(EntityPlayer player)
+	{
 	}
 
 	@Override
 	public boolean isItemValidForSlot(int par1, ItemStack itemstack) {
 		return false;
+	}
+
+	@Override
+	public boolean isEmpty()
+	{
+		for (ItemStack stack : tableItemStacks ) {
+			if(!stack.isEmpty())
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+
+	@Override
+	public ItemStack removeStackFromSlot(int index)
+	{
+		return ItemStackHelper.getAndRemove(tableItemStacks, index);
+	}
+
+	@Override
+	public void clear()	{ tableItemStacks.clear(); }
+
+	@Override
+	public int getField(int id) { return 0; }
+
+	@Override
+	public void setField(int id, int value)	{}
+
+	@Override
+	public int getFieldCount()
+	{
+		return 0;
 	}
 }

@@ -26,8 +26,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class BlockBitDyeTable extends BlockContainer {
-
-    private final Random random = new Random();
 	
 	public BlockBitDyeTable(Material material) {
 		super(material);
@@ -55,7 +53,8 @@ public class BlockBitDyeTable extends BlockContainer {
 	{
 		return new ItemStack(BitCraftingBlocks.blockBitDyeTable);
 	}
-	
+
+	@Override
 	public void onBlockPlacedBy(World world, BlockPos position, IBlockState state, EntityLivingBase placer, ItemStack itemStack)
 	{
 		if(itemStack.hasDisplayName())
@@ -71,8 +70,8 @@ public class BlockBitDyeTable extends BlockContainer {
 	
 	public void breakBlock(World world, BlockPos position, IBlockState state)
 	{
-		TileEntityBitChest tileentitychest = (TileEntityBitChest) world.getTileEntity(position);
-		InventoryHelper.dropInventoryItems(world, position, tileentitychest);
+		TileEntityBitDyeTable tileentity = (TileEntityBitDyeTable) world.getTileEntity(position);
+		InventoryHelper.dropInventoryItems(world, position, tileentity);
 		super.breakBlock(world, position, state);
 	}
 

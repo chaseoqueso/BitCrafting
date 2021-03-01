@@ -2,32 +2,28 @@ package com.chaseoqueso.bitcrafting.slots;
 
 import com.chaseoqueso.bitcrafting.CrucibleRecipes;
 
-import cpw.mods.fml.common.FMLCommonHandler;
 import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.FurnaceRecipes;
-import net.minecraft.stats.AchievementList;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.math.MathHelper;
 
 public class CrucibleSlot extends BitSlot {
 	/** The player that is using the GUI where this slot resides. */
     private EntityPlayer thePlayer;
-    private int field_75228_b;
+    private int stackSize;
 
-    public CrucibleSlot(EntityPlayer p_i1813_1_, IInventory p_i1813_2_, int p_i1813_3_, int p_i1813_4_, int p_i1813_5_)
+    public CrucibleSlot(EntityPlayer player, IInventory inventory, int index, int x, int y)
     {
-        super(p_i1813_2_, p_i1813_3_, p_i1813_4_, p_i1813_5_);
-        this.thePlayer = p_i1813_1_;
+        super(inventory, index, x, y);
+        this.thePlayer = player;
     }
 
     /**
      * Check if the stack is a valid item for this slot. Always true beside for the armor slots.
      */
     @Override
-    public boolean isItemValid(ItemStack p_75214_1_)
+    public boolean isItemValid(ItemStack itemStack)
     {
         return false;
     }
@@ -37,21 +33,22 @@ public class CrucibleSlot extends BitSlot {
      * stack.
      */
     @Override
-    public ItemStack decrStackSize(int p_75209_1_)
+    public ItemStack decrStackSize(int amount)
     {
         if (this.getHasStack())
         {
-            this.field_75228_b += Math.min(p_75209_1_, this.getStack().stackSize);
+            this.stackSize += Math.min(amount, this.getStack().getCount());
         }
 
-        return super.decrStackSize(p_75209_1_);
+        return super.decrStackSize(amount);
     }
 
     @Override
-    public void onPickupFromSlot(EntityPlayer p_82870_1_, ItemStack p_82870_2_)
+    public ItemStack onTake(EntityPlayer player, ItemStack itemStack)
     {
-        this.onCrafting(p_82870_2_);
-        super.onPickupFromSlot(p_82870_1_, p_82870_2_);
+        super.onTake(player, itemStack);
+        this.onCrafting(itemStack);
+        return itemStack;
     }
 
     /**
@@ -59,24 +56,24 @@ public class CrucibleSlot extends BitSlot {
      * internal count then calls onCrafting(item).
      */
     @Override
-    protected void onCrafting(ItemStack p_75210_1_, int p_75210_2_)
+    protected void onCrafting(ItemStack itemStack, int amount)
     {
-        this.field_75228_b += p_75210_2_;
-        this.onCrafting(p_75210_1_);
+        this.stackSize += amount;
+        this.onCrafting(itemStack);
     }
 
     /**
      * the itemStack passed in is the output - ie, iron ingots, and pickaxes, not ore and wood.
      */
     @Override
-    protected void onCrafting(ItemStack p_75208_1_)
+    protected void onCrafting(ItemStack itemStack)
     {
-        p_75208_1_.onCrafting(this.thePlayer.worldObj, this.thePlayer, this.field_75228_b);
+        itemStack.onCrafting(this.thePlayer.world, this.thePlayer, this.stackSize);
 
-        if (!this.thePlayer.worldObj.isRemote)
+        if (!this.thePlayer.world.isRemote)
         {
-            int i = this.field_75228_b;
-            float f = CrucibleRecipes.instance().getBreakDownExperience(p_75208_1_);
+            int i = this.stackSize;
+            float f = CrucibleRecipes.instance().getBreakDownExperience(itemStack);
             int j;
 
             if (f == 0.0F)
@@ -85,9 +82,9 @@ public class CrucibleSlot extends BitSlot {
             }
             else if (f < 1.0F)
             {
-                j = MathHelper.floor_float((float)i * f);
+                j = MathHelper.floor((float)i * f);
 
-                if (j < MathHelper.ceiling_float_int((float)i * f) && (float)Math.random() < (float)i * f - (float)j)
+                if (j < MathHelper.ceil((float)i * f) && (float)Math.random() < (float)i * f - (float)j)
                 {
                     ++j;
                 }
@@ -99,10 +96,10 @@ public class CrucibleSlot extends BitSlot {
             {
                 j = EntityXPOrb.getXPSplit(i);
                 i -= j;
-                this.thePlayer.worldObj.spawnEntityInWorld(new EntityXPOrb(this.thePlayer.worldObj, this.thePlayer.posX, this.thePlayer.posY + 0.5D, this.thePlayer.posZ + 0.5D, j));
+                this.thePlayer.world.spawnEntity(new EntityXPOrb(this.thePlayer.world, this.thePlayer.posX, this.thePlayer.posY + 0.5D, this.thePlayer.posZ + 0.5D, j));
             }
         }
 
-        this.field_75228_b = 0;
+        this.stackSize = 0;
     }
 }

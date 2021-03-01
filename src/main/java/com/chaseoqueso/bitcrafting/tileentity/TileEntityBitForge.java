@@ -1,39 +1,39 @@
 package com.chaseoqueso.bitcrafting.tileentity;
 
-import java.awt.image.*;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
-
 import com.chaseoqueso.bitcrafting.BitCraftingMod;
 import com.chaseoqueso.bitcrafting.container.ContainerBitForge;
+import com.chaseoqueso.bitcrafting.init.BitCraftingItems;
 import com.chaseoqueso.bitcrafting.items.ItemBitSword;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.item.Item;
+import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
-import net.minecraftforge.common.util.EnumHelper;
+import net.minecraft.util.NonNullList;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class TileEntityBitForge extends TileEntity implements IInventory {
 	
-	private ItemStack[] forgeItemStacks = new ItemStack[256];
+	private NonNullList<ItemStack> forgeItemStacks = NonNullList.withSize(256, ItemStack.EMPTY);
 	private String forgeName = "Bit Forge";
 	protected ContainerBitForge eventhandler;
 	
 	public void setForgeName(String displayName) {
 		this.forgeName = displayName;
+	}
+
+	@Override
+	public String getName() {
+		return this.forgeName;
+	}
+
+	@Override
+	public boolean hasCustomName() {
+		return this.forgeName != null && !this.forgeName.isEmpty();
 	}
 	
 	public void setEventHandler(Container handler)
@@ -42,83 +42,73 @@ public class TileEntityBitForge extends TileEntity implements IInventory {
 	}
 
 	public int getSizeInventory() {
-		return this.forgeItemStacks.length;
+		return this.forgeItemStacks.size();
 	}
 
 	public ItemStack getStackInSlot(int index) {
-		return this.forgeItemStacks[index];
+		return this.forgeItemStacks.get(index);
 	}
 
-	public ItemStack decrStackSize(int par1, int par2) {
-		if(this.forgeItemStacks[par1] != null)
+	public ItemStack decrStackSize(int index, int count) {
+		if(this.forgeItemStacks.get(index) != ItemStack.EMPTY)
 		{
 			ItemStack itemstack;
-			if(this.forgeItemStacks[par1].stackSize <= par2)
+			if(this.forgeItemStacks.get(index).getCount() <= count)
 			{
-				itemstack = this.forgeItemStacks[par1];
-				this.forgeItemStacks[par1] = null;
+				itemstack = this.forgeItemStacks.get(index);
+				this.forgeItemStacks.set(index, ItemStack.EMPTY);
                 this.eventhandler.onCraftMatrixChanged(this);
-                this.markDirty();
+                super.markDirty();
 				return itemstack;
 			} else {
-				itemstack = this.forgeItemStacks[par1].splitStack(par2);
-				if(this.forgeItemStacks[par1].stackSize == 0)
+				itemstack = this.forgeItemStacks.get(index).splitStack(count);
+				if(this.forgeItemStacks.get(index).getCount() == 0)
 				{
-					this.forgeItemStacks[par1] = null;
+					this.forgeItemStacks.set(index, ItemStack.EMPTY);
 				}
                 this.eventhandler.onCraftMatrixChanged(this);
-                this.markDirty();
+				super.markDirty();
 				return itemstack;
 			}
 		}
 		return null;
 	}
 
-	public ItemStack decrStackSizeNoUpdate(int par1, int par2) {
-		if(this.forgeItemStacks[par1] != null)
+	public ItemStack decrStackSizeNoUpdate(int index, int count) {
+		if(this.forgeItemStacks.get(index) != ItemStack.EMPTY)
 		{
 			ItemStack itemstack;
-			if(this.forgeItemStacks[par1].stackSize <= par2)
+			if(this.forgeItemStacks.get(index).getCount() <= count)
 			{
-				itemstack = this.forgeItemStacks[par1];
-				this.forgeItemStacks[par1] = null;
-		        this.markDirty();
+				itemstack = this.forgeItemStacks.get(index);
+				this.forgeItemStacks.set(index, ItemStack.EMPTY);
+				super.markDirty();
 				return itemstack;
 			} else {
-				itemstack = this.forgeItemStacks[par1].splitStack(par2);
-				if(this.forgeItemStacks[par1].stackSize == 0)
-					this.forgeItemStacks[par1] = null;
-		        this.markDirty();
+				itemstack = this.forgeItemStacks.get(index).splitStack(count);
+				if(this.forgeItemStacks.get(index).getCount() == 0)
+					this.forgeItemStacks.set(index, ItemStack.EMPTY);
+				super.markDirty();
 				return itemstack;
 			}
-		}
-		return null;
-	}
-
-	public ItemStack getStackInSlotOnClosing(int slot) {
-		if(this.forgeItemStacks[slot] != null)
-		{
-			ItemStack itemstack = this.forgeItemStacks[slot];
-			this.forgeItemStacks[slot] = null;
-			return itemstack;
 		}
 		return null;
 	}
 
 	public void setInventorySlotContents(int slot, ItemStack itemstack) {
-		this.forgeItemStacks[slot] = itemstack;
-		if(itemstack != null && itemstack.stackSize > this.getInventoryStackLimit())
-			itemstack.stackSize = this.getInventoryStackLimit();
+		this.forgeItemStacks.set(slot, itemstack);
+		if(itemstack != null && itemstack.getCount() > this.getInventoryStackLimit())
+			itemstack.setCount(this.getInventoryStackLimit());
         this.eventhandler.onCraftMatrixChanged(this);
-        this.markDirty();
+		super.markDirty();
 	}
 
 	public void setInventorySlotContentsNoUpdate(int slot, ItemStack itemstack) {
-		this.forgeItemStacks[slot] = itemstack;
+		this.forgeItemStacks.set(slot, itemstack);
 		
-		if(itemstack != null && itemstack.stackSize > this.getInventoryStackLimit())
+		if(itemstack != null && itemstack.getCount() > this.getInventoryStackLimit())
 		{
-			itemstack.stackSize = this.getInventoryStackLimit();
+			itemstack.setCount(this.getInventoryStackLimit());
 		}
 	}
 
@@ -138,19 +128,8 @@ public class TileEntityBitForge extends TileEntity implements IInventory {
 	public void readFromNBT(NBTTagCompound tag)
 	{
 		super.readFromNBT(tag);
-        NBTTagList nbttaglist = tag.getTagList("Items", 10);
-        this.forgeItemStacks = new ItemStack[this.getSizeInventory()];
-        
-        for (int i = 0; i < nbttaglist.tagCount(); ++i)
-        {
-            NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt(i);
-            int b0 = nbttagcompound1.getInteger("Slot");
-            
-            if (b0 >= 0 && b0 < this.forgeItemStacks.length)
-            {
-                this.forgeItemStacks[b0] = ItemStack.loadItemStackFromNBT(nbttagcompound1);
-            }
-        }
+        this.forgeItemStacks = NonNullList.withSize(this.getSizeInventory(), ItemStack.EMPTY);
+		ItemStackHelper.loadAllItems(tag, this.forgeItemStacks);
 
         if (tag.hasKey("CustomName", 8))
         {
@@ -159,38 +138,31 @@ public class TileEntityBitForge extends TileEntity implements IInventory {
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound tagCompound)
+	public NBTTagCompound writeToNBT(NBTTagCompound tag)
 	{
-		super.writeToNBT(tagCompound);
-        NBTTagList nbttaglist = new NBTTagList();
-        
-        for (int i = 0; i < this.forgeItemStacks.length; ++i)
-        {
-            if (this.forgeItemStacks[i] != null)
-            {
-                NBTTagCompound nbttagcompound1 = new NBTTagCompound();
-                nbttagcompound1.setInteger("Slot", i);
-                this.forgeItemStacks[i].writeToNBT(nbttagcompound1);
-                nbttaglist.appendTag(nbttagcompound1);
-            }
-        }
-
-        tagCompound.setTag("Items", nbttaglist);
+		super.writeToNBT(tag);
+		ItemStackHelper.saveAllItems(tag, forgeItemStacks);
 
         if (this.hasCustomInventoryName())
         {
-            tagCompound.setString("CustomName", this.forgeName);
+            tag.setString("CustomName", this.forgeName);
         }
+
+        return tag;
 	}
 	
-	public boolean isUseableByPlayer(EntityPlayer player) {
-		return this.worldObj.getTileEntity(this.xCoord, this.yCoord, this.zCoord) != this ? false : player.getDistanceSq((double) this.xCoord + .5D, (double) this.yCoord + .5D, (double) this.zCoord + .5D) <= 64;
+	public boolean isUsableByPlayer(EntityPlayer player) {
+		return world.getTileEntity(pos) != this ? false : player.getDistanceSq((double) pos.getX() + .5D, (double) pos.getY() + .5D, (double) pos.getZ() + .5D) <= 64;
 	}
 
-	public void openInventory() {
+	@Override
+	public void openInventory(EntityPlayer player)
+	{
 	}
 
-	public void closeInventory() {
+	@Override
+	public void closeInventory(EntityPlayer player)
+	{
 	}
 
 	public boolean isItemValidForSlot(int par1, ItemStack itemstack) {
@@ -200,9 +172,9 @@ public class TileEntityBitForge extends TileEntity implements IInventory {
 	public boolean canForge()
 	{
 		boolean flag = false;
-		for(int i = 0; i < forgeItemStacks.length; i++)
+		for(int i = 0; i < forgeItemStacks.size(); i++)
 		{
-			if(forgeItemStacks[i] != null)
+			if(forgeItemStacks.get(i) != ItemStack.EMPTY)
 				flag = true;
 		}
 		return flag;
@@ -219,9 +191,9 @@ public class TileEntityBitForge extends TileEntity implements IInventory {
 			
 			for(int i = 0; i < 256; i++)
 			{
-				if(forgeItemStacks[i] != null && forgeItemStacks[i].hasTagCompound()) 
+				if(forgeItemStacks.get(i) != ItemStack.EMPTY && forgeItemStacks.get(i).hasTagCompound())
 		        {
-		            NBTTagCompound itemData = forgeItemStacks[i].getTagCompound();
+		            NBTTagCompound itemData = forgeItemStacks.get(i).getTagCompound();
 		            
 		            if (itemData.hasKey("damage"))
 		            {
@@ -249,9 +221,47 @@ public class TileEntityBitForge extends TileEntity implements IInventory {
 		        }
 			}
 
-			return ItemBitSword.initialize(new ItemStack(BitCraftingMod.itemBitSword), (ItemStack[])Arrays.copyOf(forgeItemStacks, 256), damage, durability, enchantability, effects, effectChances, effectPowers).copy();
+			NonNullList<ItemStack> forgeClone = NonNullList.withSize(forgeItemStacks.size(), ItemStack.EMPTY);
+			for (int i = 0; i < forgeItemStacks.size(); ++i) {
+				forgeClone.set(i, forgeItemStacks.get(i).copy());
+			}
+
+			return ItemBitSword.initialize(new ItemStack(BitCraftingItems.itemBitSword), forgeClone, damage, durability, enchantability, effects, effectChances, effectPowers).copy();
 			//Returns the new weapon that is created based on certain damage, durability, etc. Also gives the new weapon an array of the Bits used for image generating purposes.
 		}
 		return null;
+	}
+
+	@Override
+	public boolean isEmpty()
+	{
+		for (ItemStack stack : forgeItemStacks ) {
+			if(!stack.isEmpty())
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+
+	@Override
+	public ItemStack removeStackFromSlot(int index)
+	{
+		return ItemStackHelper.getAndRemove(forgeItemStacks, index);
+	}
+
+	@Override
+	public void clear()	{ forgeItemStacks.clear(); }
+
+	@Override
+	public int getField(int id) { return 0; }
+
+	@Override
+	public void setField(int id, int value)	{}
+
+	@Override
+	public int getFieldCount()
+	{
+		return 0;
 	}
 }

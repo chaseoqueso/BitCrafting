@@ -1,14 +1,13 @@
 package com.chaseoqueso.bitcrafting.gui;
 
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 
 import com.chaseoqueso.bitcrafting.alt_vanilla.BitGuiContainer;
 import com.chaseoqueso.bitcrafting.container.ContainerBitCrucible;
 import com.chaseoqueso.bitcrafting.tileentity.TileEntityBitCrucible;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
@@ -17,6 +16,7 @@ import net.minecraft.util.ResourceLocation;
 public class GUIBitCrucible extends BitGuiContainer {
 	
 	public static final ResourceLocation crucibleGuiTextures = new ResourceLocation("bcm", "textures/gui/crucible.png");
+	private InventoryPlayer player;
 	private TileEntityBitCrucible tileCrucible;
 	/** The X size of the inventory window in pixels. */
     protected int xSize = 176;
@@ -27,14 +27,15 @@ public class GUIBitCrucible extends BitGuiContainer {
 	{
 		super(new ContainerBitCrucible(invPlayer, tileentity));
 		this.tileCrucible = tileentity;
+		this.player = invPlayer;
 	}
 	
 	@Override
 	protected void drawGuiContainerForegroundLayer(int par, int par2)
 	{
 		String string = this.tileCrucible.hasCustomInventoryName() ? this.tileCrucible.getInventoryName() : I18n.format(this.tileCrucible.getInventoryName(), new Object[0]);
-		this.fontRendererObj.drawString(string, this.xSize/2 - this.fontRendererObj.getStringWidth(string)/2, -1, 4210752);
-		this.fontRendererObj.drawString(I18n.format("container.inventory", new Object[0]), 8, this.ySize - 98, 4210752);
+		this.fontRenderer.drawString(string, this.xSize/2 - this.fontRenderer.getStringWidth(string)/2, -1, 4210752);
+		this.fontRenderer.drawString(I18n.format("container.inventory", new Object[0]), 8, this.ySize - 98, 4210752);
 	}
 	
 	@Override
