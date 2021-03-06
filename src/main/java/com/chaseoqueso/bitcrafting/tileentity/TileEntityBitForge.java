@@ -1,6 +1,5 @@
 package com.chaseoqueso.bitcrafting.tileentity;
 
-import com.chaseoqueso.bitcrafting.BitCraftingMod;
 import com.chaseoqueso.bitcrafting.container.ContainerBitForge;
 import com.chaseoqueso.bitcrafting.init.BitCraftingItems;
 import com.chaseoqueso.bitcrafting.items.ItemBitSword;
@@ -226,7 +225,7 @@ public class TileEntityBitForge extends TileEntity implements IInventory {
 				forgeClone.set(i, forgeItemStacks.get(i).copy());
 			}
 
-			return ItemBitSword.initialize(new ItemStack(BitCraftingItems.itemBitSword), forgeClone, damage, durability, enchantability, effects, effectChances, effectPowers).copy();
+			return ItemBitSword.initialize(new ItemStack(BitCraftingItems.ITEMS.itemBitSword), forgeClone, damage, durability, enchantability, effects, effectChances, effectPowers).copy();
 			//Returns the new weapon that is created based on certain damage, durability, etc. Also gives the new weapon an array of the Bits used for image generating purposes.
 		}
 		return null;

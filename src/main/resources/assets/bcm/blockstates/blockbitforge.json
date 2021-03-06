@@ -1,0 +1,10 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "model": "bcm:blockbitforge"
+    },
+    "variants": {
+        "normal": [{}],
+        "inventory": [{}]
+    }
+}

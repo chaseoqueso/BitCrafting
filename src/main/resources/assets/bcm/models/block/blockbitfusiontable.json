@@ -1,0 +1,13 @@
+{
+    "parent": "block/cube",
+    "textures":
+    {
+        "particle": "bcm:blocks/fusiontable_side",
+        "up": "bcm:blocks/fusiontable_top",
+        "down": "bcm:blocks/fusiontable_bottom",
+        "north": "bcm:blocks/fusiontable_side",
+        "east": "bcm:blocks/fusiontable_side",
+        "south": "bcm:blocks/fusiontable_side",
+        "west": "bcm:blocks/fusiontable_side"
+    }
+}

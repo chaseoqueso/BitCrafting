@@ -13,23 +13,13 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class ServerProxy {
 	
-	public void registerRenders()
+	public static void registerTileEntities()
 	{
-		
-	}
-	
-	public void registerNetworkStuff()
-	{
-		NetworkRegistry.INSTANCE.registerGuiHandler(BitCraftingMod.instance, new GUIHandler());
-	}
-	
-	public void registerTileEntities()
-	{
-		GameRegistry.registerTileEntity(TileEntityBitChest.class, new ResourceLocation(BitCraftingMod.MODID, ":TileEntityBitChest"));
-		GameRegistry.registerTileEntity(TileEntityBitCrucible.class, new ResourceLocation(BitCraftingMod.MODID, ":TileEntityBitCrucible"));
-		GameRegistry.registerTileEntity(TileEntityBitForge.class, new ResourceLocation(BitCraftingMod.MODID, ":TileEntityBitForge"));
-		GameRegistry.registerTileEntity(TileEntityBitDyeTable.class, new ResourceLocation(BitCraftingMod.MODID, ":TileEntityBitDyeTable"));
-		GameRegistry.registerTileEntity(TileEntityBitFusionTable.class, new ResourceLocation(BitCraftingMod.MODID, ":TileEntityBitFusionTable"));
+		GameRegistry.registerTileEntity(TileEntityBitChest.class, new ResourceLocation(BitCraftingMod.MODID, "TileEntityBitChest"));
+		GameRegistry.registerTileEntity(TileEntityBitCrucible.class, new ResourceLocation(BitCraftingMod.MODID, "TileEntityBitCrucible"));
+		GameRegistry.registerTileEntity(TileEntityBitForge.class, new ResourceLocation(BitCraftingMod.MODID, "TileEntityBitForge"));
+		GameRegistry.registerTileEntity(TileEntityBitDyeTable.class, new ResourceLocation(BitCraftingMod.MODID, "TileEntityBitDyeTable"));
+		GameRegistry.registerTileEntity(TileEntityBitFusionTable.class, new ResourceLocation(BitCraftingMod.MODID, "TileEntityBitFusionTable"));
 	}
 	
 }

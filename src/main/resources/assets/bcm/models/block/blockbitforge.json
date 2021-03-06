@@ -1,0 +1,13 @@
+{
+    "parent": "block/cube",
+    "textures":
+    {
+        "particle": "bcm:blocks/bitforge_side",
+        "up": "bcm:blocks/bitforge_top",
+        "down": "bcm:blocks/bitforge_bottom",
+        "north": "bcm:blocks/bitforge_side",
+        "east": "bcm:blocks/bitforge_side",
+        "south": "bcm:blocks/bitforge_side",
+        "west": "bcm:blocks/bitforge_side"
+    }
+}

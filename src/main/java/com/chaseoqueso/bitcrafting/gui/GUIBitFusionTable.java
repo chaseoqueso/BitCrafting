@@ -12,7 +12,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class GUIBitFusionTable extends GuiContainer {
 	
-	public static final ResourceLocation fusionTableGuiTextures = new ResourceLocation("bcm", "textures/gui/FusionTable.png");
+	public static final ResourceLocation fusionTableGuiTextures = new ResourceLocation("bcm", "textures/gui/fusiontable.png");
 	private TileEntityBitFusionTable tileFusionTable;
 	/** The X size of the inventory window in pixels. */
     protected int xSize = 176;

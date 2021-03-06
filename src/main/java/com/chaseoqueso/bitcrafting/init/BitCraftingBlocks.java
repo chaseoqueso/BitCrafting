@@ -10,69 +10,62 @@ import com.chaseoqueso.bitcrafting.blocks.BlockBitForge;
 import com.chaseoqueso.bitcrafting.blocks.BlockBitFusionTable;
 import com.chaseoqueso.bitcrafting.blocks.BlockBitOre;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
-import net.minecraftforge.fml.common.registry.ForgeRegistries;
+import net.minecraft.item.ItemBlock;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
+@Mod.EventBusSubscriber
 public class BitCraftingBlocks {
 
-	public static Block blockBitCrucible;
-	public static Block blockBitForge;
-	public static Block blockBitDyeTable;
-	public static Block blockBitFusionTable;
-	public static Block blockFireOre;
-	public static Block blockEarthOre;
-	public static Block blockLightningOre;
-	public static Block blockIceOre;
-	public static Block blockSpatialOre;
-	public static Block blockBitChest;
+	@GameRegistry.ObjectHolder(value = BitCraftingMod.MODID)
+	public static class BLOCKS {
+		public static Block blockBitCrucible = new BlockBitCrucible(Material.IRON);
+		public static Block blockBitForge = new BlockBitForge(Material.IRON);
+		public static Block blockBitDyeTable = new BlockBitDyeTable(Material.IRON);
+		public static Block blockBitFusionTable = new BlockBitFusionTable(Material.IRON);
+		public static Block blockFireOre = new BlockBitOre().setUnlocalizedName("BlockFireOre").setRegistryName(new ResourceLocation(BitCraftingMod.MODID, "blockfireore"));
+		public static Block blockEarthOre = new BlockBitOre().setUnlocalizedName("BlockEarthOre").setRegistryName(new ResourceLocation(BitCraftingMod.MODID, "blockearthore"));
+		public static Block blockLightningOre = new BlockBitOre().setUnlocalizedName("BlockLightningOre").setRegistryName(new ResourceLocation(BitCraftingMod.MODID, "blocklightningore"));
+		public static Block blockIceOre = new BlockBitOre().setUnlocalizedName("BlockIceOre").setRegistryName(new ResourceLocation(BitCraftingMod.MODID, "blockiceore"));
+		public static Block blockSpatialOre = new BlockBitOre().setUnlocalizedName("BlockSpatialOre").setRegistryName(new ResourceLocation(BitCraftingMod.MODID, "blockspatialore"));
+		public static Block blockBitChest = new BlockBitChest(Material.WOOD);
+	}
 
-    public static void init()
-    {
-		blockBitCrucible = new BlockBitCrucible(Material.IRON, false).setUnlocalizedName("BlockBitCrucible");
-		blockBitForge = new BlockBitForge(Material.IRON).setUnlocalizedName("BlockBitForge");
-		blockBitDyeTable = new BlockBitDyeTable(Material.IRON).setUnlocalizedName("BlockBitDyeTable");
-		blockBitFusionTable = new BlockBitFusionTable(Material.IRON).setUnlocalizedName("BlockBitFusionTable");
-		blockFireOre = new BlockBitOre().setUnlocalizedName("BlockFireOre");
-		blockEarthOre = new BlockBitOre().setUnlocalizedName("BlockEarthOre");
-		blockLightningOre = new BlockBitOre().setUnlocalizedName("BlockLightningOre");
-		blockIceOre = new BlockBitOre().setUnlocalizedName("BlockIceOre");
-		blockSpatialOre = new BlockBitOre().setUnlocalizedName("BlockSpatialOre");
-		blockBitChest = new BlockBitChest(Material.WOOD).setUnlocalizedName("BlockBitChest");
-    }
+	@SubscribeEvent
+	public static void registerBlocks(RegistryEvent.Register<Block> event) {
 
-    public static void register()
-    {
-		ForgeRegistries.BLOCKS.register(blockBitCrucible);
-		ForgeRegistries.BLOCKS.register(blockBitForge);
-		ForgeRegistries.BLOCKS.register(blockBitDyeTable);
-		ForgeRegistries.BLOCKS.register(blockBitFusionTable);
-		ForgeRegistries.BLOCKS.register(blockFireOre);
-		ForgeRegistries.BLOCKS.register(blockEarthOre);
-		ForgeRegistries.BLOCKS.register(blockLightningOre);
-		ForgeRegistries.BLOCKS.register(blockIceOre);
-		ForgeRegistries.BLOCKS.register(blockSpatialOre);
-		ForgeRegistries.BLOCKS.register(blockBitChest);
-    }
+		event.getRegistry().registerAll(BLOCKS.blockBitCrucible,
+										BLOCKS.blockBitForge,
+										BLOCKS.blockBitDyeTable,
+										BLOCKS.blockBitFusionTable,
+										BLOCKS.blockFireOre,
+										BLOCKS.blockEarthOre,
+										BLOCKS.blockLightningOre,
+										BLOCKS.blockIceOre,
+										BLOCKS.blockSpatialOre,
+										BLOCKS.blockBitChest);
+	}
 
-    public static void registerRenders()
-    {
-        registerRender(blockBitCrucible);
-        registerRender(blockBitForge);
-        registerRender(blockBitDyeTable);
-        registerRender(blockBitFusionTable);
-        registerRender(blockFireOre);
-        registerRender(blockEarthOre);
-        registerRender(blockLightningOre);
-        registerRender(blockIceOre);
-        registerRender(blockSpatialOre);
-        registerRender(blockBitChest);
-    }
+	@SubscribeEvent
+	public static void registerItemBlocks(RegistryEvent.Register<Item> event) {
 
-    public static void registerRender(Block block)
-    {
-        Item item = Item.getItemFromBlock(block);
-        Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, 0, new ModelResourceLocation(BitCraftingMod.MODID + ":" + item.getUnlocalizedName().substring(5), "inventory"));
-    }
+		event.getRegistry().registerAll(getItemBlock(BLOCKS.blockBitCrucible),
+										getItemBlock(BLOCKS.blockBitForge),
+										getItemBlock(BLOCKS.blockBitDyeTable),
+										getItemBlock(BLOCKS.blockBitFusionTable),
+										getItemBlock(BLOCKS.blockFireOre),
+										getItemBlock(BLOCKS.blockEarthOre),
+										getItemBlock(BLOCKS.blockLightningOre),
+										getItemBlock(BLOCKS.blockIceOre),
+										getItemBlock(BLOCKS.blockSpatialOre),
+										getItemBlock(BLOCKS.blockBitChest));
+	}
+
+	public static Item getItemBlock(Block block) {
+		return new ItemBlock(block).setRegistryName(block.getRegistryName());
+	}
 }

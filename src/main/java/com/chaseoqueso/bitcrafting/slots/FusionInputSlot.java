@@ -5,7 +5,6 @@ import com.chaseoqueso.bitcrafting.items.ItemBit;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
 public class FusionInputSlot extends FusionSlot {
@@ -17,6 +16,6 @@ public class FusionInputSlot extends FusionSlot {
 
     public boolean isItemValid(ItemStack stack)
     {
-        return stack.getItem() instanceof ItemBit || stack.getItem() == BitCraftingItems.itemBitSword;
+        return stack.getItem() instanceof ItemBit || stack.getItem() == BitCraftingItems.ITEMS.itemBitSword;
     }
 }

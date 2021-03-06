@@ -1,0 +1,36 @@
+{
+  "type": "minecraft:crafting_shaped",
+
+  "pattern":
+  [
+    "GSG",
+    "CTC",
+    "GCG"
+  ],
+
+  "key":
+  {
+    "G":
+    {
+      "item": "minecraft:iron_ingot"
+    },
+    "S":
+    {
+      "item": "minecraft:stone_slab",
+      "data": 0
+    },
+    "C":
+    {
+      "item": "minecraft:cobblestone"
+    },
+    "T":
+    {
+      "item": "minecraft:crafting_table"
+    }
+  },
+
+  "result":
+  {
+    "item": "bcm:BlockBitDyeTable"
+  }
+}

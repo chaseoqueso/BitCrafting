@@ -1,0 +1,13 @@
+{
+    "parent": "block/cube",
+    "textures":
+    {
+        "particle": "bcm:blocks/dyetable_side",
+        "up": "bcm:blocks/dyetable_top",
+        "down": "bcm:blocks/dyetable_bottom",
+        "north": "bcm:blocks/dyetable_side",
+        "east": "bcm:blocks/dyetable_side",
+        "south": "bcm:blocks/dyetable_side",
+        "west": "bcm:blocks/dyetable_side"
+    }
+}

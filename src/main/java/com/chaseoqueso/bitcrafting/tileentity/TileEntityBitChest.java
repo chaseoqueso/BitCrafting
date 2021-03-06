@@ -112,20 +112,17 @@ public class TileEntityBitChest extends TileEntityLockableLoot implements ITicka
 	@Override
     public void closeInventory(EntityPlayer player)
     {
-        if (this.getBlockType() instanceof BlockBitChest)
-        {
-            --this.numPlayersUsing;
-            this.world.addBlockEvent(pos, this.getBlockType(), 1, this.numPlayersUsing);
-            this.world.notifyNeighborsOfStateChange(pos, this.getBlockType(), false);
-        }
+
+        --this.numPlayersUsing;
+        this.world.addBlockEvent(pos, this.getBlockType(), 1, this.numPlayersUsing);
+        this.world.notifyNeighborsOfStateChange(pos, this.getBlockType(), false);
     }
 	
 	@Override
 	public void readFromNBT(NBTTagCompound tag)
 	{
 		super.readFromNBT(tag);
-        NBTTagList nbttaglist = tag.getTagList("Items", 10);
-        this.chestContents = NonNullList.<ItemStack>withSize(getSizeInventory(), ItemStack.EMPTY);
+        this.chestContents = NonNullList.withSize(getSizeInventory(), ItemStack.EMPTY);
         
         if(!this.checkLootAndRead(tag))
             ItemStackHelper.loadAllItems(tag, chestContents);
@@ -138,7 +135,6 @@ public class TileEntityBitChest extends TileEntityLockableLoot implements ITicka
 	public NBTTagCompound writeToNBT(NBTTagCompound tag)
 	{
 		super.writeToNBT(tag);
-        NBTTagList nbttaglist = new NBTTagList();
 
         if(!this.checkLootAndWrite(tag))
             ItemStackHelper.saveAllItems(tag, chestContents);
@@ -152,20 +148,13 @@ public class TileEntityBitChest extends TileEntityLockableLoot implements ITicka
 	@Override
     public void update()
     {
-        ++this.ticksSinceSync;
-        float f;
-
         if (!this.world.isRemote && this.numPlayersUsing != 0 && (this.ticksSinceSync + pos.getX() + pos.getY() + pos.getZ()) % 200 == 0)
         {
             this.numPlayersUsing = 0;
-            f = 5.0F;
-            List list = this.world.getEntitiesWithinAABB(EntityPlayer.class, new AxisAlignedBB((double)((float)pos.getX() - 5.0F), (double)((float)pos.getY() - 5.0F), (double)((float)pos.getZ() - 5.0F), (double)((float)(pos.getX() + 1) + 5.0F), (double)((float)(pos.getY() + 1) + 5.0F), (double)((float)(pos.getZ() + 1) + 5.0F)));
-            Iterator iterator = list.iterator();
+            float f = 5.0F;
 
-            while (iterator.hasNext())
+            for (EntityPlayer entityplayer : this.world.getEntitiesWithinAABB(EntityPlayer.class, new AxisAlignedBB((double)((float)pos.getX() - 5.0F), (double)((float)pos.getY() - 5.0F), (double)((float)pos.getZ() - 5.0F), (double)((float)(pos.getX() + 1) + 5.0F), (double)((float)(pos.getY() + 1) + 5.0F), (double)((float)(pos.getZ() + 1) + 5.0F))))
             {
-                EntityPlayer entityplayer = (EntityPlayer)iterator.next();
-
                 if (entityplayer.openContainer instanceof ContainerBitChest)
                 {
                     if (((ContainerBitChest)entityplayer.openContainer).tileChest == this)
@@ -177,28 +166,26 @@ public class TileEntityBitChest extends TileEntityLockableLoot implements ITicka
         }
 
         this.prevLidAngle = this.lidAngle;
-        f = 0.1F;
-        double d2;
+        float f1 = 0.1F;
 
         if (this.numPlayersUsing > 0 && this.lidAngle == 0.0F)
         {
             double d1 = (double)pos.getX() + 0.5D;
-            d2 = (double)pos.getZ() + 0.5D;
-
-            this.world.playSound(null, d1, (double)pos.getY() + 0.5D, d2, SoundEvents.BLOCK_CHEST_OPEN, SoundCategory.BLOCKS, 0.5F, this.world.rand.nextFloat() * 0.1F + 0.9F);
+            double d2 = (double)pos.getZ() + 0.5D;
+            this.world.playSound((EntityPlayer)null, d1, (double)pos.getY() + 0.5D, d2, SoundEvents.BLOCK_IRON_TRAPDOOR_OPEN, SoundCategory.BLOCKS, 0.5F, this.world.rand.nextFloat() * 0.1F + 0.9F);
         }
 
         if (this.numPlayersUsing == 0 && this.lidAngle > 0.0F || this.numPlayersUsing > 0 && this.lidAngle < 1.0F)
         {
-            float f1 = this.lidAngle;
+            float f2 = this.lidAngle;
 
             if (this.numPlayersUsing > 0)
             {
-                this.lidAngle += f;
+                this.lidAngle += 0.1F;
             }
             else
             {
-                this.lidAngle -= f;
+                this.lidAngle -= 0.1F;
             }
 
             if (this.lidAngle > 1.0F)
@@ -206,14 +193,13 @@ public class TileEntityBitChest extends TileEntityLockableLoot implements ITicka
                 this.lidAngle = 1.0F;
             }
 
-            float f2 = 0.5F;
+            float f3 = 0.5F;
 
-            if (this.lidAngle < f2 && f1 >= f2)
+            if (this.lidAngle < 0.5F && f2 >= 0.5F)
             {
-                d2 = (double)pos.getX() + 0.5D;
+                double d3 = (double)pos.getX() + 0.5D;
                 double d0 = (double)pos.getZ() + 0.5D;
-
-                this.world.playSound(null, d2, (double)pos.getY() + 0.5D, d2, SoundEvents.BLOCK_CHEST_CLOSE, SoundCategory.BLOCKS, 0.5F, this.world.rand.nextFloat() * 0.1F + 0.9F);
+                this.world.playSound((EntityPlayer)null, d3, (double)pos.getY() + 0.5D, d0, SoundEvents.BLOCK_IRON_TRAPDOOR_CLOSE, SoundCategory.BLOCKS, 0.5F, this.world.rand.nextFloat() * 0.1F + 0.9F);
             }
 
             if (this.lidAngle < 0.0F)

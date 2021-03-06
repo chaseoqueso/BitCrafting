@@ -12,7 +12,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class GUIBitDyeTable extends GuiContainer {
 	
-	public static final ResourceLocation dyeTableGuiTextures = new ResourceLocation("bcm", "textures/gui/DyeTable.png");
+	public static final ResourceLocation dyeTableGuiTextures = new ResourceLocation("bcm", "textures/gui/dyetable.png");
 	private TileEntityBitDyeTable tileDyeTable;
 	/** The X size of the inventory window in pixels. */
     protected int xSize = 176;

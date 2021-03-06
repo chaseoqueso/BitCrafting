@@ -4,12 +4,10 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.chaseoqueso.bitcrafting.BitCraftingMod;
-
 import com.chaseoqueso.bitcrafting.init.BitCraftingItems;
 import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -22,7 +20,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nullable;
 
-public class ItemBit extends Item implements IItemColor {
+public class ItemBit extends Item {
 
 	public static final String[] colors = { "gray", "brown", "red", "orange", "yellow", "lime", "green", "cyan",
 			"lightblue", "blue", "purple", "magenta", "pink" };
@@ -31,6 +29,7 @@ public class ItemBit extends Item implements IItemColor {
 
 	public ItemBit() {
 		setUnlocalizedName("ItemBit");
+		setCreativeTab(BitCraftingMod.tabBitCraftingMod);
 	}
 
 	public static ItemStack setColor(ItemStack stack, int color, int shade) {
@@ -74,9 +73,9 @@ public class ItemBit extends Item implements IItemColor {
 	public static ItemStack setClear(ItemStack stack, boolean flag) {
 		ItemStack output;
 		if (flag)
-			output = new ItemStack(BitCraftingItems.itemClearBit, stack.getCount());
+			output = new ItemStack(BitCraftingItems.ITEMS.itemClearBit, stack.getCount());
 		else
-			output = new ItemStack(BitCraftingItems.itemBit, stack.getCount());
+			output = new ItemStack(BitCraftingItems.ITEMS.itemBit, stack.getCount());
 		output.setTagCompound(stack.getTagCompound());
 		return output;
 	}
@@ -182,15 +181,11 @@ public class ItemBit extends Item implements IItemColor {
 		return "item.nullBit";
 	}
 
-	@Override
-	public int colorMultiplier(ItemStack stack, int par2) {
-		return getColorFromStackBothSides(stack, par2);
-	}
 
-	public int getColorFromStackBothSides(ItemStack stack, int par2) {
+	public static int getColorFromStack(ItemStack stack) {
 		if (stack == null || !(stack.hasTagCompound() && stack.getTagCompound().hasKey("color"))
 				|| stack.getItem() instanceof ItemClearBit) {
-			return -1;
+			return 0;
 		}
 		// Goes through every index in the color and shade arrays and picks the right
 		// color to tint.
@@ -372,62 +367,63 @@ public class ItemBit extends Item implements IItemColor {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
-		for (int col = 0; col < colors.length; col++) {
-			for (int shd = 0; shd < shades.length; shd++) {
+		if(tab == BitCraftingMod.tabBitCraftingMod) {
+			for (int col = 0; col < colors.length; col++) {
+				for (int shd = 0; shd < shades.length; shd++) {
+					ItemStack bitStack = new ItemStack(this);
+					NBTTagCompound itemData = new NBTTagCompound();
+
+					bitStack.setTagCompound(itemData);
+					itemData.setString("color", colors[col]);
+					itemData.setString("shade", shades[shd]);
+					itemData.setFloat("damage", .1F);
+					itemData.setFloat("durability", 20F);
+					itemData.setFloat("enchantability", .2F);
+
+					items.add(bitStack);
+				}
+			}
+			for (int eff = 0; eff < effects.length; eff++) {
 				ItemStack bitStack = new ItemStack(this);
 				NBTTagCompound itemData = new NBTTagCompound();
 
 				bitStack.setTagCompound(itemData);
-				itemData.setString("color", colors[col]);
-				itemData.setString("shade", shades[shd]);
+
+				switch (eff) {
+					case 0:
+						itemData.setString("color", "orange");
+						itemData.setString("shade", "");
+						break;
+					case 1:
+						itemData.setString("color", "brown");
+						itemData.setString("shade", "dark");
+						break;
+					case 2:
+						itemData.setString("color", "yellow");
+						itemData.setString("shade", "light");
+						break;
+					case 3:
+						itemData.setString("color", "lightblue");
+						itemData.setString("shade", "light");
+						break;
+					case 4:
+						itemData.setString("color", "purple");
+						itemData.setString("shade", "");
+						break;
+					default:
+						itemData.setString("color", "gray");
+						itemData.setString("shade", "darkest");
+				}
+
 				itemData.setFloat("damage", .1F);
 				itemData.setFloat("durability", 20F);
 				itemData.setFloat("enchantability", .2F);
+				itemData.setString("effect", effects[eff]);
+				itemData.setFloat("chance", .01F);
+				itemData.setFloat("power", 1F);
 
 				items.add(bitStack);
 			}
-		}
-		for (int eff = 0; eff < effects.length; eff++) {
-			ItemStack bitStack = new ItemStack(this);
-			NBTTagCompound itemData = new NBTTagCompound();
-
-			bitStack.setTagCompound(itemData);
-			
-			switch(eff)
-			{
-			case 0:
-				itemData.setString("color", "orange");
-				itemData.setString("shade", "");
-				break;
-			case 1:
-				itemData.setString("color", "brown");
-				itemData.setString("shade", "dark");
-				break;
-			case 2:
-				itemData.setString("color", "yellow");
-				itemData.setString("shade", "light");
-				break;
-			case 3:
-				itemData.setString("color", "lightblue");
-				itemData.setString("shade", "light");
-				break;
-			case 4:
-				itemData.setString("color", "purple");
-				itemData.setString("shade", "");
-				break;
-			default:
-				itemData.setString("color", "gray");
-				itemData.setString("shade", "darkest");
-			}
-			
-			itemData.setFloat("damage", .1F);
-			itemData.setFloat("durability", 20F);
-			itemData.setFloat("enchantability", .2F);
-			itemData.setString("effect", effects[eff]);
-			itemData.setFloat("chance", .01F);
-			itemData.setFloat("power", 1F);
-
-			items.add(bitStack);
 		}
 	}
 

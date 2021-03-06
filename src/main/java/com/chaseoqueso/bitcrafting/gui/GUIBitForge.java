@@ -11,7 +11,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 
 public class GUIBitForge extends BitGuiContainer {
-	public static final ResourceLocation forgeGuiTextures = new ResourceLocation("bcm", "textures/gui/BitForge.png");
+	public static final ResourceLocation forgeGuiTextures = new ResourceLocation("bcm", "textures/gui/bitforge.png");
 	private TileEntityBitForge tileForge;
 	protected int xSize = 256;
 	protected int ySize = 243;

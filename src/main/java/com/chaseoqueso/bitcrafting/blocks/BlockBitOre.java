@@ -1,6 +1,5 @@
 package com.chaseoqueso.bitcrafting.blocks;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 import com.chaseoqueso.bitcrafting.init.BitCraftingBlocks;
@@ -32,7 +31,7 @@ public class BlockBitOre extends BlockOre {
 
 	@Override
 	public Item getItemDropped(IBlockState state, Random rand, int fortune) {
-		return BitCraftingItems.itemBit;
+		return BitCraftingItems.ITEMS.itemBit;
 	}
 
 	/**
@@ -52,10 +51,10 @@ public class BlockBitOre extends BlockOre {
 
 	@Override
 	public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
-		String[] bitdata = (this == BitCraftingBlocks.blockFireOre ? new String[] { "orange", "", "fire" }
-								: (this == BitCraftingBlocks.blockEarthOre ? new String[] { "brown", "dark", "earth" }
-										: (this == BitCraftingBlocks.blockLightningOre ? new String[] { "yellow", "light", "lightning" }
-												: (this == BitCraftingBlocks.blockIceOre ? new String[] { "lightblue", "light", "ice" }
+		String[] bitdata = (this == BitCraftingBlocks.BLOCKS.blockFireOre ? new String[] { "orange", "", "fire" }
+								: (this == BitCraftingBlocks.BLOCKS.blockEarthOre ? new String[] { "brown", "dark", "earth" }
+										: (this == BitCraftingBlocks.BLOCKS.blockLightningOre ? new String[] { "yellow", "light", "lightning" }
+												: (this == BitCraftingBlocks.BLOCKS.blockIceOre ? new String[] { "lightblue", "light", "ice" }
 														: new String[] { "purple", "", "spatial" }))));
 
 		Random rand = world instanceof World ? ((World)world).rand : new Random();

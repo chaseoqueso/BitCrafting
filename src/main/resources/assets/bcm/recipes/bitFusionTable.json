@@ -1,0 +1,35 @@
+{
+  "type": "minecraft:crafting_shaped",
+
+  "pattern":
+  [
+    "DGD",
+    "CTC",
+    "DCD"
+  ],
+
+  "key":
+  {
+    "D":
+    {
+      "item": "minecraft:diamond"
+    },
+    "G":
+    {
+      "item": "minecraft:glowstone"
+    },
+    "C":
+    {
+      "item": "minecraft:cobblestone"
+    },
+    "T":
+    {
+      "item": "minecraft:crafting_table"
+    }
+  },
+
+  "result":
+  {
+    "item": "bcm:BlockBitFusionTable"
+  }
+}

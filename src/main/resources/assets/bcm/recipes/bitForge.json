@@ -1,0 +1,35 @@
+{
+  "type": "minecraft:crafting_shaped",
+
+  "pattern":
+  [
+    "IBI",
+    "CTC",
+    "ICI"
+  ],
+
+  "key":
+  {
+    "I":
+    {
+      "item": "minecraft:iron_ingot"
+    },
+    "B":
+    {
+      "item": "minecraft:iron_bars"
+    },
+    "C":
+    {
+      "item": "minecraft:cobblestone"
+    },
+    "T":
+    {
+      "item": "minecraft:crafting_table"
+    }
+  },
+
+  "result":
+  {
+    "item": "bcm:BlockBitForge"
+  }
+}

@@ -48,32 +48,39 @@ public class ContainerBitChest extends Container {
 	 * will crash when someone does that.
 	 */
 	@Override
-	public ItemStack transferStackInSlot(EntityPlayer player, int par2) {
-		ItemStack itemstack = null;
-		Slot slot = this.inventorySlots.get(par2);
+	public ItemStack transferStackInSlot(EntityPlayer player, int index) {
+		ItemStack itemstack = ItemStack.EMPTY;
+		Slot slot = this.inventorySlots.get(index);
 
 		if (slot != null && slot.getHasStack()) {
 			ItemStack itemstack1 = slot.getStack();
 			itemstack = itemstack1.copy();
 
-			if (par2 < 256) {
+			if (index < 256) {
 				if (!this.mergeItemStack(itemstack1, 256, 292, false))
-					return null;
+					return ItemStack.EMPTY;
 				slot.onSlotChange(itemstack1, itemstack);
-			} else if (par2 >= 256 && par2 < 283 && (!this.mergeItemStack(itemstack1, 283, 292, false))) {
-				return null;
-			} else if (par2 >= 283 && par2 < 292 && (!this.mergeItemStack(itemstack1, 256, 283, false))) {
-				return null;
+			}
+			else if (index >= 256 && index < 283 && (!this.mergeItemStack(itemstack1, 283, 292, false)))
+			{
+				return ItemStack.EMPTY;
+			}
+			else if (index >= 283 && index < 292 && (!this.mergeItemStack(itemstack1, 256, 283, false)))
+			{
+				return ItemStack.EMPTY;
 			}
 
-			if (itemstack1.isEmpty()) {
-				slot.putStack(null);
-			} else {
+			if (itemstack1.isEmpty())
+			{
+				slot.putStack(ItemStack.EMPTY);
+			}
+			else
+			{
 				slot.onSlotChanged();
 			}
 
-			if (itemstack1.getCount() == itemstack.getCount())
-				return null;
+			//if (itemstack1.getCount() == itemstack.getCount())
+			//	return ItemStack.EMPTY;
 			//slot.onPickupFromSlot(player, itemstack1);
 		}
 		return itemstack;

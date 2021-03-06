@@ -1,0 +1,13 @@
+{
+    "parent": "block/orientable",
+    "textures":
+    {
+        "particle": "bcm:blocks/bitcrucibleinactive",
+        "up": "bcm:blocks/bitcrucibleside",
+        "down": "bcm:blocks/bitforge_bottom",
+        "north": "bcm:blocks/bitcrucibleinactive",
+        "east": "bcm:blocks/bitcrucibleside",
+        "south": "bcm:blocks/bitcrucibleside",
+        "west": "bcm:blocks/bitcrucibleside"
+    }
+}
