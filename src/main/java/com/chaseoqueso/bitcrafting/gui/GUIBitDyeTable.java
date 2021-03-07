@@ -24,6 +24,13 @@ public class GUIBitDyeTable extends GuiContainer {
 		super(new ContainerBitDyeTable(invPlayer, tileentity));
 		this.tileDyeTable = tileentity;
 	}
+
+	@Override
+	public void drawScreen(int mouseX, int mouseY, float partialTicks)
+	{
+		super.drawScreen(mouseX, mouseY, partialTicks);
+		this.renderHoveredToolTip(mouseX, mouseY);
+	}
 	
 	@Override
 	protected void drawGuiContainerForegroundLayer(int par, int par2)

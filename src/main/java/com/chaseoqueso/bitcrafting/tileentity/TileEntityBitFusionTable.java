@@ -15,7 +15,7 @@ import net.minecraft.util.NonNullList;
 
 public class TileEntityBitFusionTable extends TileEntity implements IInventory {
 	
-	private NonNullList<ItemStack> tableItemStacks = NonNullList.withSize(11, ItemStack.EMPTY);
+	private NonNullList<ItemStack> tableItemStacks = NonNullList.withSize(10, ItemStack.EMPTY);
 	private String fusionTableName = "Fusion Table";
 	public ContainerBitFusionTable eventhandler;
 	
@@ -46,7 +46,7 @@ public class TileEntityBitFusionTable extends TileEntity implements IInventory {
 	}
 
 	public ItemStack decrStackSize(int index, int count) {
-		if(this.tableItemStacks.get(index) != null)
+		if(this.tableItemStacks.get(index) != ItemStack.EMPTY)
 		{
 			ItemStack itemstack;
 			if(this.tableItemStacks.get(index).getCount() <= count)
@@ -65,12 +65,12 @@ public class TileEntityBitFusionTable extends TileEntity implements IInventory {
 				return itemstack;
 			}
 		}
-		return null;
+		return ItemStack.EMPTY;
 	}
 
 	public void setInventorySlotContents(int slot, ItemStack itemstack) {
 		this.tableItemStacks.set(slot, itemstack);
-		if(itemstack != null && itemstack.getCount() > this.getInventoryStackLimit())
+		if(itemstack != ItemStack.EMPTY && itemstack.getCount() > this.getInventoryStackLimit())
 			itemstack.setCount(this.getInventoryStackLimit());
         this.eventhandler.onCraftMatrixChanged(this);
         this.markDirty();
@@ -92,7 +92,6 @@ public class TileEntityBitFusionTable extends TileEntity implements IInventory {
 	public void readFromNBT(NBTTagCompound tag)
 	{
 		super.readFromNBT(tag);
-        NBTTagList nbttaglist = tag.getTagList("Items", 10);
 		this.tableItemStacks = NonNullList.withSize(this.getSizeInventory(), ItemStack.EMPTY);
 		ItemStackHelper.loadAllItems(tag, tableItemStacks);
 
@@ -118,7 +117,7 @@ public class TileEntityBitFusionTable extends TileEntity implements IInventory {
 
 	@Override
 	public boolean isUsableByPlayer(EntityPlayer player) {
-		return world.getTileEntity(pos) != this ? false : player.getDistanceSq((double) pos.getX() + .5D, (double) pos.getY() + .5D, (double) pos.getZ() + .5D) <= 64;
+		return world.getTileEntity(pos) == this && player.getDistanceSq((double) pos.getX() + .5D, (double) pos.getY() + .5D, (double) pos.getZ() + .5D) <= 64;
 	}
 
 	@Override

@@ -70,7 +70,7 @@ public class ContainerBitForge extends Container {
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int par2)
 	{
-		ItemStack itemstack = null;
+		ItemStack itemstack = ItemStack.EMPTY;
 		Slot slot = this.inventorySlots.get(par2);
 
 		if(slot != null && slot.getHasStack())
@@ -81,12 +81,12 @@ public class ContainerBitForge extends Container {
 			if(par2 < 257)
 			{
 				if(!this.mergeItemStack(itemstack1, 257, 293, false))
-					return null;
+					return ItemStack.EMPTY;
 				slot.onSlotChange(itemstack1, itemstack);
 			} else if(par2 >= 257 && par2 < 284 && (!this.mergeItemStack(itemstack1, 284, 293, false))) {
-					return null;
+					return ItemStack.EMPTY;
 			} else if(par2 >= 284 && par2 < 293 && (!this.mergeItemStack(itemstack1, 257, 284, false))) {
-					return null;
+					return ItemStack.EMPTY;
 			}
 			if(itemstack1.getCount() == 0)
 			{
@@ -95,7 +95,7 @@ public class ContainerBitForge extends Container {
 				slot.onSlotChanged();
 			}
 			if(itemstack1.getCount() == itemstack.getCount())
-				return null;
+				return ItemStack.EMPTY;
 			slot.onTake(player, itemstack1);
 		}
 		return itemstack;

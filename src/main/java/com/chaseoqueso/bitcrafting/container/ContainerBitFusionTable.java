@@ -52,22 +52,18 @@ public class ContainerBitFusionTable extends Container {
 	public void onCraftMatrixChanged(IInventory inventoryIn) {
 		boolean canFuse = false;
 
-		for (int i = 1; i < 10; i++)
-			if (tileFusionTable.getStackInSlot(i) != null)
-				if (tileFusionTable.getStackInSlot(i).getItem() instanceof ItemBit)
-					canFuse = true;
-				else {
-					canFuse = false;
-					break;
-				}
+		for (int i = 1; i < 10; i++) {
+			if (tileFusionTable.getStackInSlot(i).getItem() instanceof ItemBit)
+				canFuse = true;
+		}
 
 		ItemStack stack = tileFusionTable.getStackInSlot(0);
 
-		if (stack.isEmpty() || !(stack.getItem() instanceof ItemBit || stack.getItem() instanceof ItemBitSword))
+		if (!(stack.getItem() instanceof ItemBit || stack.getItem() instanceof ItemBitSword))
 			canFuse = false;
 
 		if (!canFuse) {
-			this.craftResult.setInventorySlotContents(0, null);
+			this.craftResult.setInventorySlotContents(0, ItemStack.EMPTY);
 			xpCost = 0;
 			return;
 		}
@@ -81,20 +77,26 @@ public class ContainerBitFusionTable extends Container {
 			String effect = tagCompound.getString("effect");
 			float damage = 0, durability = 0, enchantability = 0, chance = 0, power = 0;
 			ItemStack tempstack;
-			for (int i = 9; i >= 0; i--) {
+			for (int i = 0; i < 10; ++i) {
 				tempstack = tileFusionTable.getStackInSlot(i);
-				if (tempstack != null) {
-					if (!tempstack.hasTagCompound())
-						break;
+				if (tempstack != ItemStack.EMPTY) {
+					if (!tempstack.hasTagCompound()) {
+						return;
+					}
+
 					tagCompound = tempstack.getTagCompound();
 					damage += tagCompound.getFloat("damage");
 					durability += tagCompound.getFloat("durability");
 					enchantability += tagCompound.getFloat("enchantability");
-					if (tagCompound.hasKey("effect")) {
-						if (effect.equals("")) {
+					if (tagCompound.hasKey("effect"))
+					{
+						if (effect.equals(""))
+						{
 							chance = tagCompound.getFloat("chance");
 							power = tagCompound.getFloat("power");
-						} else {
+						}
+						else
+							{
 							chance = 1 - ((1 - chance) * (1 - tagCompound.getFloat("chance")));
 							power += tagCompound.getFloat("power");
 						}
@@ -105,20 +107,18 @@ public class ContainerBitFusionTable extends Container {
 			xpCost = this.xpCost(damage, durability, enchantability, chance, power);
 			if (this.player.experienceLevel >= xpCost || this.player.capabilities.isCreativeMode)
 				if (effect.equals(""))
-					this.craftResult.setInventorySlotContents(0, ItemBit.setBit(stack, tagCompound.getString("color"),
-							tagCompound.getString("shade"), damage, durability, enchantability).copy());
+					this.craftResult.setInventorySlotContents(0, ItemBit.setBit(stack, tagCompound.getString("color"), tagCompound.getString("shade"), damage, durability, enchantability).copy());
 				else
 					this.craftResult.setInventorySlotContents(0,
-							ItemBit.setBit(stack, tagCompound.getString("color"), tagCompound.getString("shade"),
-									damage, durability, enchantability, effect, chance, power).copy());
-		} else {
+							ItemBit.setBit(stack, tagCompound.getString("color"), tagCompound.getString("shade"), damage, durability, enchantability, effect, chance, power).copy());
+		} else if(stack.getItem() instanceof ItemBitSword) {
 			NBTTagCompound tagCompound = stack.getTagCompound();
 			int uses = tagCompound.getInteger("Uses");
 
 			ItemStack tempstack;
 			for (int i = 9; i > 0; i--) {
 				tempstack = tileFusionTable.getStackInSlot(i);
-				if (tempstack != null) {
+				if (tempstack != ItemStack.EMPTY) {
 					if (!tempstack.hasTagCompound())
 						continue;
 					if (uses > 0)
@@ -127,8 +127,6 @@ public class ContainerBitFusionTable extends Container {
 						break;
 				}
 			}
-
-			xpCost = Math.max((tagCompound.getInteger("Uses") - uses) / 100, 1);
 
 			tagCompound.setInteger("Uses", uses);
 			this.craftResult.setInventorySlotContents(0, stack);
@@ -143,7 +141,7 @@ public class ContainerBitFusionTable extends Container {
 	public void onContainerClosed(EntityPlayer p_75134_1_) {
 		InventoryPlayer inventoryplayer = p_75134_1_.inventory;
 
-		if (inventoryplayer.getItemStack() != null) {
+		if (inventoryplayer.getItemStack() != ItemStack.EMPTY) {
 			p_75134_1_.dropItem(inventoryplayer.getItemStack(), false);
 			inventoryplayer.setItemStack(ItemStack.EMPTY);
 		}
@@ -155,7 +153,7 @@ public class ContainerBitFusionTable extends Container {
 
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int index) {
-		ItemStack itemstack = null;
+		ItemStack itemstack = ItemStack.EMPTY;
 		Slot slot = this.inventorySlots.get(index);
 
 		if (slot != null && slot.getHasStack())
@@ -166,16 +164,16 @@ public class ContainerBitFusionTable extends Container {
 			if (index < 11)
 			{
 				if (!this.mergeItemStack(itemstack1, 11, 47, false))
-					return null;
+					return ItemStack.EMPTY;
 				slot.onSlotChange(itemstack1, itemstack);
 			}
 			else if (index >= 11 && index < 38 && !this.mergeItemStack(itemstack1, 38, 47, false))
 			{
-				return null;
+				return ItemStack.EMPTY;
 			}
 			else if (index >= 38 && index < 47 && !this.mergeItemStack(itemstack1, 11, 38, false))
 			{
-				return null;
+				return ItemStack.EMPTY;
 			}
 
 			if (itemstack1.getCount() == 0)
@@ -188,7 +186,7 @@ public class ContainerBitFusionTable extends Container {
 			}
 
 			if (itemstack1.getCount() == itemstack.getCount())
-				return null;
+				return ItemStack.EMPTY;
 			slot.onTake(player, itemstack1);
 		}
 		return itemstack;

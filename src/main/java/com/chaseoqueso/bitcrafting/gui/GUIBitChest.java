@@ -14,7 +14,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 
-public class GUIBitChest extends GuiContainer { //Change this to BitGuiContainer
+public class GUIBitChest extends BitGuiContainer {
 	
 	public static final ResourceLocation chestGuiTextures = new ResourceLocation(BitCraftingMod.MODID, "textures/gui/bitchest.png");
 	private InventoryPlayer playerInventory;

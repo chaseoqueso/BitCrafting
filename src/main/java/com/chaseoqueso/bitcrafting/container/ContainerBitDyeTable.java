@@ -48,7 +48,7 @@ public class ContainerBitDyeTable extends Container {
 	@Override
 	public void onCraftMatrixChanged(IInventory p_75130_1_)
     {
-		if(tileDyeTable.getStackInSlot(0) == null || tileDyeTable.getStackInSlot(1) == null)
+		if(tileDyeTable.getStackInSlot(0) == ItemStack.EMPTY || tileDyeTable.getStackInSlot(1) == ItemStack.EMPTY)
 		{
 			setResultsNull();
 			return;
@@ -68,7 +68,7 @@ public class ContainerBitDyeTable extends Container {
 	private void setResultsNull()
 	{
 		for(int i = 0; i < 5; i++)
-			this.craftResult[i].setInventorySlotContents(0, null);
+			this.craftResult[i].setInventorySlotContents(0, ItemStack.EMPTY);
 	}
 	
 	@Override
@@ -76,7 +76,7 @@ public class ContainerBitDyeTable extends Container {
     {
 		InventoryPlayer inventoryplayer = player.inventory;
 
-	    if (inventoryplayer.getItemStack() != null)
+	    if (inventoryplayer.getItemStack() != ItemStack.EMPTY)
 	    {
 	        player.dropItem(inventoryplayer.getItemStack(), false);
 	        inventoryplayer.setItemStack(ItemStack.EMPTY);
@@ -100,12 +100,12 @@ public class ContainerBitDyeTable extends Container {
 			if(index < 7)
 			{
 				if(!this.mergeItemStack(itemstack1, 7, 43, false))
-					return null;
+					return ItemStack.EMPTY;
 				slot.onSlotChange(itemstack1, itemstack);
 			} else if(index >= 7 && index < 34 && !this.mergeItemStack(itemstack1, 34, 43, false)) {
-				return null;
+				return ItemStack.EMPTY;
 			} else if(index >= 34 && index < 43 && !this.mergeItemStack(itemstack1, 7, 34, false)) {
-				return null;
+				return ItemStack.EMPTY;
 			} 
 			if(itemstack1.getCount() == 0)
 			{
@@ -114,7 +114,7 @@ public class ContainerBitDyeTable extends Container {
 				slot.onSlotChanged();
 			}
 			if(itemstack1.getCount() == itemstack.getCount())
-				return null;
+				return ItemStack.EMPTY;
 			slot.onTake(player, itemstack1);
 		}
 		return itemstack;

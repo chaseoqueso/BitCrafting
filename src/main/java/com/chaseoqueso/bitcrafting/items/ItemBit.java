@@ -370,15 +370,19 @@ public class ItemBit extends Item {
 		if(tab == BitCraftingMod.tabBitCraftingMod) {
 			for (int col = 0; col < colors.length; col++) {
 				for (int shd = 0; shd < shades.length; shd++) {
+					System.out.println("Creating new subitem ItemBit");
+
 					ItemStack bitStack = new ItemStack(this);
 					NBTTagCompound itemData = new NBTTagCompound();
-
 					bitStack.setTagCompound(itemData);
+
 					itemData.setString("color", colors[col]);
 					itemData.setString("shade", shades[shd]);
 					itemData.setFloat("damage", .1F);
 					itemData.setFloat("durability", 20F);
 					itemData.setFloat("enchantability", .2F);
+
+					System.out.println("NBT tag: " + itemData.toString());
 
 					items.add(bitStack);
 				}

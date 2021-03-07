@@ -46,12 +46,13 @@ public class GUIBitCrucible extends BitGuiContainer {
         int l = (this.height - this.ySize) / 2;
         this.drawTexturedModalRect(k, l, 0, 0, this.xSize, this.ySize);
 
+		int i1;
         if (this.tileCrucible.isBurning())
         {
-            int i1 = this.tileCrucible.getBurnTimeRemainingScaled(13);
+            i1 = this.tileCrucible.getBurnTimeRemainingScaled(13);
             this.drawTexturedModalRect(k + 16, l + 57 - i1, 176, 12 - i1, 14, i1 + 1);
-            i1 = this.tileCrucible.getCookProgressScaled(24);
-            this.drawTexturedModalRect(k + 38, l + 43, 176, 14, i1 + 1, 16);
+			i1 = this.tileCrucible.getCookProgressScaled(24);
+			this.drawTexturedModalRect(k + 38, l + 43, 176, 14, i1 + 1, 16);
         }
 	}
 }

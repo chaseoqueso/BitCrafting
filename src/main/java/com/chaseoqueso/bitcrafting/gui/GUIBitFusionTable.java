@@ -24,6 +24,13 @@ public class GUIBitFusionTable extends GuiContainer {
 		super(new ContainerBitFusionTable(invPlayer, tileentity));
 		this.tileFusionTable = tileentity;
 	}
+
+	@Override
+	public void drawScreen(int mouseX, int mouseY, float partialTicks)
+	{
+		super.drawScreen(mouseX, mouseY, partialTicks);
+		this.renderHoveredToolTip(mouseX, mouseY);
+	}
 	
 	@Override
 	protected void drawGuiContainerForegroundLayer(int par, int par2)

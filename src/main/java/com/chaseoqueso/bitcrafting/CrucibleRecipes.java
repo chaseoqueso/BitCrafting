@@ -300,11 +300,11 @@ public class CrucibleRecipes {
                 return null;
             }
 
-            entry = (Entry<ItemStack, ItemStack[]>)iterator.next();
+            entry = iterator.next();
         }
-        while (!this.compareItemStacks(itemstack, (ItemStack)entry.getKey()));
+        while (!this.compareItemStacks(itemstack, entry.getKey()));
 
-        return (ItemStack[])entry.getValue();
+        return entry.getValue();
     }
 
     private boolean compareItemStacks(ItemStack stack1, ItemStack stack2)

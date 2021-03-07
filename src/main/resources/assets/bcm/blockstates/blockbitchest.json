@@ -3,8 +3,11 @@
     "defaults": {
         "model": "bcm:blockbitchest"
     },
-    "variants": {
-        "normal": [{}],
-        "inventory": [{}]
+    "variants":
+    {
+        "facing=north": { "model": "bcm:blockbitchest" },
+        "facing=east": { "model": "bcm:blockbitchest", "y": 90 },
+        "facing=south": { "model": "bcm:blockbitchest", "y": 180 },
+        "facing=west": { "model": "bcm:blockbitchest", "y": 270 }
     }
 }

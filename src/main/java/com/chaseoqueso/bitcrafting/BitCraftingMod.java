@@ -24,6 +24,13 @@ public class BitCraftingMod {
 	public static ServerProxy proxy;
 	
 	public static final String MODID = "bcm";
+
+	public static CreativeTabs tabBitCraftingMod = new CreativeTabs("tabBitCraftingMod") {
+		@Override
+		public ItemStack getTabIconItem() {
+			return new ItemStack(Item.getItemFromBlock(BitCraftingBlocks.BLOCKS.blockBitForge));
+		}
+	};
 	
 	@Instance(MODID)
 	public static BitCraftingMod instance;
@@ -46,12 +53,5 @@ public class BitCraftingMod {
 	{
 		
 	}
-	
-	public static CreativeTabs tabBitCraftingMod = new CreativeTabs("tabBitCraftingMod") {
-		@Override
-		public ItemStack getTabIconItem() {
-			return new ItemStack(Item.getItemFromBlock(BitCraftingBlocks.BLOCKS.blockBitForge));
-		}
-	};
 		
 }

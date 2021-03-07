@@ -3,27 +3,46 @@ package com.chaseoqueso.bitcrafting.alt_vanilla;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
+import com.chaseoqueso.bitcrafting.init.BitCraftingItems;
+import com.chaseoqueso.bitcrafting.items.ItemBitSword;
 import com.google.common.collect.Sets;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiLabel;
 import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.RenderItem;
+import net.minecraft.client.model.ModelBase;
+import net.minecraft.client.renderer.*;
+import net.minecraft.client.renderer.block.model.BakedQuad;
+import net.minecraft.client.renderer.block.model.IBakedModel;
+import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.block.model.ModelManager;
 import net.minecraft.client.renderer.color.BlockColors;
 import net.minecraft.client.renderer.color.ItemColors;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.renderer.texture.TextureManager;
+import net.minecraft.client.renderer.texture.TextureUtil;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.crash.CrashReport;
+import net.minecraft.crash.CrashReportCategory;
+import net.minecraft.crash.ICrashReportDetail;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.inventory.ClickType;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ReportedException;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.world.World;
 import org.lwjgl.input.Keyboard;
 
 import com.chaseoqueso.bitcrafting.slots.BitSlot;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -31,11 +50,12 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
+import javax.annotation.Nullable;
+
 public abstract class BitGuiContainer extends GuiContainer {
 
-	protected static RenderItem itemRender = Minecraft.getMinecraft().getRenderItem();
-	protected static RenderItem bitItemRender = new BitRenderItem(Minecraft.getMinecraft().renderEngine, new ModelManager(new TextureMap("textures")), ItemColors.init(BlockColors.init()));
-    public static final ResourceLocation INVENTORY_BACKGROUND = new ResourceLocation("textures/gui/container/inventory.png");
+    private static final ResourceLocation RES_ITEM_GLINT = new ResourceLocation("textures/misc/enchanted_item_glint.png");;
+    protected static RenderItem itemRender = Minecraft.getMinecraft().getRenderItem();
     protected int xSize = 176;
     protected int ySize = 166;
     public Container inventorySlots;
@@ -87,7 +107,22 @@ public abstract class BitGuiContainer extends GuiContainer {
         RenderHelper.disableStandardItemLighting();
         GlStateManager.disableLighting();
         GlStateManager.disableDepth();
-        super.drawScreen(mouseX, mouseY, partialTicks);
+
+        //super.drawScreen(mouseX, mouseY, partialTicks);
+
+        //In GuiContainer the above would call GuiScreen.drawScreen, but the super of BitGuiContainer is GuiContainer,
+        //so instead we run the code from GuiScreen
+
+        for (int k = 0; k < this.buttonList.size(); ++k)
+        {
+            (this.buttonList.get(k)).drawButton(this.mc, mouseX, mouseY, partialTicks);
+        }
+
+        for (int k = 0; k < this.labelList.size(); ++k)
+        {
+            (this.labelList.get(k)).drawLabel(this.mc, mouseX, mouseY);
+        }
+
         RenderHelper.enableGUIStandardItemLighting();
         GlStateManager.pushMatrix();
         GlStateManager.translate((float)i, (float)j, 0.0F);
@@ -116,7 +151,13 @@ public abstract class BitGuiContainer extends GuiContainer {
                 int j1 = slot.xPos;
                 int k1 = slot.yPos;
                 GlStateManager.colorMask(true, true, true, false);
-                this.drawGradientRect(j1, k1, j1 + 16, k1 + 16, -2130706433, -2130706433);
+
+                //This is the secret sauce that makes the slot hover effect smol
+                if(slot instanceof BitSlot)
+                    this.drawGradientRect(j1 + 3, k1 + 3, j1 + 13, k1 + 13, -2130706433, -2130706433);
+                else
+                    this.drawGradientRect(j1, k1, j1 + 16, k1 + 16, -2130706433, -2130706433);
+
                 GlStateManager.colorMask(true, true, true, true);
                 GlStateManager.enableLighting();
                 GlStateManager.enableDepth();
@@ -169,13 +210,16 @@ public abstract class BitGuiContainer extends GuiContainer {
             int i3 = this.returningStackDestSlot.yPos - this.touchUpY;
             int l1 = this.touchUpX + (int)((float)l2 * f);
             int i2 = this.touchUpY + (int)((float)i3 * f);
-            this.drawItemStack(this.returningStack, l1, i2, (String)null);
+
+            this.drawItemStack(this.returningStack, l1, i2, null);
         }
 
         GlStateManager.popMatrix();
         GlStateManager.enableLighting();
         GlStateManager.enableDepth();
         RenderHelper.enableStandardItemLighting();
+
+        this.renderHoveredToolTip(mouseX, mouseY);
     }
 
     protected void renderHoveredToolTip(int p_191948_1_, int p_191948_2_)
@@ -272,9 +316,11 @@ public abstract class BitGuiContainer extends GuiContainer {
             }
 
             GlStateManager.enableDepth();
-            this.itemRender.renderItemAndEffectIntoGUI(this.mc.player, itemstack, i, j);
+            itemRender.renderItemAndEffectIntoGUI(this.mc.player, itemstack, i, j);
+
+            //This is what allows us to draw the stack size in the correct place
             if(slotIn instanceof BitSlot)
-                bitItemRender.renderItemOverlayIntoGUI(this.fontRenderer, itemstack, i, j, s);
+                renderItemOverlayIntoGUI(this.fontRenderer, itemstack, i, j, s);
             else
                 itemRender.renderItemOverlayIntoGUI(this.fontRenderer, itemstack, i, j, s);
         }
@@ -333,7 +379,30 @@ public abstract class BitGuiContainer extends GuiContainer {
 
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException
     {
-        super.mouseClicked(mouseX, mouseY, mouseButton);
+        //super.mouseClicked(mouseX, mouseY, mouseButton);
+        //Again, super refers to the wrong thing in this context so the code below fixes that
+
+        if (mouseButton == 0)
+        {
+            for (int i = 0; i < this.buttonList.size(); ++i)
+            {
+                GuiButton guibutton = this.buttonList.get(i);
+
+                if (guibutton.mousePressed(this.mc, mouseX, mouseY))
+                {
+                    net.minecraftforge.client.event.GuiScreenEvent.ActionPerformedEvent.Pre event = new net.minecraftforge.client.event.GuiScreenEvent.ActionPerformedEvent.Pre(this, guibutton, this.buttonList);
+                    if (net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(event))
+                        break;
+                    guibutton = event.getButton();
+                    this.selectedButton = guibutton;
+                    guibutton.playPressSound(this.mc.getSoundHandler());
+                    this.actionPerformed(guibutton);
+                    if (this.equals(this.mc.currentScreen))
+                        net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new net.minecraftforge.client.event.GuiScreenEvent.ActionPerformedEvent.Post(this, event.getButton(), this.buttonList));
+                }
+            }
+        }
+
         boolean flag = this.mc.gameSettings.keyBindPickBlock.isActiveAndMatches(mouseButton - 100);
         Slot slot = this.getSlotAtPosition(mouseX, mouseY);
         long i = Minecraft.getSystemTime();
@@ -488,7 +557,15 @@ public abstract class BitGuiContainer extends GuiContainer {
 
     protected void mouseReleased(int mouseX, int mouseY, int state)
     {
-        super.mouseReleased(mouseX, mouseY, state); //Forge, Call parent to release buttons
+        //super.mouseReleased(mouseX, mouseY, state); //Forge, Call parent to release buttons
+        //Another super issue, fix below
+
+        if (this.selectedButton != null && state == 0)
+        {
+            this.selectedButton.mouseReleased(mouseX, mouseY);
+            this.selectedButton = null;
+        }
+
         Slot slot = this.getSlotAtPosition(mouseX, mouseY);
         int i = this.guiLeft;
         int j = this.guiTop;
@@ -629,7 +706,10 @@ public abstract class BitGuiContainer extends GuiContainer {
 
     private boolean isMouseOverSlot(Slot slotIn, int mouseX, int mouseY)
     {
-        return this.isPointInRegion(slotIn.xPos, slotIn.yPos, 16, 16, mouseX, mouseY);
+        if(slotIn instanceof BitSlot)
+            return this.isPointInRegion(slotIn.xPos + 4, slotIn.yPos + 4, 8, 8, mouseX, mouseY);
+        else
+            return this.isPointInRegion(slotIn.xPos, slotIn.yPos, 16, 16, mouseX, mouseY);
     }
 
     protected boolean isPointInRegion(int rectX, int rectY, int rectWidth, int rectHeight, int pointX, int pointY)
@@ -705,13 +785,87 @@ public abstract class BitGuiContainer extends GuiContainer {
 
     public void updateScreen()
     {
-        super.updateScreen();
+        //super.updateScreen();
+        //This one is just unnecessary
 
         if (!this.mc.player.isEntityAlive() || this.mc.player.isDead)
         {
             this.mc.player.closeScreen();
         }
     }
+
+    //The following functions are modified versions of methods from RenderItem that allow us to properly render smaller slots
+
+    //These next two methods allow us to draw the stack size over the bit
+
+    private void renderItemOverlayIntoGUI(FontRenderer fr, ItemStack stack, int xPosition, int yPosition, @Nullable String text)
+    {
+        if (!stack.isEmpty())
+        {
+            if (stack.getCount() != 1 || text != null)
+            {
+                String s = text == null ? String.valueOf(stack.getCount()) : text;
+                GlStateManager.disableLighting();
+                GlStateManager.disableDepth();
+                GlStateManager.disableBlend();
+                fr.drawStringWithShadow(s, xPosition + 15 - fr.getStringWidth(s), yPosition + 6, 16777215);
+                GlStateManager.enableLighting();
+                GlStateManager.enableDepth();
+                // Fixes opaque cooldown overlay a bit lower
+                // TODO: check if enabled blending still screws things up down the line.
+                GlStateManager.enableBlend();
+            }
+
+            if (stack.getItem().showDurabilityBar(stack))
+            {
+                GlStateManager.disableLighting();
+                GlStateManager.disableDepth();
+                GlStateManager.disableTexture2D();
+                GlStateManager.disableAlpha();
+                GlStateManager.disableBlend();
+                Tessellator tessellator = Tessellator.getInstance();
+                BufferBuilder bufferbuilder = tessellator.getBuffer();
+                double health = stack.getItem().getDurabilityForDisplay(stack);
+                int rgbfordisplay = stack.getItem().getRGBDurabilityForDisplay(stack);
+                int i = Math.round(13.0F - (float)health * 13.0F);
+                int j = rgbfordisplay;
+                this.draw(bufferbuilder, xPosition + 2, yPosition + 13, 13, 2, 0, 0, 0, 255);
+                this.draw(bufferbuilder, xPosition + 2, yPosition + 13, i, 1, j >> 16 & 255, j >> 8 & 255, j & 255, 255);
+                GlStateManager.enableBlend();
+                GlStateManager.enableAlpha();
+                GlStateManager.enableTexture2D();
+                GlStateManager.enableLighting();
+                GlStateManager.enableDepth();
+            }
+
+            EntityPlayerSP entityplayersp = Minecraft.getMinecraft().player;
+            float f3 = entityplayersp == null ? 0.0F : entityplayersp.getCooldownTracker().getCooldown(stack.getItem(), Minecraft.getMinecraft().getRenderPartialTicks());
+
+            if (f3 > 0.0F)
+            {
+                GlStateManager.disableLighting();
+                GlStateManager.disableDepth();
+                GlStateManager.disableTexture2D();
+                Tessellator tessellator1 = Tessellator.getInstance();
+                BufferBuilder bufferbuilder1 = tessellator1.getBuffer();
+                this.draw(bufferbuilder1, xPosition, yPosition + MathHelper.floor(16.0F * (1.0F - f3)), 16, MathHelper.ceil(16.0F * f3), 255, 255, 255, 127);
+                GlStateManager.enableTexture2D();
+                GlStateManager.enableLighting();
+                GlStateManager.enableDepth();
+            }
+        }
+    }
+
+    private void draw(BufferBuilder renderer, int x, int y, int width, int height, int red, int green, int blue, int alpha)
+    {
+        renderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
+        renderer.pos((double)(x + 0), (double)(y + 0), 0.0D).color(red, green, blue, alpha).endVertex();
+        renderer.pos((double)(x + 0), (double)(y + height), 0.0D).color(red, green, blue, alpha).endVertex();
+        renderer.pos((double)(x + width), (double)(y + height), 0.0D).color(red, green, blue, alpha).endVertex();
+        renderer.pos((double)(x + width), (double)(y + 0), 0.0D).color(red, green, blue, alpha).endVertex();
+        Tessellator.getInstance().draw();
+    }
+
 
     /* ======================================== FORGE START =====================================*/
 

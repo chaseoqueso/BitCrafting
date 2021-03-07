@@ -6,6 +6,7 @@ import java.util.Random;
 
 import com.chaseoqueso.bitcrafting.BitCraftingMod;
 import com.chaseoqueso.bitcrafting.init.BitCraftingItems;
+import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 
 import net.minecraft.block.state.IBlockState;
@@ -135,6 +136,8 @@ public class ItemBitSword extends ItemSword {
         tagCompound.setFloat("Durability", durability);
         tagCompound.setFloat("Enchantability", enchantability);
         tagCompound.setInteger("Uses", 0);
+
+        System.out.println(damage);
         
 	    return stack;
 	}
@@ -295,7 +298,7 @@ public class ItemBitSword extends ItemSword {
     @Override
     public Multimap<String, AttributeModifier> getAttributeModifiers(EntityEquipmentSlot slot, ItemStack stack)
     {
-		Multimap<String, AttributeModifier> multimap = super.getItemAttributeModifiers(slot);
+		Multimap<String, AttributeModifier> multimap = HashMultimap.create();
 
         double damage;
         if(stack.hasTagCompound() && slot == EntityEquipmentSlot.MAINHAND)

@@ -4,6 +4,7 @@ import java.util.Random;
 
 import com.chaseoqueso.bitcrafting.CrucibleRecipes;
 import com.chaseoqueso.bitcrafting.blocks.BlockBitCrucible;
+import com.chaseoqueso.bitcrafting.init.BitCraftingBlocks;
 import com.chaseoqueso.bitcrafting.items.ItemBit;
 import com.chaseoqueso.bitcrafting.items.ItemBitSword;
 
@@ -33,8 +34,8 @@ public class TileEntityBitCrucible extends TileEntity implements ISidedInventory
 
 	private NonNullList<ItemStack> crucibleItemStacks = NonNullList.withSize(82, ItemStack.EMPTY);
 	
-	public int burnTime;
 	public int currentBurnTime;
+	public int burnTime;
 	public int cookTime;
     private final Random random = new Random();
 	
@@ -119,9 +120,9 @@ public class TileEntityBitCrucible extends TileEntity implements ISidedInventory
         this.crucibleItemStacks = NonNullList.withSize(this.getSizeInventory(), ItemStack.EMPTY);
         ItemStackHelper.loadAllItems(tag, crucibleItemStacks);
 
-        this.burnTime = tag.getShort("BurnTime");
+        this.currentBurnTime = tag.getShort("BurnTime");
         this.cookTime = tag.getShort("CookTime");
-        this.currentBurnTime = getItemBurnTime(this.crucibleItemStacks.get(1));
+        this.burnTime = tag.getShort("ItemBurnTime");
 
         if (tag.hasKey("CustomName", 8))
         {
@@ -133,8 +134,9 @@ public class TileEntityBitCrucible extends TileEntity implements ISidedInventory
 	public NBTTagCompound writeToNBT(NBTTagCompound tag)
 	{
 		super.writeToNBT(tag);
-        tag.setShort("BurnTime", (short)this.burnTime);
+        tag.setShort("BurnTime", (short)this.currentBurnTime);
         tag.setShort("CookTime", (short)this.cookTime);
+		tag.setShort("ItemBurnTime", (short)this.burnTime);
         ItemStackHelper.saveAllItems(tag, crucibleItemStacks);
 
         if (this.hasCustomInventoryName())
@@ -154,39 +156,39 @@ public class TileEntityBitCrucible extends TileEntity implements ISidedInventory
 	@SideOnly(Side.CLIENT)
 	public int getBurnTimeRemainingScaled(int par1)
 	{
-		if(this.currentBurnTime == 0)
+		if(this.burnTime == 0)
 		{
-			this.currentBurnTime = 200;
+			this.burnTime = 200;
 		}
 		
-		return this.burnTime * par1 / this.currentBurnTime;
+		return this.currentBurnTime * par1 / this.burnTime;
 	}
 	
 	public boolean isBurning()
 	{
-		return this.burnTime > 0;
+		return this.currentBurnTime > 0;
 	}
 	
 	@Override
 	public void update()
 	{
-		boolean flag = this.burnTime > 0;
+		boolean flag = this.currentBurnTime > 0;
         boolean flag1 = false;
 
-        if (this.burnTime > 0)
+        if (this.currentBurnTime > 0)
         {
-            --this.burnTime;
+            --this.currentBurnTime;
         }
 
         if (!this.world.isRemote)
         {
-            if (this.burnTime != 0 || !this.crucibleItemStacks.get(1).isEmpty() && !this.crucibleItemStacks.get(0).isEmpty())
+            if (this.currentBurnTime != 0 || !this.crucibleItemStacks.get(1).isEmpty() && !this.crucibleItemStacks.get(0).isEmpty())
             {
-                if (this.burnTime == 0 && this.canBreakDown())
+                if (this.currentBurnTime == 0 && this.canBreakDown())
                 {
-                    this.currentBurnTime = this.burnTime = getItemBurnTime(this.crucibleItemStacks.get(1));
+                    this.burnTime = this.currentBurnTime = getItemBurnTime(this.crucibleItemStacks.get(1));
 
-                    if (this.burnTime > 0)
+                    if (this.currentBurnTime > 0)
                     {
                         flag1 = true;
 
@@ -218,12 +220,13 @@ public class TileEntityBitCrucible extends TileEntity implements ISidedInventory
                     this.cookTime = 0;
                 }
             }
+            else
+			{
+				this.cookTime = 0;
+			}
 
-            if (flag != this.burnTime > 0)
-            {
-                flag1 = true;
-                BlockBitCrucible.updateBlockState(this.burnTime > 0, this.world, pos);
-            }
+			flag1 = (flag != this.currentBurnTime > 0);
+			BlockBitCrucible.updateBlockState(this.currentBurnTime > 0, this.world, pos);
         }
 
         if (flag1)
@@ -234,7 +237,7 @@ public class TileEntityBitCrucible extends TileEntity implements ISidedInventory
 	
 	private boolean canBreakDown()
 	{
-		if(crucibleItemStacks.get(0) == null)
+		if(crucibleItemStacks.get(0) == ItemStack.EMPTY)
 			return false;
 		
 		if(crucibleItemStacks.get(0).isItemDamaged())
@@ -245,7 +248,7 @@ public class TileEntityBitCrucible extends TileEntity implements ISidedInventory
 		
 		ItemStack[] itemstacks = CrucibleRecipes.instance().getBreakDownResult(crucibleItemStacks.get(0));
 		
-		if(itemstacks == null) 
+		if(itemstacks == null)
 			return false;
 		
 		int openSlots = 0;
@@ -256,7 +259,7 @@ public class TileEntityBitCrucible extends TileEntity implements ISidedInventory
 		{
 			for(int i = 2; i < crucibleItemStacks.size(); i++)
 			{
-				if(crucibleItemStacks.get(i) != null && crucibleItemStacks.get(i).isItemEqual(itemstacks[j]) && ItemBit.bitsAreEqual(crucibleItemStacks.get(i), itemstacks[j]))
+				if(crucibleItemStacks.get(i) != ItemStack.EMPTY && crucibleItemStacks.get(i).isItemEqual(itemstacks[j]) && ItemBit.bitsAreEqual(crucibleItemStacks.get(i), itemstacks[j]))
 		        {
 		            int result = crucibleItemStacks.get(i).getCount() + added[i-2] + itemstacks[j].getCount() + subtracted[j];
 		            if(result <= getInventoryStackLimit() && result <= crucibleItemStacks.get(i).getMaxStackSize())
@@ -275,7 +278,7 @@ public class TileEntityBitCrucible extends TileEntity implements ISidedInventory
 		
 		for(int i = 2; i < crucibleItemStacks.size(); i++)
 		{
-			if(crucibleItemStacks.get(i) == null && added[i-2] == 0)
+			if(crucibleItemStacks.get(i) == ItemStack.EMPTY && added[i-2] == 0)
 				openSlots++;
 		}
 		
@@ -298,7 +301,7 @@ public class TileEntityBitCrucible extends TileEntity implements ISidedInventory
 			{
 				for(int i = 2; i < crucibleItemStacks.size(); i++)
 				{
-					if(crucibleItemStacks.get(i) != null && crucibleItemStacks.get(i).isItemEqual(itemstacks[j]) && ItemBit.bitsAreEqual(crucibleItemStacks.get(i), itemstacks[j]))
+					if(crucibleItemStacks.get(i) != ItemStack.EMPTY && crucibleItemStacks.get(i).isItemEqual(itemstacks[j]) && ItemBit.bitsAreEqual(crucibleItemStacks.get(i), itemstacks[j]))
 			        {
 			            int result = crucibleItemStacks.get(i).getCount() + itemstacks[j].getCount() + subtracted[j];
 			            if(result <= getInventoryStackLimit() && result <= crucibleItemStacks.get(i).getMaxStackSize())
@@ -319,12 +322,12 @@ public class TileEntityBitCrucible extends TileEntity implements ISidedInventory
 			{
 				for(int i = 2; i < crucibleItemStacks.size(); i++)
 				{
-					if(crucibleItemStacks.get(i) == null && (itemstacks[j].getCount() + subtracted[j]) != 0)
+					if(crucibleItemStacks.get(i) == ItemStack.EMPTY && (itemstacks[j].getCount() + subtracted[j]) != 0)
 					{
 						crucibleItemStacks.set(i, itemstacks[j].copy());
 						break;
 					}
-					if(i == crucibleItemStacks.size() - 1 && crucibleItemStacks.get(crucibleItemStacks.size() - 1) != null)
+					if(i == crucibleItemStacks.size() - 1 && crucibleItemStacks.get(crucibleItemStacks.size() - 1) != ItemStack.EMPTY)
 					{
 						float f = this.random.nextFloat() * .6F + .1F;
 						float f1 = this.random.nextFloat() * .6F + .1F;
@@ -374,12 +377,12 @@ public class TileEntityBitCrucible extends TileEntity implements ISidedInventory
 
 	@Override
 	public boolean isUsableByPlayer(EntityPlayer player) {
-		return world.getTileEntity(pos) != this ? false : player.getDistanceSq((double) pos.getX() + .5D, (double) pos.getY() + .5D, (double) pos.getZ() + .5D) <= 64;
+		return world.getTileEntity(pos) == this && player.getDistanceSq((double) pos.getX() + .5D, (double) pos.getY() + .5D, (double) pos.getZ() + .5D) <= 64;
 	}
 
 	@Override
 	public boolean isItemValidForSlot(int par1, ItemStack itemstack) {
-		return par1 >= 2 ? false : par1 == 1 ? isItemFuel(itemstack) : true;
+		return par1 < 2 && (par1 != 1 || isItemFuel(itemstack));
 	}
 
 	@Override
@@ -389,7 +392,7 @@ public class TileEntityBitCrucible extends TileEntity implements ISidedInventory
 
 	@Override
 	public boolean canInsertItem(int slot, ItemStack itemstack, EnumFacing side) {
-		return slot >= 2 ? false : this.isItemValidForSlot(slot, itemstack);
+		return slot < 2 && this.isItemValidForSlot(slot, itemstack);
 	}
 
 	@Override
@@ -403,9 +406,9 @@ public class TileEntityBitCrucible extends TileEntity implements ISidedInventory
 		switch (id)
 		{
 			case 0:
-				return this.burnTime;
-			case 1:
 				return this.currentBurnTime;
+			case 1:
+				return this.burnTime;
 			case 2:
 				return this.cookTime;
 			default:
@@ -419,10 +422,10 @@ public class TileEntityBitCrucible extends TileEntity implements ISidedInventory
 		switch (id)
 		{
 			case 0:
-				this.burnTime = value;
+				this.currentBurnTime = value;
 				break;
 			case 1:
-				this.currentBurnTime = value;
+				this.burnTime = value;
 				break;
 			case 2:
 				this.cookTime = value;
