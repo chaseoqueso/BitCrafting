@@ -1,4 +1,4 @@
-package com.chaseoqueso.bitcrafting.alt_vanilla;
+package com.chaseoqueso.bitcrafting.gui;
 
 import java.io.IOException;
 import java.util.HashSet;

@@ -4,7 +4,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 
-import com.chaseoqueso.bitcrafting.alt_vanilla.BitGuiContainer;
 import com.chaseoqueso.bitcrafting.container.ContainerBitCrucible;
 import com.chaseoqueso.bitcrafting.tileentity.TileEntityBitCrucible;
 

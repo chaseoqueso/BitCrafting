@@ -2,7 +2,6 @@ package com.chaseoqueso.bitcrafting.gui;
 
 import org.lwjgl.opengl.GL11;
 
-import com.chaseoqueso.bitcrafting.alt_vanilla.BitGuiContainer;
 import com.chaseoqueso.bitcrafting.container.ContainerBitForge;
 import com.chaseoqueso.bitcrafting.tileentity.TileEntityBitForge;
 

@@ -90,7 +90,7 @@ public class ContainerBitDyeTable extends Container {
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int index)
 	{
-		ItemStack itemstack = null;
+		ItemStack itemstack = ItemStack.EMPTY;
 		Slot slot = this.inventorySlots.get(index);
 		if(slot != null && slot.getHasStack())
 		{

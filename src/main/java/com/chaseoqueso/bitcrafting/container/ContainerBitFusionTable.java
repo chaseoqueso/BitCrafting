@@ -74,31 +74,33 @@ public class ContainerBitFusionTable extends Container {
 			NBTTagCompound tagCompound = stack.getTagCompound();
 			stack.setCount(1);
 
-			String effect = tagCompound.getString("effect");
+			String effect = "";
 			float damage = 0, durability = 0, enchantability = 0, chance = 0, power = 0;
 			ItemStack tempstack;
+
 			for (int i = 0; i < 10; ++i) {
 				tempstack = tileFusionTable.getStackInSlot(i);
-				if (tempstack != ItemStack.EMPTY) {
+				if (tempstack.getItem() instanceof ItemBit) {
 					if (!tempstack.hasTagCompound()) {
 						return;
 					}
 
-					tagCompound = tempstack.getTagCompound();
-					damage += tagCompound.getFloat("damage");
-					durability += tagCompound.getFloat("durability");
-					enchantability += tagCompound.getFloat("enchantability");
-					if (tagCompound.hasKey("effect"))
+					NBTTagCompound tempTagCompound = tempstack.getTagCompound();
+					damage += tempTagCompound.getFloat("damage");
+					durability += tempTagCompound.getFloat("durability");
+					enchantability += tempTagCompound.getFloat("enchantability");
+					if (tempTagCompound.hasKey("effect"))
 					{
 						if (effect.equals(""))
 						{
-							chance = tagCompound.getFloat("chance");
-							power = tagCompound.getFloat("power");
+							effect = tempTagCompound.getString("effect");
+							chance = tempTagCompound.getFloat("chance");
+							power = tempTagCompound.getFloat("power");
 						}
 						else
-							{
-							chance = 1 - ((1 - chance) * (1 - tagCompound.getFloat("chance")));
-							power += tagCompound.getFloat("power");
+						{
+							chance = 1 - ((1 - chance) * (1 - tempTagCompound.getFloat("chance")));
+							power += tempTagCompound.getFloat("power");
 						}
 					}
 				}
@@ -109,8 +111,7 @@ public class ContainerBitFusionTable extends Container {
 				if (effect.equals(""))
 					this.craftResult.setInventorySlotContents(0, ItemBit.setBit(stack, tagCompound.getString("color"), tagCompound.getString("shade"), damage, durability, enchantability).copy());
 				else
-					this.craftResult.setInventorySlotContents(0,
-							ItemBit.setBit(stack, tagCompound.getString("color"), tagCompound.getString("shade"), damage, durability, enchantability, effect, chance, power).copy());
+					this.craftResult.setInventorySlotContents(0, ItemBit.setBit(stack, tagCompound.getString("color"), tagCompound.getString("shade"), damage, durability, enchantability, effect, chance, power).copy());
 		} else if(stack.getItem() instanceof ItemBitSword) {
 			NBTTagCompound tagCompound = stack.getTagCompound();
 			int uses = tagCompound.getInteger("Uses");

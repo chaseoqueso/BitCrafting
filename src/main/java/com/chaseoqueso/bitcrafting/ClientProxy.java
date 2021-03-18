@@ -1,16 +1,16 @@
 package com.chaseoqueso.bitcrafting;
 
-import com.chaseoqueso.bitcrafting.alt_vanilla.BitChestRenderer;
+import com.chaseoqueso.bitcrafting.rendering.BitChestRenderer;
 import com.chaseoqueso.bitcrafting.init.BitCraftingBlocks;
 import com.chaseoqueso.bitcrafting.init.BitCraftingItems;
 import com.chaseoqueso.bitcrafting.tileentity.TileEntityBitChest;
 
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.client.model.ModelDynBucket;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
@@ -21,7 +21,7 @@ import net.minecraftforge.fml.relauncher.Side;
 public class ClientProxy extends ServerProxy {
 
 	@SubscribeEvent
-	public static void registerBlockRenderer(ModelRegistryEvent event) {
+	public static void registerRenderers(ModelRegistryEvent event) {
 
 		setRender(BitCraftingBlocks.BLOCKS.blockBitCrucible);
 		setRender(BitCraftingBlocks.BLOCKS.blockBitForge);
@@ -36,6 +36,7 @@ public class ClientProxy extends ServerProxy {
 
 		setRender(BitCraftingItems.ITEMS.itemBit);
 		setRender(BitCraftingItems.ITEMS.itemClearBit);
+		setRender(BitCraftingItems.ITEMS.itemBitSword);
 
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityBitChest.class, new BitChestRenderer());
 		ServerProxy.registerTileEntities();

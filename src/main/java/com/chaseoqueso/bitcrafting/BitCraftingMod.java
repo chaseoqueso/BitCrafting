@@ -4,10 +4,12 @@ import com.chaseoqueso.bitcrafting.gui.GUIHandler;
 import com.chaseoqueso.bitcrafting.init.BitCraftingBlocks;
 
 import com.chaseoqueso.bitcrafting.init.BitCraftingItems;
+import com.chaseoqueso.bitcrafting.rendering.ModelBitSword;
 import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -38,6 +40,7 @@ public class BitCraftingMod {
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
 	{
+		ModelLoaderRegistry.registerLoader(ModelBitSword.LoaderBitSword.INSTANCE);
 		//GameRegistry.registerWorldGenerator(new BitOreGeneration(), 1);
 	}
 	

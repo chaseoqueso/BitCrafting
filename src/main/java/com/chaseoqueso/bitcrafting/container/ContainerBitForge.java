@@ -59,7 +59,7 @@ public class ContainerBitForge extends Container {
 			if(tileForge.canForge())
 				this.craftResult.setInventorySlotContents(0, tileForge.forgeItem().copy());
 			else
-				this.craftResult.setInventorySlotContents(0, null);
+				this.craftResult.setInventorySlotContents(0, ItemStack.EMPTY);
         }
 	}
 

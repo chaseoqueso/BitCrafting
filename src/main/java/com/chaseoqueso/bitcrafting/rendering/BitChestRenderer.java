@@ -1,17 +1,13 @@
-package com.chaseoqueso.bitcrafting.alt_vanilla;
+package com.chaseoqueso.bitcrafting.rendering;
 
 import com.chaseoqueso.bitcrafting.blocks.BlockBitChest;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockChest;
-import net.minecraft.block.BlockHorizontal;
 import net.minecraft.client.renderer.GlStateManager;
 
 import com.chaseoqueso.bitcrafting.tileentity.TileEntityBitChest;
 
 import net.minecraft.client.model.ModelChest;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 
 public class BitChestRenderer extends TileEntitySpecialRenderer<TileEntityBitChest> {

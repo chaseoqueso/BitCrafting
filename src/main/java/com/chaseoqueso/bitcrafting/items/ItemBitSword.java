@@ -1,6 +1,7 @@
 package com.chaseoqueso.bitcrafting.items;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -15,10 +16,12 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.IItemPropertyGetter;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.EnumHandSide;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -31,6 +34,15 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import javax.annotation.Nullable;
 
 public class ItemBitSword extends ItemSword {
+
+	private static final IItemPropertyGetter BIT_MODEL_GETTER = new IItemPropertyGetter()
+	{
+		@SideOnly(Side.CLIENT)
+		public float apply(ItemStack stack, @Nullable World worldIn, @Nullable EntityLivingBase entityIn)
+		{
+			return 1.0F;
+		}
+	};
 	
 	public ItemBitSword()
 	{
@@ -38,6 +50,7 @@ public class ItemBitSword extends ItemSword {
 		setUnlocalizedName("ItemBitSword");
 		setRegistryName(new ResourceLocation(BitCraftingMod.MODID, "itembitsword"));
 		setCreativeTab(null);
+		addPropertyOverride(new ResourceLocation("bitswordrender"), BIT_MODEL_GETTER);
 	}
 
     @SideOnly(Side.CLIENT)
@@ -136,8 +149,6 @@ public class ItemBitSword extends ItemSword {
         tagCompound.setFloat("Durability", durability);
         tagCompound.setFloat("Enchantability", enchantability);
         tagCompound.setInteger("Uses", 0);
-
-        System.out.println(damage);
         
 	    return stack;
 	}
@@ -324,7 +335,28 @@ public class ItemBitSword extends ItemSword {
         }
     }
     
-    
+    public static String getColorArrayAsString(ItemStack stack)
+	{
+		if(!stack.hasTagCompound())
+			return "";
+
+		NBTTagCompound itemData = stack.getTagCompound();
+		if(!itemData.hasKey("ColorArray") || itemData.getIntArray("ColorArray") == null)
+			return "";
+
+		for(int i : itemData.getIntArray("ColorArray"))
+		{
+			System.out.println(i);
+		}
+
+		return Arrays.toString(itemData.getIntArray("ColorArray")).replaceAll("\\[", "").replaceAll(" ", "") .replaceAll("\\]", "").replaceAll("\\s", "");
+	}
+
+	@SideOnly(Side.CLIENT)
+	public boolean hasCustomProperties()
+	{
+		return true;
+	}
     
     /*
 	public static ResourceLocation getResourceLocation(ItemStack stack)

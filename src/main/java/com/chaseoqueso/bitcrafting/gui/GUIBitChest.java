@@ -1,16 +1,12 @@
 package com.chaseoqueso.bitcrafting.gui;
 
 import com.chaseoqueso.bitcrafting.BitCraftingMod;
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
-import org.lwjgl.opengl.GL11;
 
-import com.chaseoqueso.bitcrafting.alt_vanilla.BitGuiContainer;
 import com.chaseoqueso.bitcrafting.container.ContainerBitChest;
 import com.chaseoqueso.bitcrafting.tileentity.TileEntityBitChest;
 
-import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 

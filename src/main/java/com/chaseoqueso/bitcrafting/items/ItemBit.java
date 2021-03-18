@@ -183,9 +183,9 @@ public class ItemBit extends Item {
 
 
 	public static int getColorFromStack(ItemStack stack) {
-		if (stack == null || !(stack.hasTagCompound() && stack.getTagCompound().hasKey("color"))
+		if (stack == ItemStack.EMPTY || !(stack.hasTagCompound() && stack.getTagCompound().hasKey("color"))
 				|| stack.getItem() instanceof ItemClearBit) {
-			return 0;
+			return -1;
 		}
 		// Goes through every index in the color and shade arrays and picks the right
 		// color to tint.
@@ -370,8 +370,6 @@ public class ItemBit extends Item {
 		if(tab == BitCraftingMod.tabBitCraftingMod) {
 			for (int col = 0; col < colors.length; col++) {
 				for (int shd = 0; shd < shades.length; shd++) {
-					System.out.println("Creating new subitem ItemBit");
-
 					ItemStack bitStack = new ItemStack(this);
 					NBTTagCompound itemData = new NBTTagCompound();
 					bitStack.setTagCompound(itemData);
@@ -381,8 +379,6 @@ public class ItemBit extends Item {
 					itemData.setFloat("damage", .1F);
 					itemData.setFloat("durability", 20F);
 					itemData.setFloat("enchantability", .2F);
-
-					System.out.println("NBT tag: " + itemData.toString());
 
 					items.add(bitStack);
 				}
