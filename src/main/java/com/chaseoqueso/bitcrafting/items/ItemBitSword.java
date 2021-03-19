@@ -187,7 +187,7 @@ public class ItemBitSword extends ItemSword {
 	}
 	
 	@Override
-	public boolean hitEntity(ItemStack stack, EntityLivingBase par2, EntityLivingBase par3)
+	public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker)
     {
 		if(stack.hasTagCompound())
 		{
@@ -204,7 +204,7 @@ public class ItemBitSword extends ItemSword {
 	        		NBTTagCompound effectData = effectlist.getCompoundTagAt(i);
 	        		if(rand.nextFloat() < effectData.getFloat("chance"))
 	        		{
-	        			activateEffect(effectData.getString("effect"), effectData.getFloat("power"));
+	        			activateEffect(effectData.getString("effect"), effectData.getFloat("power"), target, attacker);
 	        		}
 	        	}
 	        }
@@ -212,27 +212,21 @@ public class ItemBitSword extends ItemSword {
         return true;
     }
 	
-	private void activateEffect(String effect, float power) 
+	private void activateEffect(String effect, float power, EntityLivingBase target, EntityLivingBase attacker)
 	{
-		if(effect.equals("fire"))
+		switch(effect)
 		{
-			return;
-		}
-		if(effect.equals("earth"))
-		{
-			return;
-		}
-		if(effect.equals("lightning"))
-		{
-			return;
-		}
-		if(effect.equals("ice"))
-		{
-			return;
-		}
-		if(effect.equals("spatial"))
-		{
-			return;
+			case "fire":
+				target.setFire((int)power);
+				break;
+			case "lightning":
+				break;
+			case "earth":
+				break;
+			case "ice":
+				break;
+			case "spatial":
+				break;
 		}
 	}
 

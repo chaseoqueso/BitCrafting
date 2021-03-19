@@ -208,7 +208,7 @@ public class TileEntityBitForge extends TileEntity implements IInventory {
 		            	{
 		            		int index = effects.indexOf(e);
 		            		effectChances.set(index, 1 - ((1 - effectChances.get(index)) * (1 - itemData.getFloat("chance"))));
-		            		effectPowers.set(index, 1 - ((1 - effectPowers.get(index)) * (1 - itemData.getFloat("power"))));
+		            		effectPowers.set(index, effectPowers.get(index) + itemData.getFloat("power"));
 		            	}
 		            	else
 		            	{
@@ -225,8 +225,8 @@ public class TileEntityBitForge extends TileEntity implements IInventory {
 				forgeClone.set(i, forgeItemStacks.get(i).copy());
 			}
 
-			return ItemBitSword.initialize(new ItemStack(BitCraftingItems.ITEMS.itemBitSword), forgeClone, damage, durability, enchantability, effects, effectChances, effectPowers).copy();
 			//Returns the new weapon that is created based on certain damage, durability, etc. Also gives the new weapon an array of the Bits used for image generating purposes.
+			return ItemBitSword.initialize(new ItemStack(BitCraftingItems.ITEMS.itemBitSword), forgeClone, damage, durability, enchantability, effects, effectChances, effectPowers).copy();
 		}
 		return null;
 	}

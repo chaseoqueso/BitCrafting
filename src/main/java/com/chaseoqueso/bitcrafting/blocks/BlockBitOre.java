@@ -66,7 +66,7 @@ public class BlockBitOre extends BlockOre {
 			if (item != null)
 			{
 				drops.add(ItemBit.setBit(new ItemStack(item, 1, damageDropped(state)), bitdata[0], bitdata[1], .07F,
-						.37F, .06F, bitdata[2], .01F, .1F));
+						.37F, .06F, bitdata[2], .001F, .05F));
 			}
 		}
 	}

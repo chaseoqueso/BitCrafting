@@ -415,12 +415,12 @@ public class ItemBit extends Item {
 						itemData.setString("shade", "darkest");
 				}
 
-				itemData.setFloat("damage", .1F);
+				itemData.setFloat("damage", 0.1F);
 				itemData.setFloat("durability", 20F);
-				itemData.setFloat("enchantability", .2F);
+				itemData.setFloat("enchantability", 0.2F);
 				itemData.setString("effect", effects[eff]);
-				itemData.setFloat("chance", .01F);
-				itemData.setFloat("power", 1F);
+				itemData.setFloat("chance", 0.01F);
+				itemData.setFloat("power", 0.1F);
 
 				items.add(bitStack);
 			}

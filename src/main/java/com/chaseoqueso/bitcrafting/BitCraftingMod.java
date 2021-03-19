@@ -8,7 +8,9 @@ import com.chaseoqueso.bitcrafting.rendering.ModelBitSword;
 import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -18,6 +20,11 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.Comparator;
 
 @Mod(modid = BitCraftingMod.MODID, name = "BitCrafting", version = "1.2")
 public class BitCraftingMod {
@@ -28,9 +35,28 @@ public class BitCraftingMod {
 	public static final String MODID = "bcm";
 
 	public static CreativeTabs tabBitCraftingMod = new CreativeTabs("tabBitCraftingMod") {
+
 		@Override
 		public ItemStack getTabIconItem() {
 			return new ItemStack(Item.getItemFromBlock(BitCraftingBlocks.BLOCKS.blockBitForge));
+		}
+
+		@Override
+		@SideOnly(Side.CLIENT)
+		public void displayAllRelevantItems(NonNullList<ItemStack> stackList)
+		{
+			super.displayAllRelevantItems(stackList);
+			class tabComparator implements Comparator<ItemStack> {
+				@Override
+				public int compare(ItemStack stack1, ItemStack stack2)
+				{
+					int stack1isItem = stack1.getItem() instanceof ItemBlock ? 0 : 1;
+					int stack2isItem = stack2.getItem() instanceof ItemBlock ? 0 : 1;
+					return stack1isItem - stack2isItem;
+				}
+			}
+
+			stackList.sort(new tabComparator());
 		}
 	};
 	
@@ -41,7 +67,7 @@ public class BitCraftingMod {
 	public void preInit(FMLPreInitializationEvent event)
 	{
 		ModelLoaderRegistry.registerLoader(ModelBitSword.LoaderBitSword.INSTANCE);
-		//GameRegistry.registerWorldGenerator(new BitOreGeneration(), 1);
+		GameRegistry.registerWorldGenerator(new BitOreGeneration(), 0);
 	}
 	
 	@EventHandler

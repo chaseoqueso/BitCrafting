@@ -34,7 +34,6 @@ public class ModelBitSword implements IModel
     public static final ModelResourceLocation LOCATION = new ModelResourceLocation(new ResourceLocation(BitCraftingMod.MODID, "itembitsword"), "inventory");
     public static final IModel MODEL = new ModelBitSword();
 
-    private ResourceLocation[] pixelLocations;
     private ResourceLocation blankLocation;
     private int[] pixelColors;
 
@@ -49,11 +48,6 @@ public class ModelBitSword implements IModel
             return;
         }
 
-        pixelLocations = new ResourceLocation[256];
-
-        for(int i = 0; i <= 255; ++i) {
-            pixelLocations[i] = new ResourceLocation(BitCraftingMod.MODID, "items/pixels/pixel_" + i);
-        }
         blankLocation = new ResourceLocation(BitCraftingMod.MODID, "items/pixels/blank");
 
         pixelColors = colors;
@@ -63,10 +57,6 @@ public class ModelBitSword implements IModel
     public Collection<ResourceLocation> getTextures()
     {
         ImmutableSet.Builder<ResourceLocation> builder = ImmutableSet.builder();
-
-        for(int i = 0; i <= 255; ++i) {
-            builder.add(pixelLocations[i]);
-        }
 
         builder.add(blankLocation);
 

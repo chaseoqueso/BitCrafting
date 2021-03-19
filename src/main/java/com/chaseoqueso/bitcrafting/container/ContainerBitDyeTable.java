@@ -1,15 +1,18 @@
 package com.chaseoqueso.bitcrafting.container;
 
+import com.chaseoqueso.bitcrafting.init.BitCraftingItems;
 import com.chaseoqueso.bitcrafting.items.ItemBit;
 import com.chaseoqueso.bitcrafting.slots.DyeSlot;
 import com.chaseoqueso.bitcrafting.tileentity.TileEntityBitDyeTable;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryCraftResult;
 import net.minecraft.inventory.Slot;
+import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemStack;
 
 public class ContainerBitDyeTable extends Container {
@@ -48,7 +51,7 @@ public class ContainerBitDyeTable extends Container {
 	@Override
 	public void onCraftMatrixChanged(IInventory p_75130_1_)
     {
-		if(tileDyeTable.getStackInSlot(0) == ItemStack.EMPTY || tileDyeTable.getStackInSlot(1) == ItemStack.EMPTY)
+		if(!(tileDyeTable.getStackInSlot(0).getItem() instanceof ItemBit && tileDyeTable.getStackInSlot(1).getItem() instanceof ItemDye))
 		{
 			setResultsNull();
 			return;
