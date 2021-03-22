@@ -75,7 +75,7 @@ public class TileEntityBitDyeTable extends TileEntity implements IInventory {
 	@Override
 	public void setInventorySlotContents(int slot, ItemStack itemstack) {
 		this.tableItemStacks.set(slot, itemstack);
-		if(itemstack != null && itemstack.getCount() > this.getInventoryStackLimit())
+		if(itemstack != ItemStack.EMPTY && itemstack.getCount() > this.getInventoryStackLimit())
 			itemstack.setCount(this.getInventoryStackLimit());
         this.eventhandler.onCraftMatrixChanged(this);
         this.markDirty();
@@ -131,7 +131,7 @@ public class TileEntityBitDyeTable extends TileEntity implements IInventory {
 	
 	@Override
 	public boolean isUsableByPlayer(EntityPlayer player) {
-		return world.getTileEntity(pos) != this ? false : player.getDistanceSq((double) pos.getX() + .5D, (double) pos.getY() + .5D, (double) pos.getZ() + .5D) <= 64;
+		return world.getTileEntity(pos) == this && player.getDistanceSq((double) pos.getX() + .5D, (double) pos.getY() + .5D, (double) pos.getZ() + .5D) <= 64;
 	}
 
 	@Override

@@ -4,9 +4,9 @@ import java.util.Random;
 
 import com.chaseoqueso.bitcrafting.CrucibleRecipes;
 import com.chaseoqueso.bitcrafting.blocks.BlockBitCrucible;
-import com.chaseoqueso.bitcrafting.init.BitCraftingBlocks;
+import com.chaseoqueso.bitcrafting.items.tools.IItemBitTool;
 import com.chaseoqueso.bitcrafting.items.ItemBit;
-import com.chaseoqueso.bitcrafting.items.ItemBitSword;
+import com.chaseoqueso.bitcrafting.items.tools.ItemBitSword;
 
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -290,8 +290,8 @@ public class TileEntityBitCrucible extends TileEntity implements ISidedInventory
 		if(this.canBreakDown())
 		{
 			ItemStack[] itemstacks;
-			if(crucibleItemStacks.get(0).getItem() instanceof ItemBitSword)
-				itemstacks = ItemBitSword.getBits(crucibleItemStacks.get(0));
+			if(crucibleItemStacks.get(0).getItem() instanceof IItemBitTool)
+				itemstacks = IItemBitTool.getBits(crucibleItemStacks.get(0));
 			else
 				itemstacks = CrucibleRecipes.instance().getBreakDownResult(crucibleItemStacks.get(0));
 			

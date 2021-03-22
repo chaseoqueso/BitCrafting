@@ -3,7 +3,10 @@ package com.chaseoqueso.bitcrafting.init;
 import com.chaseoqueso.bitcrafting.BitCraftingMod;
 import com.chaseoqueso.bitcrafting.items.ItemBit;
 import com.chaseoqueso.bitcrafting.items.ItemBitColorManager;
-import com.chaseoqueso.bitcrafting.items.ItemBitSword;
+import com.chaseoqueso.bitcrafting.items.templates.ItemPickaxeTemplate;
+import com.chaseoqueso.bitcrafting.items.templates.ItemSwordTemplate;
+import com.chaseoqueso.bitcrafting.items.tools.ItemBitPickaxe;
+import com.chaseoqueso.bitcrafting.items.tools.ItemBitSword;
 import com.chaseoqueso.bitcrafting.items.ItemClearBit;
 
 import net.minecraft.client.renderer.color.IItemColor;
@@ -22,6 +25,9 @@ public class BitCraftingItems {
         public static Item itemBit = new ItemBit().setRegistryName(new ResourceLocation(BitCraftingMod.MODID, "itembit"));
         public static Item itemClearBit = new ItemClearBit().setRegistryName(new ResourceLocation(BitCraftingMod.MODID, "itemclearbit"));
         public static Item itemBitSword = new ItemBitSword();
+        public static Item itemBitPickaxe = new ItemBitPickaxe();
+        public static Item itemSwordTemplate = new ItemSwordTemplate();
+        public static Item itemPickaxeTemplate = new ItemPickaxeTemplate();
 
         public static IItemColor itemBitColorManager = new ItemBitColorManager();
     }
@@ -31,6 +37,9 @@ public class BitCraftingItems {
 
         event.getRegistry().registerAll(ITEMS.itemBit,
                                         ITEMS.itemClearBit,
-                                        ITEMS.itemBitSword);
+                                        ITEMS.itemBitSword,
+                                        ITEMS.itemBitPickaxe,
+                                        ITEMS.itemSwordTemplate,
+                                        ITEMS.itemPickaxeTemplate);
     }
 }

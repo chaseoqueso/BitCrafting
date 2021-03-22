@@ -4,7 +4,8 @@ import com.chaseoqueso.bitcrafting.gui.GUIHandler;
 import com.chaseoqueso.bitcrafting.init.BitCraftingBlocks;
 
 import com.chaseoqueso.bitcrafting.init.BitCraftingItems;
-import com.chaseoqueso.bitcrafting.rendering.ModelBitSword;
+import com.chaseoqueso.bitcrafting.items.ItemBit;
+import com.chaseoqueso.bitcrafting.rendering.ModelBitTool;
 import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -50,8 +51,10 @@ public class BitCraftingMod {
 				@Override
 				public int compare(ItemStack stack1, ItemStack stack2)
 				{
-					int stack1isItem = stack1.getItem() instanceof ItemBlock ? 0 : 1;
-					int stack2isItem = stack2.getItem() instanceof ItemBlock ? 0 : 1;
+					int stack1isItem = stack1.getItem() instanceof ItemBlock ? 0
+											   : stack1.getItem() instanceof ItemBit ? 2 : 1;
+					int stack2isItem = stack2.getItem() instanceof ItemBlock ? 0
+											   : stack2.getItem() instanceof ItemBit ? 2 : 1;
 					return stack1isItem - stack2isItem;
 				}
 			}
@@ -66,7 +69,7 @@ public class BitCraftingMod {
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
 	{
-		ModelLoaderRegistry.registerLoader(ModelBitSword.LoaderBitSword.INSTANCE);
+		ModelLoaderRegistry.registerLoader(ModelBitTool.LoaderBitTool.INSTANCE);
 		GameRegistry.registerWorldGenerator(new BitOreGeneration(), 0);
 	}
 	

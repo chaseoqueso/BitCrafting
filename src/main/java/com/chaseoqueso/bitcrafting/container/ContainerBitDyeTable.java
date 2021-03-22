@@ -51,7 +51,7 @@ public class ContainerBitDyeTable extends Container {
 	@Override
 	public void onCraftMatrixChanged(IInventory p_75130_1_)
     {
-		if(!(tileDyeTable.getStackInSlot(0).getItem() instanceof ItemBit && tileDyeTable.getStackInSlot(1).getItem() instanceof ItemDye))
+		if(!(tileDyeTable.getStackInSlot(0).getItem() instanceof ItemBit && (tileDyeTable.getStackInSlot(1).getItem() instanceof ItemDye || tileDyeTable.getStackInSlot(1).getItem() == Items.WATER_BUCKET)))
 		{
 			setResultsNull();
 			return;

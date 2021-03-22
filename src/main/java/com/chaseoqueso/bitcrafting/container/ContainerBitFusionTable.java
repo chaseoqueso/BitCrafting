@@ -1,7 +1,7 @@
 package com.chaseoqueso.bitcrafting.container;
 
+import com.chaseoqueso.bitcrafting.items.tools.IItemBitTool;
 import com.chaseoqueso.bitcrafting.items.ItemBit;
-import com.chaseoqueso.bitcrafting.items.ItemBitSword;
 import com.chaseoqueso.bitcrafting.slots.FusionSlot;
 import com.chaseoqueso.bitcrafting.tileentity.TileEntityBitFusionTable;
 
@@ -59,7 +59,7 @@ public class ContainerBitFusionTable extends Container {
 
 		ItemStack stack = tileFusionTable.getStackInSlot(0);
 
-		if (!(stack.getItem() instanceof ItemBit || stack.getItem() instanceof ItemBitSword))
+		if (!(stack.getItem() instanceof ItemBit || stack.getItem() instanceof IItemBitTool))
 			canFuse = false;
 
 		if (!canFuse) {
@@ -112,7 +112,7 @@ public class ContainerBitFusionTable extends Container {
 					this.craftResult.setInventorySlotContents(0, ItemBit.setBit(stack, tagCompound.getString("color"), tagCompound.getString("shade"), damage, durability, enchantability).copy());
 				else
 					this.craftResult.setInventorySlotContents(0, ItemBit.setBit(stack, tagCompound.getString("color"), tagCompound.getString("shade"), damage, durability, enchantability, effect, chance, power).copy());
-		} else if(stack.getItem() instanceof ItemBitSword) {
+		} else if(stack.getItem() instanceof IItemBitTool) {
 			NBTTagCompound tagCompound = stack.getTagCompound();
 			int uses = tagCompound.getInteger("Uses");
 

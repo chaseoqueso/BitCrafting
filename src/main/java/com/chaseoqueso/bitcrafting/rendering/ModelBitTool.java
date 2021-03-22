@@ -1,7 +1,8 @@
 package com.chaseoqueso.bitcrafting.rendering;
 
 import com.chaseoqueso.bitcrafting.BitCraftingMod;
-import com.chaseoqueso.bitcrafting.items.ItemBitSword;
+import com.chaseoqueso.bitcrafting.items.tools.IItemBitTool;
+import com.chaseoqueso.bitcrafting.items.tools.ItemBitSword;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -29,17 +30,16 @@ import javax.vecmath.Vector3f;
 import java.util.*;
 import java.util.function.Function;
 
-public class ModelBitSword implements IModel
+public class ModelBitTool implements IModel
 {
-    public static final ModelResourceLocation LOCATION = new ModelResourceLocation(new ResourceLocation(BitCraftingMod.MODID, "itembitsword"), "inventory");
-    public static final IModel MODEL = new ModelBitSword();
+    public static final IModel MODEL = new ModelBitTool();
 
     private ResourceLocation blankLocation;
     private int[] pixelColors;
 
-    public ModelBitSword() { this(new int[256]); }
+    public ModelBitTool() { this(new int[256]); }
 
-    public ModelBitSword(int[] colors)
+    public ModelBitTool(int[] colors)
     {
         if(colors.length != 256)
         {
@@ -135,11 +135,11 @@ public class ModelBitSword implements IModel
             }
         }
 
-        return new ModelBitSword.BakedBitSword(this, builder.build(), particleSprite, format, Maps.immutableEnumMap(transformMap), Maps.newHashMap(), transform.isIdentity());
+        return new BakedBitTool(this, builder.build(), particleSprite, format, Maps.immutableEnumMap(transformMap), Maps.newHashMap(), transform.isIdentity());
     }
 
     @Override
-    public ModelBitSword process(ImmutableMap<String, String> customData)
+    public ModelBitTool process(ImmutableMap<String, String> customData)
     {
         String colorArrayString = customData.get("colorArrayString");
         String[] items = colorArrayString.split(",");
@@ -154,7 +154,7 @@ public class ModelBitSword implements IModel
             };
         }
 
-        return new ModelBitSword(textureArray);
+        return new ModelBitTool(textureArray);
     }
 
     /**
@@ -167,19 +167,19 @@ public class ModelBitSword implements IModel
      * If no liquid is given a hardcoded variant for the bucket is used.
      */
     @Override
-    public ModelBitSword retexture(ImmutableMap<String, String> textures)
+    public ModelBitTool retexture(ImmutableMap<String, String> textures)
     {
-        return new ModelBitSword();
+        return new ModelBitTool();
     }
 
-    public enum LoaderBitSword implements ICustomModelLoader
+    public enum LoaderBitTool implements ICustomModelLoader
     {
         INSTANCE;
 
         @Override
         public boolean accepts(ResourceLocation modelLocation)
         {
-            return modelLocation.getResourceDomain().equals(BitCraftingMod.MODID) && modelLocation.getResourcePath().contains("itembitsword");
+            return modelLocation.getResourceDomain().equals(BitCraftingMod.MODID) && (modelLocation.getResourcePath().contains("itembitsword") || modelLocation.getResourcePath().contains("itembitpickaxe"));
         }
 
         @Override
@@ -195,10 +195,10 @@ public class ModelBitSword implements IModel
         }
     }
 
-    private static final class BakedBitSwordOverrideHandler extends ItemOverrideList
+    private static final class BakedBitToolOverrideHandler extends ItemOverrideList
     {
-        public static final BakedBitSwordOverrideHandler INSTANCE = new BakedBitSwordOverrideHandler();
-        private BakedBitSwordOverrideHandler()
+        public static final BakedBitToolOverrideHandler INSTANCE = new BakedBitToolOverrideHandler();
+        private BakedBitToolOverrideHandler()
         {
             super(ImmutableList.of());
         }
@@ -206,19 +206,19 @@ public class ModelBitSword implements IModel
         @Override
         public IBakedModel handleItemState(IBakedModel originalModel, ItemStack stack, @Nullable World world, @Nullable EntityLivingBase entity)
         {
-            if (!(stack.getItem() instanceof ItemBitSword))
+            if (!(stack.getItem() instanceof IItemBitTool))
             {
-                System.out.println("Not a Bit Sword apparently. Instead it's: " + stack.getItem());
+                System.out.println("Not a Bit Tool apparently. Instead it's: " + stack.getItem());
                 return originalModel;
             }
 
-            ModelBitSword.BakedBitSword model = (ModelBitSword.BakedBitSword)originalModel;
+            BakedBitTool model = (BakedBitTool)originalModel;
 
-            String arrayString = ItemBitSword.getColorArrayAsString(stack);
+            String arrayString = IItemBitTool.getColorArrayAsString(stack);
 
             if (!model.cache.containsKey(arrayString))
             {
-                ModelBitSword parent = model.parent.process(ImmutableMap.of("colorArrayString", arrayString));
+                ModelBitTool parent = model.parent.process(ImmutableMap.of("colorArrayString", arrayString));
                 Function<ResourceLocation, TextureAtlasSprite> textureGetter;
                 textureGetter = location -> Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(location.toString());
 
@@ -231,22 +231,22 @@ public class ModelBitSword implements IModel
         }
     }
 
-    private static final class BakedBitSword extends BakedItemModel
+    private static final class BakedBitTool extends BakedItemModel
     {
-        private final ModelBitSword parent;
+        private final ModelBitTool parent;
         private final Map<String, IBakedModel> cache;
         private final VertexFormat format;
         private final ImmutableMap<ItemCameraTransforms.TransformType, TRSRTransformation> transforms;
 
-        BakedBitSword(ModelBitSword parent,
-                       ImmutableList<BakedQuad> quads,
-                       TextureAtlasSprite particle,
-                       VertexFormat format,
-                       ImmutableMap<ItemCameraTransforms.TransformType, TRSRTransformation> transforms,
-                       Map<String, IBakedModel> cache,
-                       boolean untransformed)
+        BakedBitTool(ModelBitTool parent,
+                     ImmutableList<BakedQuad> quads,
+                     TextureAtlasSprite particle,
+                     VertexFormat format,
+                     ImmutableMap<ItemCameraTransforms.TransformType, TRSRTransformation> transforms,
+                     Map<String, IBakedModel> cache,
+                     boolean untransformed)
         {
-            super(quads, particle, transforms, BakedBitSwordOverrideHandler.INSTANCE, untransformed);
+            super(quads, particle, transforms, BakedBitToolOverrideHandler.INSTANCE, untransformed);
             this.transforms = transforms;
             this.format = format;
             this.parent = parent;

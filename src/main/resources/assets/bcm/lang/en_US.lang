@@ -71,6 +71,9 @@ item.lightning.name=Lightning Bit
 item.ice.name=Ice Bit
 item.spatial.name=Spatial Bit
 item.ItemBitSword.name=Bit Sword
+item.ItemBitPickaxe.name=Bit Pickaxe
+item.ItemSwordTemplate.name=Sword Template
+item.ItemPickaxeTemplate.name=Pickaxe Template
 
 tile.BlockBitCrucible.name=Bit Crucible
 tile.BlockBitForge.name=Bit Forge

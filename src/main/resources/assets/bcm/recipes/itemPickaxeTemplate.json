@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+
+  "pattern":
+  [
+    "BBB",
+    "BSB",
+    "BBB"
+  ],
+
+  "key":
+  {
+    "B":
+    {
+      "item": "bcm:ItemBit"
+    },
+    "S":
+    {
+      "item": "minecraft:wooden_pickaxe"
+    }
+  },
+
+  "result":
+  {
+    "item": "bcm:ItemPickaxeTemplate"
+  }
+}

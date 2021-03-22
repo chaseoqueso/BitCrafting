@@ -2,6 +2,7 @@ package com.chaseoqueso.bitcrafting.container;
 
 import com.chaseoqueso.bitcrafting.slots.BitSlot;
 import com.chaseoqueso.bitcrafting.slots.ForgeSlot;
+import com.chaseoqueso.bitcrafting.slots.TemplateSlot;
 import com.chaseoqueso.bitcrafting.tileentity.TileEntityBitForge;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -34,6 +35,7 @@ public class ContainerBitForge extends Container {
 			}
 		}
 		this.addSlotToContainer(new ForgeSlot(player.player, tileentity, craftResult, 0, 169, 39));
+		this.addSlotToContainer(new TemplateSlot(tileentity, 256, 138, 59));
 		
 		int i;
 		for(i = 0; i < 3; i++)

@@ -37,6 +37,9 @@ public class ClientProxy extends ServerProxy {
 		setRender(BitCraftingItems.ITEMS.itemBit);
 		setRender(BitCraftingItems.ITEMS.itemClearBit);
 		setRender(BitCraftingItems.ITEMS.itemBitSword);
+		setRender(BitCraftingItems.ITEMS.itemBitPickaxe);
+		setRender(BitCraftingItems.ITEMS.itemSwordTemplate);
+		setRender(BitCraftingItems.ITEMS.itemPickaxeTemplate);
 
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityBitChest.class, new BitChestRenderer());
 		ServerProxy.registerTileEntities();

@@ -2,22 +2,28 @@ package com.chaseoqueso.bitcrafting.tileentity;
 
 import com.chaseoqueso.bitcrafting.container.ContainerBitForge;
 import com.chaseoqueso.bitcrafting.init.BitCraftingItems;
-import com.chaseoqueso.bitcrafting.items.ItemBitSword;
+import com.chaseoqueso.bitcrafting.items.templates.ItemPickaxeTemplate;
+import com.chaseoqueso.bitcrafting.items.templates.ItemSwordTemplate;
+import com.chaseoqueso.bitcrafting.items.templates.ItemToolTemplate;
+import com.chaseoqueso.bitcrafting.items.tools.IItemBitTool;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ItemStackHelper;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.NonNullList;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class TileEntityBitForge extends TileEntity implements IInventory {
 	
-	private NonNullList<ItemStack> forgeItemStacks = NonNullList.withSize(256, ItemStack.EMPTY);
+	private NonNullList<ItemStack> forgeItemStacks = NonNullList.withSize(257, ItemStack.EMPTY);
 	private String forgeName = "Bit Forge";
 	protected ContainerBitForge eventhandler;
 	
@@ -134,6 +140,7 @@ public class TileEntityBitForge extends TileEntity implements IInventory {
         {
             this.forgeName = tag.getString("CustomName");
         }
+		super.markDirty();
 	}
 
 	@Override
@@ -151,7 +158,7 @@ public class TileEntityBitForge extends TileEntity implements IInventory {
 	}
 	
 	public boolean isUsableByPlayer(EntityPlayer player) {
-		return world.getTileEntity(pos) != this ? false : player.getDistanceSq((double) pos.getX() + .5D, (double) pos.getY() + .5D, (double) pos.getZ() + .5D) <= 64;
+		return world.getTileEntity(pos) == this && player.getDistanceSq((double) pos.getX() + .5D, (double) pos.getY() + .5D, (double) pos.getZ() + .5D) <= 64;
 	}
 
 	@Override
@@ -170,13 +177,16 @@ public class TileEntityBitForge extends TileEntity implements IInventory {
 	
 	public boolean canForge()
 	{
-		boolean flag = false;
-		for(int i = 0; i < forgeItemStacks.size(); i++)
+		if(forgeItemStacks.get(256).isEmpty() || !(forgeItemStacks.get(256).getItem() instanceof ItemToolTemplate))
+			return false;
+
+		for(int i = 0; i < forgeItemStacks.size() - 1; i++)
 		{
-			if(forgeItemStacks.get(i) != ItemStack.EMPTY)
-				flag = true;
+			if(!forgeItemStacks.get(i).isEmpty())
+				return true;
 		}
-		return flag;
+
+		return false;
 	}
 	
 	public ItemStack forgeItem()
@@ -187,6 +197,7 @@ public class TileEntityBitForge extends TileEntity implements IInventory {
 			ArrayList<String> effects = new ArrayList<String>();
 			ArrayList<Float> effectChances = new ArrayList<Float>();
 			ArrayList<Float> effectPowers = new ArrayList<Float>();
+			Map<Integer, Integer> harvestLevelOccurrances = new HashMap();
 			
 			for(int i = 0; i < 256; i++)
 			{
@@ -199,6 +210,16 @@ public class TileEntityBitForge extends TileEntity implements IInventory {
 						damage += itemData.getFloat("damage");
 						durability += itemData.getFloat("durability");
 						enchantability += itemData.getFloat("enchantability");
+
+						int harvestLevel = itemData.getInteger("harvestLevel");
+						if(harvestLevelOccurrances.containsKey(harvestLevel))
+						{
+							harvestLevelOccurrances.put(harvestLevel, harvestLevelOccurrances.get(harvestLevel) + 1);
+						}
+						else
+						{
+							harvestLevelOccurrances.put(harvestLevel, 1);
+						}
 		            }
 		            
 		            if (itemData.hasKey("effect"))
@@ -220,13 +241,26 @@ public class TileEntityBitForge extends TileEntity implements IInventory {
 		        }
 			}
 
-			NonNullList<ItemStack> forgeClone = NonNullList.withSize(forgeItemStacks.size(), ItemStack.EMPTY);
-			for (int i = 0; i < forgeItemStacks.size(); ++i) {
-				forgeClone.set(i, forgeItemStacks.get(i).copy());
+			int harvestLevel = 0;
+			for(int level : harvestLevelOccurrances.keySet())
+			{
+				if(level > harvestLevel && harvestLevelOccurrances.get(level) > 64)
+				{
+					harvestLevel = level;
+				}
 			}
 
-			//Returns the new weapon that is created based on certain damage, durability, etc. Also gives the new weapon an array of the Bits used for image generating purposes.
-			return ItemBitSword.initialize(new ItemStack(BitCraftingItems.ITEMS.itemBitSword), forgeClone, damage, durability, enchantability, effects, effectChances, effectPowers).copy();
+			NonNullList<ItemStack> forgeStacksClone = NonNullList.withSize(forgeItemStacks.size() - 1, ItemStack.EMPTY);
+			for (int i = 0; i < forgeItemStacks.size() - 1; ++i) {
+				forgeStacksClone.set(i, forgeItemStacks.get(i).copy());
+			}
+
+			//Returns the new tool that is created based on certain damage, durability, etc. Also gives the new weapon an array of the Bits used for image generating purposes.
+			Item templateType = forgeItemStacks.get(256).getItem();
+			if(templateType instanceof ItemSwordTemplate)
+				return IItemBitTool.initialize(new ItemStack(BitCraftingItems.ITEMS.itemBitSword), forgeStacksClone, damage, durability, enchantability, effects, effectChances, effectPowers, harvestLevel).copy();
+			if(templateType instanceof ItemPickaxeTemplate)
+				return IItemBitTool.initialize(new ItemStack(BitCraftingItems.ITEMS.itemBitPickaxe), forgeStacksClone, damage, durability, enchantability, effects, effectChances, effectPowers, harvestLevel).copy();
 		}
 		return null;
 	}
