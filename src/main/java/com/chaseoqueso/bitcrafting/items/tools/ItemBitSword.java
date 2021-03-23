@@ -101,16 +101,16 @@ public class ItemBitSword extends ItemSword implements IItemBitTool {
 				break;
 
 			case "ice":
-				Potion slowness = Potion.getPotionById(2);
+				Potion slowness = Potion.getPotionFromResourceLocation("slowness");
 				PotionEffect slow;
 				if(target.isPotionActive(slowness))
 				{
+					slow = new PotionEffect(slowness, (int)power * 20, target.getActivePotionEffect(slowness).getAmplifier() + 1);
 					target.removePotionEffect(slowness);
-					slow = new PotionEffect(slowness, (int)power, target.getActivePotionEffect(slowness).getAmplifier() + 1);
 				}
 				else
 				{
-					slow = new PotionEffect(slowness, (int)power, 1);
+					slow = new PotionEffect(slowness, (int)power * 20, 1);
 				}
 				target.addPotionEffect(slow);
 				break;

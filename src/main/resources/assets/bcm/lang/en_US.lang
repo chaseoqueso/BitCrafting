@@ -70,10 +70,17 @@ item.earth.name=Earth Bit
 item.lightning.name=Lightning Bit
 item.ice.name=Ice Bit
 item.spatial.name=Spatial Bit
+
 item.ItemBitSword.name=Bit Sword
 item.ItemBitPickaxe.name=Bit Pickaxe
+item.ItemBitAxe.name=Bit Axe
+item.ItemBitHoe.name=Bit Hoe
+item.ItemBitShovel.name=Bit Shovel
 item.ItemSwordTemplate.name=Sword Template
 item.ItemPickaxeTemplate.name=Pickaxe Template
+item.ItemAxeTemplate.name=Axe Template
+item.ItemHoeTemplate.name=Hoe Template
+item.ItemShovelTemplate.name=Shovel Template
 
 tile.BlockBitCrucible.name=Bit Crucible
 tile.BlockBitForge.name=Bit Forge

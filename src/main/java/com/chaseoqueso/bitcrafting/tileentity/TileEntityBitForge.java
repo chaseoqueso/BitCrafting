@@ -2,9 +2,7 @@ package com.chaseoqueso.bitcrafting.tileentity;
 
 import com.chaseoqueso.bitcrafting.container.ContainerBitForge;
 import com.chaseoqueso.bitcrafting.init.BitCraftingItems;
-import com.chaseoqueso.bitcrafting.items.templates.ItemPickaxeTemplate;
-import com.chaseoqueso.bitcrafting.items.templates.ItemSwordTemplate;
-import com.chaseoqueso.bitcrafting.items.templates.ItemToolTemplate;
+import com.chaseoqueso.bitcrafting.items.templates.*;
 import com.chaseoqueso.bitcrafting.items.tools.IItemBitTool;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -244,9 +242,19 @@ public class TileEntityBitForge extends TileEntity implements IInventory {
 			int harvestLevel = 0;
 			for(int level : harvestLevelOccurrances.keySet())
 			{
-				if(level > harvestLevel && harvestLevelOccurrances.get(level) > 64)
+				if(level > harvestLevel)
 				{
-					harvestLevel = level;
+					int equalOrHigherCount = harvestLevelOccurrances.get(level);
+					for(int h_level : harvestLevelOccurrances.keySet())
+					{
+						if(h_level > level)
+						{
+							equalOrHigherCount += harvestLevelOccurrances.get(h_level);
+						}
+					}
+
+					if(equalOrHigherCount >= 64)
+						harvestLevel = level;
 				}
 			}
 
@@ -257,12 +265,19 @@ public class TileEntityBitForge extends TileEntity implements IInventory {
 
 			//Returns the new tool that is created based on certain damage, durability, etc. Also gives the new weapon an array of the Bits used for image generating purposes.
 			Item templateType = forgeItemStacks.get(256).getItem();
+
 			if(templateType instanceof ItemSwordTemplate)
 				return IItemBitTool.initialize(new ItemStack(BitCraftingItems.ITEMS.itemBitSword), forgeStacksClone, damage, durability, enchantability, effects, effectChances, effectPowers, harvestLevel).copy();
 			if(templateType instanceof ItemPickaxeTemplate)
 				return IItemBitTool.initialize(new ItemStack(BitCraftingItems.ITEMS.itemBitPickaxe), forgeStacksClone, damage, durability, enchantability, effects, effectChances, effectPowers, harvestLevel).copy();
+			if(templateType instanceof ItemAxeTemplate)
+				return IItemBitTool.initialize(new ItemStack(BitCraftingItems.ITEMS.itemBitAxe), forgeStacksClone, damage, durability, enchantability, effects, effectChances, effectPowers, harvestLevel).copy();
+			if(templateType instanceof ItemHoeTemplate)
+				return IItemBitTool.initialize(new ItemStack(BitCraftingItems.ITEMS.itemBitHoe), forgeStacksClone, damage, durability, enchantability, effects, effectChances, effectPowers, harvestLevel).copy();
+			if(templateType instanceof ItemShovelTemplate)
+				return IItemBitTool.initialize(new ItemStack(BitCraftingItems.ITEMS.itemBitShovel), forgeStacksClone, damage, durability, enchantability, effects, effectChances, effectPowers, harvestLevel).copy();
 		}
-		return null;
+		return ItemStack.EMPTY;
 	}
 
 	@Override

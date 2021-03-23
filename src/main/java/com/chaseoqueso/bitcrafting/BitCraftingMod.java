@@ -13,6 +13,7 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -62,6 +63,8 @@ public class BitCraftingMod {
 			stackList.sort(new tabComparator());
 		}
 	};
+
+	public static final SpecialDropEventHandler dropEventHandler = new SpecialDropEventHandler();
 	
 	@Instance(MODID)
 	public static BitCraftingMod instance;

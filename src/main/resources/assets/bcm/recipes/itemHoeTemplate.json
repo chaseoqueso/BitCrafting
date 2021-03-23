@@ -16,12 +16,12 @@
     },
     "#":
     {
-      "item": "minecraft:wooden_pickaxe"
+      "item": "minecraft:wooden_hoe"
     }
   },
 
   "result":
   {
-    "item": "bcm:ItemPickaxeTemplate"
+    "item": "bcm:ItemHoeTemplate"
   }
 }

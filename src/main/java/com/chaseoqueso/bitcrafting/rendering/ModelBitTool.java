@@ -179,7 +179,12 @@ public class ModelBitTool implements IModel
         @Override
         public boolean accepts(ResourceLocation modelLocation)
         {
-            return modelLocation.getResourceDomain().equals(BitCraftingMod.MODID) && (modelLocation.getResourcePath().contains("itembitsword") || modelLocation.getResourcePath().contains("itembitpickaxe"));
+            return modelLocation.getResourceDomain().equals(BitCraftingMod.MODID) &&
+                    (modelLocation.getResourcePath().contains("itembitsword")
+                  || modelLocation.getResourcePath().contains("itembitpickaxe")
+                  || modelLocation.getResourcePath().contains("itembitaxe")
+                  || modelLocation.getResourcePath().contains("itembithoe")
+                  || modelLocation.getResourcePath().contains("itembitshovel"));
         }
 
         @Override

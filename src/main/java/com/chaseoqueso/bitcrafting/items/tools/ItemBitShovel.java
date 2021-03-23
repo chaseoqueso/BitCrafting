@@ -2,32 +2,21 @@ package com.chaseoqueso.bitcrafting.items.tools;
 
 import com.chaseoqueso.bitcrafting.BitCraftingMod;
 import com.google.common.collect.HashMultimap;
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Multimap;
-import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemPickaxe;
+import net.minecraft.item.ItemSpade;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
-import net.minecraft.potion.PotionHelper;
-import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.EnumHelper;
@@ -35,15 +24,16 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nullable;
-import java.util.*;
+import java.util.List;
+import java.util.Random;
 
-public class ItemBitPickaxe extends ItemPickaxe implements IItemBitTool {
+public class ItemBitShovel extends ItemSpade implements IItemBitTool {
 
-    public ItemBitPickaxe()
+    public ItemBitShovel()
     {
-        super(EnumHelper.addToolMaterial("BitPickaxe", 0, Integer.MAX_VALUE, 0, -4, 0));
-        setUnlocalizedName("ItemBitPickaxe");
-        setRegistryName(new ResourceLocation(BitCraftingMod.MODID, "itembitpickaxe"));
+        super(EnumHelper.addToolMaterial("BitShovel", 0, Integer.MAX_VALUE, 0, -4, 0));
+        setUnlocalizedName("ItemBitShovel");
+        setRegistryName(new ResourceLocation(BitCraftingMod.MODID, "itembitshovel"));
         setCreativeTab(null);
     }
 
@@ -62,7 +52,7 @@ public class ItemBitPickaxe extends ItemPickaxe implements IItemBitTool {
     public float getDestroySpeed(ItemStack stack, IBlockState state)
     {
         Material material = state.getMaterial();
-        if(material != Material.IRON && material != Material.ANVIL && material != Material.ROCK)
+        if(material != Material.CLAY && material != Material.CRAFTED_SNOW && material != Material.GRASS && material != Material.SNOW && material != Material.GROUND && material != Material.SAND)
             return super.getDestroySpeed(stack, state);
 
         if(stack.hasTagCompound())
@@ -122,139 +112,17 @@ public class ItemBitPickaxe extends ItemPickaxe implements IItemBitTool {
         return true;
     }
 
-    public void activateAllEffects(ItemStack stack, IBlockState state, BlockPos pos, EntityLivingBase player, World worldIn, List<ItemStack> drops)
-    {
-        if ((double)state.getBlockHardness(worldIn, pos) != 0.0D && stack.hasTagCompound())
-        {
-            NBTTagCompound itemData = stack.getTagCompound();
-            if(itemData.hasKey("EffectArray"))
-            {
-                Random rand = new Random();
-                NBTTagList effectlist = itemData.getTagList("EffectArray", 10);
-                for(int i = 0; i < effectlist.tagCount(); ++i)
-                {
-                    NBTTagCompound effectData = effectlist.getCompoundTagAt(i);
-                    if(rand.nextFloat() < effectData.getFloat("chance"))
-                    {
-                        ((ItemBitPickaxe)stack.getItem()).activateEffect(effectData.getString("effect"), effectData.getFloat("power"), drops, pos, state, player, worldIn, stack);
-                    }
-                }
-            }
-        }
-    }
-
-    public void activateEffect(String effect, float power, List<ItemStack> drops, BlockPos pos, IBlockState state, EntityLivingBase player, World world, ItemStack pickaxe)
+    public void activateEffect(String effect, float power, List<ItemStack> drops, BlockPos pos, IBlockState state, EntityLivingBase blockDestroyer, World world)
     {
         switch(effect)
         {
             case "fire":
-                List<ItemStack> newDrops = new ArrayList();
-
-                NonNullList<ItemStack> defaultDrops = NonNullList.create();
-                state.getBlock().getDrops(defaultDrops, world, pos, state, 0);
-
-                for(int i = 0; i < defaultDrops.size(); ++i)
-                {
-                    final float fortuneChance = 0.1f;
-                    int fortune = 1;
-                    Random rand = world.rand;
-                    for(int j = 0; j < power; ++j)
-                    {
-                        double chance = rand.nextDouble();
-
-                        if(chance < fortuneChance)
-                        {
-                            ++fortune;
-                        }
-                    }
-
-                    ItemStack drop = defaultDrops.get(i);
-                    ItemStack smeltResult = FurnaceRecipes.instance().getSmeltingResult(drop);
-
-                    if(smeltResult == ItemStack.EMPTY)
-                    {
-                        newDrops.add(drop);
-                    }
-                    else
-                    {
-                        smeltResult.setCount(smeltResult.getCount() * fortune);
-                        newDrops.add(smeltResult);
-                    }
-                }
-                drops.clear();
-                drops.addAll(newDrops);
                 break;
 
             case "lightning":
-                Potion haste = Potion.getPotionFromResourceLocation("haste");
-                PotionEffect potionEffect;
-                if(player.isPotionActive(haste))
-                {
-                    potionEffect = new PotionEffect(haste, (int)power * 20, player.getActivePotionEffect(haste).getAmplifier() + 1);
-                    player.removePotionEffect(haste);
-                }
-                else
-                {
-                    potionEffect = new PotionEffect(haste, (int)power * 20, 1);
-                }
-                player.addPotionEffect(potionEffect);
                 break;
 
             case "earth":
-                double lookAngle = player.rotationYaw + 90;
-                if(lookAngle < 0)
-                    lookAngle += 360;
-                lookAngle = Math.toRadians(lookAngle);
-
-                double lookPitch = player.rotationPitch;
-                if(lookPitch < 0)
-                    lookPitch += 360;
-                lookPitch = Math.toRadians(lookPitch);
-
-                double xAmount = Math.cos(lookAngle);
-                double yAmount = -Math.sin(lookPitch);
-                double zAmount = Math.sin(lookAngle);
-
-                double maxHorAmount = Math.max(Math.abs(xAmount),Math.abs(zAmount));
-
-                if(Math.abs(yAmount) > 0.8)
-                {
-                    xAmount = 0;
-                    yAmount = 1 * Math.signum(yAmount);
-                    zAmount = 0;
-                }
-                else if(Math.abs(xAmount) == maxHorAmount)
-                {
-                    xAmount = 1 * Math.signum(xAmount);
-                    yAmount = 0;
-                    zAmount = 0;
-                }
-                else
-                {
-                    xAmount = 0;
-                    yAmount = 0;
-                    zAmount = 1 * Math.signum(zAmount);
-                }
-
-                for(int i = 1; i < power + 1; ++i)
-                {
-                    BlockPos position = new BlockPos(pos.getX() + xAmount*i, pos.getY() + yAmount*i, pos.getZ() + zAmount*i);
-                    IBlockState blockAtPosition = world.getBlockState(position);
-                    player.sendMessage(new TextComponentString(position.toString()));
-
-                    Material material = blockAtPosition.getMaterial();
-                    if(material != Material.IRON && material != Material.ANVIL && material != Material.ROCK)
-                        break;
-
-                    NonNullList<ItemStack> blockDrops = NonNullList.create();
-                    blockAtPosition.getBlock().getDrops(blockDrops, world, position, state, 0);
-
-                    for (ItemStack drop : blockDrops) {
-                        world.spawnEntity(new EntityItem(world, position.getX(), position.getY(), position.getZ(), drop));
-                    }
-
-                    world.setBlockToAir(position);
-                }
                 break;
 
             case "ice":

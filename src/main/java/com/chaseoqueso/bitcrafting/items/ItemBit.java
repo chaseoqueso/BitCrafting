@@ -221,7 +221,7 @@ public class ItemBit extends Item {
 					itemData.setFloat("damage", .1F);
 					itemData.setFloat("durability", 20F);
 					itemData.setFloat("enchantability", .2F);
-					itemData.setInteger("harvestLevel", 3);
+					itemData.setInteger("harvestLevel", 4);
 
 					items.add(bitStack);
 				}
@@ -264,7 +264,7 @@ public class ItemBit extends Item {
 				itemData.setString("effect", effects[eff]);
 				itemData.setFloat("chance", 0.01F);
 				itemData.setFloat("power", 0.1F);
-				itemData.setInteger("harvestLevel", 3);
+				itemData.setInteger("harvestLevel", 4);
 
 				items.add(bitStack);
 			}
@@ -421,7 +421,7 @@ public class ItemBit extends Item {
 					case 2:
 						return 0x00FFFF;
 					case 3:
-						return 0x66FFFF;
+						return 0x77FFFF;
 					case 4:
 						return 0xCCFFFF;
 				}

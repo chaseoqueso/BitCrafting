@@ -4,7 +4,7 @@
   "pattern":
   [
     "BBB",
-    "BSB",
+    "B#B",
     "BBB"
   ],
 
@@ -14,7 +14,7 @@
     {
       "item": "bcm:ItemBit"
     },
-    "S":
+    "#":
     {
       "item": "minecraft:wooden_sword"
     }

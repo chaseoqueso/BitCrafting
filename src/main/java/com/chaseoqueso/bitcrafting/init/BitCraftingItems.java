@@ -3,10 +3,8 @@ package com.chaseoqueso.bitcrafting.init;
 import com.chaseoqueso.bitcrafting.BitCraftingMod;
 import com.chaseoqueso.bitcrafting.items.ItemBit;
 import com.chaseoqueso.bitcrafting.items.ItemBitColorManager;
-import com.chaseoqueso.bitcrafting.items.templates.ItemPickaxeTemplate;
-import com.chaseoqueso.bitcrafting.items.templates.ItemSwordTemplate;
-import com.chaseoqueso.bitcrafting.items.tools.ItemBitPickaxe;
-import com.chaseoqueso.bitcrafting.items.tools.ItemBitSword;
+import com.chaseoqueso.bitcrafting.items.templates.*;
+import com.chaseoqueso.bitcrafting.items.tools.*;
 import com.chaseoqueso.bitcrafting.items.ItemClearBit;
 
 import net.minecraft.client.renderer.color.IItemColor;
@@ -26,8 +24,14 @@ public class BitCraftingItems {
         public static Item itemClearBit = new ItemClearBit().setRegistryName(new ResourceLocation(BitCraftingMod.MODID, "itemclearbit"));
         public static Item itemBitSword = new ItemBitSword();
         public static Item itemBitPickaxe = new ItemBitPickaxe();
+        public static Item itemBitAxe = new ItemBitAxe();
+        public static Item itemBitHoe = new ItemBitHoe();
+        public static Item itemBitShovel = new ItemBitShovel();
         public static Item itemSwordTemplate = new ItemSwordTemplate();
         public static Item itemPickaxeTemplate = new ItemPickaxeTemplate();
+        public static Item itemAxeTemplate = new ItemAxeTemplate();
+        public static Item itemHoeTemplate = new ItemHoeTemplate();
+        public static Item itemShovelTemplate = new ItemShovelTemplate();
 
         public static IItemColor itemBitColorManager = new ItemBitColorManager();
     }
@@ -39,7 +43,13 @@ public class BitCraftingItems {
                                         ITEMS.itemClearBit,
                                         ITEMS.itemBitSword,
                                         ITEMS.itemBitPickaxe,
+                                        ITEMS.itemBitAxe,
+                                        ITEMS.itemBitHoe,
+                                        ITEMS.itemBitShovel,
                                         ITEMS.itemSwordTemplate,
-                                        ITEMS.itemPickaxeTemplate);
+                                        ITEMS.itemPickaxeTemplate,
+                                        ITEMS.itemAxeTemplate,
+                                        ITEMS.itemHoeTemplate,
+                                        ITEMS.itemShovelTemplate);
     }
 }
