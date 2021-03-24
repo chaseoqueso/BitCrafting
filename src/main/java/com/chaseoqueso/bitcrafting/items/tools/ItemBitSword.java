@@ -47,12 +47,9 @@ public class ItemBitSword extends ItemSword implements IItemBitTool {
 		switch(effect)
 		{
 			case "fire":
-				Map<Integer, List<BlockPos>> firePositions = new HashMap();
 				BlockPos targetPos = target.getPosition();
-				if(world.isAirBlock(targetPos) && Blocks.FIRE.canPlaceBlockAt(world, targetPos)) {
-					firePositions.put(hashBlockPos(targetPos), new ArrayList());
-					firePositions.get(hashBlockPos(targetPos)).add(targetPos);
-				}
+				if(world.isAirBlock(targetPos) && Blocks.FIRE.canPlaceBlockAt(world, targetPos))
+					world.setBlockState(targetPos, Blocks.FIRE.getDefaultState());
 
 				double lookAngle = player.rotationYaw;
 				if(lookAngle < 0)
@@ -66,15 +63,7 @@ public class ItemBitSword extends ItemSword implements IItemBitTool {
 				if(maxAngle >= 360)
 					maxAngle -= 360;
 
-				System.out.println("Player Angle: " + lookAngle + "\nMax Angle: " + maxAngle + "\nMin Angle: " + minAngle);
-
-				addNeighborsWithinCone(firePositions, pos -> world.isAirBlock(pos) && Blocks.FIRE.canPlaceBlockAt(world, pos), target.getPosition(), player.getPosition(), 1 + power, minAngle, maxAngle);
-
-				for (List<BlockPos> posList : firePositions.values()) {
-					for(BlockPos pos : posList) {
-						world.setBlockState(pos, Blocks.FIRE.getDefaultState());
-					}
-				}
+				igniteNeighborsWithinCone(world, pos -> world.isAirBlock(pos) && Blocks.FIRE.canPlaceBlockAt(world, pos), target.getPosition(), target.getPosition(), 1 + power, minAngle, maxAngle);
 
 				target.setFire((int)power);
 				break;
@@ -133,7 +122,7 @@ public class ItemBitSword extends ItemSword implements IItemBitTool {
 		}
 	}
 
-	private void addNeighborsWithinCone(Map<Integer, List<BlockPos>> posMap, Predicate<BlockPos> blockPosPredicate, BlockPos origin, BlockPos playerPos, double maxDistance, double minAngle, double maxAngle)
+	private void igniteNeighborsWithinCone(World world, Predicate<BlockPos> blockPosPredicate, BlockPos origin, BlockPos targetPos, double maxDistance, double minAngle, double maxAngle)
 	{
 		for(int xDiff = -1; xDiff <= 1; ++xDiff)
 		{
@@ -146,24 +135,23 @@ public class ItemBitSword extends ItemSword implements IItemBitTool {
 						continue;
 
 					BlockPos nextBlock = new BlockPos(origin.getX() + xDiff, origin.getY() + yDiff, origin.getZ() + zDiff);
-					int blockHash = hashBlockPos(nextBlock);
 
 					//Move to next block if this one's invalid
 					if(!blockPosPredicate.test(nextBlock))
 						continue;
 
 					//Move to next block if this one's beyond the max distance from the player
-					if(distance(nextBlock, playerPos) > maxDistance)
+					if(distance(nextBlock, targetPos) > maxDistance)
 						continue;
 
 					//Move to next block if this one's outside of the cone angle
-					double angleFromPlayer = Math.toDegrees(Math.atan2(nextBlock.getZ() - playerPos.getZ(), nextBlock.getX() - playerPos.getX()));
+					double angleFromPlayer = Math.toDegrees(Math.atan2(nextBlock.getZ() - targetPos.getZ(), nextBlock.getX() - targetPos.getX()));
 					angleFromPlayer -= 90;
 					if(angleFromPlayer < 0)
 						angleFromPlayer += 360;
 					if(angleFromPlayer >= 360)
 						angleFromPlayer -= 360;
-					System.out.println("Angle from player: " + angleFromPlayer);
+
 					if(minAngle > maxAngle) {
 						if(angleFromPlayer < minAngle && angleFromPlayer > maxAngle)
 							continue;
@@ -173,28 +161,9 @@ public class ItemBitSword extends ItemSword implements IItemBitTool {
 							continue;
 					}
 
-					//Move to next block if this one's already in the map
-					if(posMap.containsKey(blockHash))
-					{
-						boolean flag = false;
-						for(BlockPos pos : posMap.get(blockHash))
-						{
-							if(pos.getX() == nextBlock.getX() && pos.getY() == nextBlock.getY() && pos.getZ() == nextBlock.getZ()) {
-								flag = true;
-								break;
-							}
-						}
-						if(flag)
-							continue;
-					}
-
 					//If we made it this far, add the block to the map
-					if(!posMap.containsKey(blockHash))
-					{
-						posMap.put(blockHash, new ArrayList());
-					}
-					posMap.get(blockHash).add(nextBlock);
-					addNeighborsWithinCone(posMap, blockPosPredicate, nextBlock, playerPos, maxDistance, minAngle, maxAngle);
+					world.setBlockState(nextBlock, Blocks.FIRE.getDefaultState());
+					igniteNeighborsWithinCone(world, blockPosPredicate, nextBlock, targetPos, maxDistance, minAngle, maxAngle);
 				}
 			}
 		}
@@ -245,7 +214,7 @@ public class ItemBitSword extends ItemSword implements IItemBitTool {
 				stack.shrink(1);
 			if(itemData.hasKey("EffectArray"))
 			{
-				Random rand = new Random();
+				Random rand = player.world.rand;
 				NBTTagList effectlist = itemData.getTagList("EffectArray", 10);
 				for(int i = 0; i < effectlist.tagCount(); ++i)
 				{
@@ -323,7 +292,7 @@ public class ItemBitSword extends ItemSword implements IItemBitTool {
 																		: effectData.getString("effect").equals("ice")
 																				  ? TextFormatting.AQUA + "Frostbite" + TextFormatting.RESET
 																				  : TextFormatting.DARK_PURPLE + "" + TextFormatting.OBFUSCATED
-																					+ "Anomolize" + TextFormatting.RESET);
+																					+ "Anomalize" + TextFormatting.RESET);
 					tooltip.add(text + " (" + String.format("%.3f", effectData.getFloat("chance")*100) + "%, " + String.format("%.3f", effectData.getFloat("power")) + ")");
 				}
 			}

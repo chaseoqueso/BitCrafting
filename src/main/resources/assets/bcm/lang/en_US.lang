@@ -69,7 +69,7 @@ item.fire.name=Fire Bit
 item.earth.name=Earth Bit
 item.lightning.name=Lightning Bit
 item.ice.name=Ice Bit
-item.spatial.name=Spatial Bit
+item.spatial.name=Anomaly Bit
 
 item.ItemBitSword.name=Bit Sword
 item.ItemBitPickaxe.name=Bit Pickaxe

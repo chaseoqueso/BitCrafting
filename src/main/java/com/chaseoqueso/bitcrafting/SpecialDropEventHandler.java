@@ -1,6 +1,7 @@
 package com.chaseoqueso.bitcrafting;
 
 import com.chaseoqueso.bitcrafting.items.tools.IItemBitTool;
+import com.chaseoqueso.bitcrafting.items.tools.ItemBitAxe;
 import com.chaseoqueso.bitcrafting.items.tools.ItemBitPickaxe;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -35,6 +36,11 @@ public class SpecialDropEventHandler {
             if(stack.getItem() instanceof ItemBitPickaxe)
             {
                 ( (ItemBitPickaxe)stack.getItem() ).activateAllEffects(stack, event.getState(), event.getPos(), player, player.world, newDrops);
+            }
+
+            if(stack.getItem() instanceof ItemBitAxe)
+            {
+                ( (ItemBitAxe)stack.getItem() ).activateAllEffects(stack, event.getState(), event.getPos(), player, player.world, newDrops);
             }
         }
     }

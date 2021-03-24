@@ -8,13 +8,18 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Enchantments;
+import net.minecraft.init.Items;
 import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemPickaxe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
@@ -33,6 +38,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.oredict.OreDictionary;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -127,9 +133,9 @@ public class ItemBitPickaxe extends ItemPickaxe implements IItemBitTool {
         if ((double)state.getBlockHardness(worldIn, pos) != 0.0D && stack.hasTagCompound())
         {
             NBTTagCompound itemData = stack.getTagCompound();
-            if(itemData.hasKey("EffectArray"))
+            if(itemData.hasKey("EffectArray") && itemData.getFloat("Damage") == getDestroySpeed(stack, state))
             {
-                Random rand = new Random();
+                Random rand = worldIn.rand;
                 NBTTagList effectlist = itemData.getTagList("EffectArray", 10);
                 for(int i = 0; i < effectlist.tagCount(); ++i)
                 {
@@ -258,9 +264,46 @@ public class ItemBitPickaxe extends ItemPickaxe implements IItemBitTool {
                 break;
 
             case "ice":
+                drops.clear();
+                drops.add(new ItemStack(state.getBlock()));
+                drops.add(new ItemStack(Items.SNOWBALL, (int)(world.rand.nextFloat() * power)));
                 break;
 
             case "spatial":
+                List<Block> potentialOres = new ArrayList();
+                for(String ore : OreDictionary.getOreNames())
+                {
+                    if(ore.contains("ore"))
+                    {
+                        for(ItemStack i : OreDictionary.getOres(ore))
+                        {
+                            potentialOres.add(( (ItemBlock)i.getItem() ).getBlock());
+                        }
+                    }
+                }
+
+                potentialOres.remove(state.getBlock());
+                for(int i = 0; i < potentialOres.size(); ++i)
+                {
+                    if(potentialOres.get(i).getHarvestLevel(potentialOres.get(i).getDefaultState()) > state.getBlock().getHarvestLevel(state))
+                    {
+                        potentialOres.remove(i);
+                        --i;
+                    }
+                }
+
+                if(potentialOres.size() == 0)
+                    break;
+
+                NonNullList<ItemStack> oreDrops = NonNullList.create();
+
+                Block blockOre = potentialOres.get((int)(world.rand.nextFloat() * potentialOres.size()));
+                world.setBlockState(pos, blockOre.getDefaultState());
+                blockOre.getDrops(oreDrops, world, pos, blockOre.getDefaultState(), EnchantmentHelper.getEnchantmentLevel(Enchantments.SILK_TOUCH, pickaxe));
+                world.setBlockToAir(pos);
+
+                drops.clear();
+                drops.addAll(oreDrops);
                 break;
         }
     }
@@ -319,16 +362,15 @@ public class ItemBitPickaxe extends ItemPickaxe implements IItemBitTool {
                 for(int i = 0; i < effectlist.tagCount(); ++i)
                 {
                     NBTTagCompound effectData = effectlist.getCompoundTagAt(i);
-                    String text = (String) (effectData.getString("effect").equals("fire")
-                                                    ? TextFormatting.RED + "Enflame" + TextFormatting.RESET
-                                                    : effectData.getString("effect").equals("earth")
-                                                              ? TextFormatting.DARK_GRAY + "Stonestrike" + TextFormatting.RESET
-                                                              : effectData.getString("effect").equals("lightning")
-                                                                        ? TextFormatting.YELLOW + "Stormcall" + TextFormatting.RESET
-                                                                        : effectData.getString("effect").equals("ice")
-                                                                                  ? TextFormatting.AQUA + "Frostbite" + TextFormatting.RESET
-                                                                                  : TextFormatting.DARK_PURPLE + "" + TextFormatting.OBFUSCATED
-                                                                                    + "Anomolize" + TextFormatting.RESET);
+                    String text = (effectData.getString("effect").equals("fire")
+                            ? TextFormatting.RED + "Flametouch" + TextFormatting.RESET
+                            : effectData.getString("effect").equals("earth")
+                                      ? TextFormatting.DARK_GRAY + "Tunneler" + TextFormatting.RESET
+                                      : effectData.getString("effect").equals("lightning")
+                                                ? TextFormatting.YELLOW + "Speedmine" + TextFormatting.RESET
+                                                : effectData.getString("effect").equals("ice")
+                                                          ? TextFormatting.AQUA + "Snowtouch" + TextFormatting.RESET
+                                                          : TextFormatting.DARK_PURPLE + "" + TextFormatting.OBFUSCATED + "Anomalize" + TextFormatting.RESET);
                     tooltip.add(text + " (" + String.format("%.3f", effectData.getFloat("chance")*100) + "%, " + String.format("%.3f", effectData.getFloat("power")) + ")");
                 }
             }

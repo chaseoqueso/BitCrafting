@@ -17,6 +17,7 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.oredict.OreDictionary;
 
 @Mod.EventBusSubscriber
 public class BitCraftingBlocks {
@@ -63,6 +64,12 @@ public class BitCraftingBlocks {
 										getItemBlock(BLOCKS.blockIceOre),
 										getItemBlock(BLOCKS.blockSpatialOre),
 										getItemBlock(BLOCKS.blockBitChest));
+
+		OreDictionary.registerOre("oreBitFire", BitCraftingBlocks.BLOCKS.blockFireOre);
+		OreDictionary.registerOre("oreBitEarth", BitCraftingBlocks.BLOCKS.blockEarthOre);
+		OreDictionary.registerOre("oreBitLightning", BitCraftingBlocks.BLOCKS.blockLightningOre);
+		OreDictionary.registerOre("oreBitIce", BitCraftingBlocks.BLOCKS.blockIceOre);
+		OreDictionary.registerOre("oreBitSpatial", BitCraftingBlocks.BLOCKS.blockSpatialOre);
 	}
 
 	public static Item getItemBlock(Block block) {
