@@ -28,6 +28,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
@@ -35,11 +36,14 @@ import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.oredict.OreDictionary;
 
 import javax.annotation.Nullable;
 import java.util.*;
 
 public class ItemBitHoe extends ItemHoe implements IItemBitTool {
+
+    public static List<ItemStack> allCrops;
 
     public ItemBitHoe()
     {
@@ -110,12 +114,55 @@ public class ItemBitHoe extends ItemHoe implements IItemBitTool {
     }
 
     @Override
-    public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float p_180614_6_, float p_180614_7_, float p_180614_8_) {
-        if(world.isRemote)
-            return super.onItemUse(player, world, pos, hand, facing, p_180614_6_, p_180614_7_, p_180614_8_);
+    public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
+    {
+        ItemStack itemstack = playerIn.getHeldItem(handIn);
+        RayTraceResult raytraceresult = this.rayTrace(worldIn, playerIn, true);
 
+        if(raytraceresult == null || worldIn.isRemote)
+            return new ActionResult<ItemStack>(EnumActionResult.PASS, itemstack);
+
+        if (raytraceresult.typeOfHit == RayTraceResult.Type.BLOCK)
+        {
+            BlockPos blockpos = raytraceresult.getBlockPos();
+
+            if (!worldIn.isBlockModifiable(playerIn, blockpos) || !playerIn.canPlayerEdit(blockpos.offset(raytraceresult.sideHit), raytraceresult.sideHit, itemstack))
+            {
+                return new ActionResult<ItemStack>(EnumActionResult.PASS, itemstack);
+            }
+
+            if (worldIn.getBlockState(blockpos).getMaterial() == Material.WATER ||
+                    worldIn.getBlockState(blockpos).getMaterial() == Material.ICE)
+            {
+                if (itemstack.hasTagCompound())
+                {
+                    NBTTagCompound itemData = itemstack.getTagCompound();
+                    if(itemData.hasKey("EffectArray"))
+                    {
+                        Random rand = worldIn.rand;
+                        NBTTagList effectlist = itemData.getTagList("EffectArray", 10);
+                        for(int i = 0; i < effectlist.tagCount(); ++i)
+                        {
+                            NBTTagCompound effectData = effectlist.getCompoundTagAt(i);
+                            if(rand.nextFloat() < effectData.getFloat("chance") && effectData.getString("effect").equals("ice"))
+                            {
+                                activateEffect("ice", effectData.getFloat("power"), blockpos, worldIn.getBlockState(blockpos), playerIn, worldIn, itemstack);
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
+        return new ActionResult<ItemStack>(EnumActionResult.PASS, itemstack);
+    }
+
+    @Override
+    public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float p_180614_6_, float p_180614_7_, float p_180614_8_) {
         ItemStack stack = player.getHeldItem(hand);
-        IBlockState state = world.getBlockState(pos);
+
+        if(!stack.hasTagCompound() || world.isRemote)
+            return super.onItemUse(player, world, pos, hand, facing, p_180614_6_, p_180614_7_, p_180614_8_);
 
         Map<String, Float> effectsToActivate = new HashMap<>();
         NBTTagCompound itemData = stack.getTagCompound();
@@ -133,12 +180,18 @@ public class ItemBitHoe extends ItemHoe implements IItemBitTool {
             }
         }
 
+        IBlockState state = world.getBlockState(pos);
         Block block = state.getBlock();
+
         if(block instanceof BlockCrops && ( (BlockCrops)block ).isMaxAge(state))
         {
             if(effectsToActivate.containsKey("fire"))
             {
                 activateEffect("fire", effectsToActivate.get("fire"), pos, state, player, world, stack);
+            }
+            else if(effectsToActivate.containsKey("spatial"))
+            {
+                activateEffect("spatial", effectsToActivate.get("spatial"), pos, state, player, world, stack);
             }
             else
             {
@@ -151,6 +204,8 @@ public class ItemBitHoe extends ItemHoe implements IItemBitTool {
 
                 world.setBlockToAir(pos);
             }
+
+            itemData.setInteger("Uses", itemData.getInteger("Uses") + 1);
             return EnumActionResult.SUCCESS;
         }
 
@@ -193,6 +248,18 @@ public class ItemBitHoe extends ItemHoe implements IItemBitTool {
 
     public void activateEffect(String effect, float power, BlockPos pos, IBlockState state, EntityPlayer player, World world, ItemStack hoe)
     {
+        if(allCrops == null)
+        {
+            allCrops = new ArrayList<>();
+            for(String crop : OreDictionary.getOreNames())
+            {
+                if(crop.toLowerCase().contains("crop"))
+                {
+                    allCrops.addAll(OreDictionary.getOres(crop));
+                }
+            }
+        }
+
         switch(effect)
         {
             case "fire":
@@ -200,21 +267,27 @@ public class ItemBitHoe extends ItemHoe implements IItemBitTool {
                 if(cropItem == Items.WHEAT)
                 {
                     world.spawnEntity(new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(Items.BREAD)));
-                    world.setBlockToAir(pos);
-                }
-                else if(cropItem == Items.POTATO)
-                {
-                    world.spawnEntity(new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(Items.BAKED_POTATO)));
-                    world.setBlockToAir(pos);
                 }
                 else
                 {
                     ItemStack smeltResult = FurnaceRecipes.instance().getSmeltingResult(new ItemStack(cropItem));
 
-                    if(smeltResult == ItemStack.EMPTY)
+                    if(smeltResult != ItemStack.EMPTY)
                     {
-                        world.spawnEntity(new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), smeltResult));
-                        world.setBlockToAir(pos);
+                        final float fortuneChance = 0.1f;
+                        int fortune = 1;
+                        Random rand = world.rand;
+                        for(int j = 0; j < power; ++j)
+                        {
+                            double chance = rand.nextDouble();
+
+                            if(chance < fortuneChance)
+                            {
+                                ++fortune;
+                            }
+                        }
+
+                        world.spawnEntity(new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(smeltResult.getItem(), fortune, smeltResult.getMetadata())));
                     }
                     else
                     {
@@ -224,10 +297,9 @@ public class ItemBitHoe extends ItemHoe implements IItemBitTool {
                         for (ItemStack drop : drops) {
                             world.spawnEntity(new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), drop));
                         }
-
-                        world.setBlockToAir(pos);
                     }
                 }
+                world.setBlockToAir(pos);
                 break;
 
             case "lightning":
@@ -250,9 +322,60 @@ public class ItemBitHoe extends ItemHoe implements IItemBitTool {
                 break;
 
             case "ice":
+                Material material = state.getMaterial();
+                if(material != Material.WATER && material != Material.ICE)
+                    break;
+
+                if(!hoe.hasTagCompound())
+                    break;
+
+                for(int xDiff = -(int)power; xDiff < power; ++xDiff)
+                {
+                    for(int zDiff = -(int)power; zDiff < power; ++zDiff)
+                    {
+                        BlockPos newPos = new BlockPos(pos.getX() + xDiff, pos.getY(), pos.getZ() + zDiff);
+                        IBlockState newState = world.getBlockState(newPos);
+
+                        if(newState.getMaterial() == material)
+                        {
+                            Block block = newState.getBlock();
+                            if (block == Blocks.WATER || block == Blocks.FLOWING_WATER)
+                            {
+                                world.setBlockState(newPos, Blocks.FROSTED_ICE.getDefaultState());
+                            }
+                            else if (block == Blocks.FROSTED_ICE)
+                            {
+                                world.setBlockState(newPos, Blocks.ICE.getDefaultState());
+                            }
+                            else
+                            {
+                                world.setBlockState(newPos, Blocks.PACKED_ICE.getDefaultState());
+                            }
+
+                            NBTTagCompound itemData = hoe.getTagCompound();
+                            itemData.setInteger("Uses", itemData.getInteger("Uses") + 1);
+                        }
+                    }
+                }
                 break;
 
             case "spatial":
+                final float fortuneChance = 0.1f;
+                int fortune = 1;
+                Random rand = world.rand;
+                for(int j = 0; j < power; ++j)
+                {
+                    double chance = rand.nextDouble();
+
+                    if(chance < fortuneChance)
+                    {
+                        ++fortune;
+                    }
+                }
+
+                ItemStack drop = allCrops.get(world.rand.nextInt(allCrops.size()));
+                world.spawnEntity(new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(drop.getItem(), fortune, drop.getMetadata())));
+                world.setBlockToAir(pos);
                 break;
         }
     }
@@ -327,13 +450,13 @@ public class ItemBitHoe extends ItemHoe implements IItemBitTool {
                 {
                     NBTTagCompound effectData = effectlist.getCompoundTagAt(i);
                     String text = (String) (effectData.getString("effect").equals("fire")
-                            ? TextFormatting.RED + "Enflame" + TextFormatting.RESET
+                            ? TextFormatting.RED + "Hellreaper" + TextFormatting.RESET
                             : effectData.getString("effect").equals("earth")
-                                      ? TextFormatting.DARK_GRAY + "Stonestrike" + TextFormatting.RESET
+                                      ? TextFormatting.DARK_GRAY + "Earthrend" + TextFormatting.RESET
                                       : effectData.getString("effect").equals("lightning")
-                                                ? TextFormatting.YELLOW + "Stormcall" + TextFormatting.RESET
+                                                ? TextFormatting.YELLOW + "idk man" + TextFormatting.RESET
                                                 : effectData.getString("effect").equals("ice")
-                                                          ? TextFormatting.AQUA + "Frostbite" + TextFormatting.RESET
+                                                          ? TextFormatting.AQUA + "Tidefreeze" + TextFormatting.RESET
                                                           : TextFormatting.DARK_PURPLE + "" + TextFormatting.OBFUSCATED
                                                             + "Anomolize" + TextFormatting.RESET);
                     tooltip.add(text + " (" + String.format("%.3f", effectData.getFloat("chance")*100) + "%, " + String.format("%.3f", effectData.getFloat("power")) + ")");
