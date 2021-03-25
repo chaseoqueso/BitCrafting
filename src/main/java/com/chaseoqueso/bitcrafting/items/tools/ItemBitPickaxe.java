@@ -89,8 +89,8 @@ public class ItemBitPickaxe extends ItemPickaxe implements IItemBitTool {
         {
             NBTTagCompound itemData = stack.getTagCompound();
             damage = itemData.getFloat("Damage");
-            multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", (double)damage, 0));
-            multimap.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", -2.4000000953674316D, 0));
+            multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", Math.max(damage - 2, 0), 0));
+            multimap.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", -2.8F, 0));
         }
 
         return multimap;
@@ -183,7 +183,7 @@ public class ItemBitPickaxe extends ItemPickaxe implements IItemBitTool {
                     }
                     else
                     {
-                        smeltResult.setCount(smeltResult.getCount() * fortune);
+                        smeltResult.setCount(fortune);
                         newDrops.add(smeltResult);
                     }
                 }
@@ -196,7 +196,7 @@ public class ItemBitPickaxe extends ItemPickaxe implements IItemBitTool {
                 PotionEffect potionEffect;
                 if(player.isPotionActive(haste))
                 {
-                    potionEffect = new PotionEffect(haste, (int)power * 20, player.getActivePotionEffect(haste).getAmplifier() + 1);
+                    potionEffect = new PotionEffect(haste, (int)power * 20, Math.min(player.getActivePotionEffect(haste).getAmplifier() + 1, 3));
                     player.removePotionEffect(haste);
                 }
                 else
@@ -246,7 +246,6 @@ public class ItemBitPickaxe extends ItemPickaxe implements IItemBitTool {
                 {
                     BlockPos position = new BlockPos(pos.getX() + xAmount*i, pos.getY() + yAmount*i, pos.getZ() + zAmount*i);
                     IBlockState blockAtPosition = world.getBlockState(position);
-                    player.sendMessage(new TextComponentString(position.toString()));
 
                     Material material = blockAtPosition.getMaterial();
                     if(material != Material.IRON && material != Material.ANVIL && material != Material.ROCK)

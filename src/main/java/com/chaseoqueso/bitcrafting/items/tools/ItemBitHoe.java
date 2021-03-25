@@ -3,29 +3,41 @@ package com.chaseoqueso.bitcrafting.items.tools;
 import com.chaseoqueso.bitcrafting.BitCraftingMod;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
+import javafx.util.Pair;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockCrops;
+import net.minecraft.block.BlockDirt;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemHoe;
 import net.minecraft.item.ItemPickaxe;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.EnumHelper;
+import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nullable;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class ItemBitHoe extends ItemHoe implements IItemBitTool {
 
@@ -58,8 +70,8 @@ public class ItemBitHoe extends ItemHoe implements IItemBitTool {
         {
             NBTTagCompound itemData = stack.getTagCompound();
             damage = itemData.getFloat("Damage");
-            multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", (double)damage, 0));
-            multimap.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", -2.4000000953674316D, 0));
+            multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", 1, 0));
+            multimap.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", -3 / Math.pow(damage, 0.75), 0));
         }
 
         return multimap;
@@ -97,17 +109,144 @@ public class ItemBitHoe extends ItemHoe implements IItemBitTool {
         return true;
     }
 
-    public void activateEffect(String effect, float power, List<ItemStack> drops, BlockPos pos, IBlockState state, EntityLivingBase blockDestroyer, World world)
+    @Override
+    public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float p_180614_6_, float p_180614_7_, float p_180614_8_) {
+        if(world.isRemote)
+            return super.onItemUse(player, world, pos, hand, facing, p_180614_6_, p_180614_7_, p_180614_8_);
+
+        ItemStack stack = player.getHeldItem(hand);
+        IBlockState state = world.getBlockState(pos);
+
+        Map<String, Float> effectsToActivate = new HashMap<>();
+        NBTTagCompound itemData = stack.getTagCompound();
+        if(itemData.hasKey("EffectArray"))
+        {
+            Random rand = world.rand;
+            NBTTagList effectlist = itemData.getTagList("EffectArray", 10);
+            for(int i = 0; i < effectlist.tagCount(); ++i)
+            {
+                NBTTagCompound effectData = effectlist.getCompoundTagAt(i);
+                if(rand.nextFloat() < effectData.getFloat("chance"))
+                {
+                    effectsToActivate.put(effectData.getString("effect"), effectData.getFloat("power"));
+                }
+            }
+        }
+
+        Block block = state.getBlock();
+        if(block instanceof BlockCrops && ( (BlockCrops)block ).isMaxAge(state))
+        {
+            if(effectsToActivate.containsKey("fire"))
+            {
+                activateEffect("fire", effectsToActivate.get("fire"), pos, state, player, world, stack);
+            }
+            else
+            {
+                NonNullList<ItemStack> drops = NonNullList.create();
+                block.getDrops(drops, world, pos, state, 0);
+
+                for (ItemStack drop : drops) {
+                    world.spawnEntity(new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), drop));
+                }
+
+                world.setBlockToAir(pos);
+            }
+            return EnumActionResult.SUCCESS;
+        }
+
+        if (!player.canPlayerEdit(pos.offset(facing), facing, stack)) {
+            return EnumActionResult.FAIL;
+        } else {
+            int hook = ForgeEventFactory.onHoeUse(stack, player, world, pos);
+            if (hook != 0) {
+                return hook > 0 ? EnumActionResult.SUCCESS : EnumActionResult.FAIL;
+            } else {
+                if (facing != EnumFacing.DOWN && world.isAirBlock(pos.up())) {
+                    if (block == Blocks.GRASS || block == Blocks.GRASS_PATH) {
+                        if(effectsToActivate.containsKey("earth"))
+                        {
+                            activateEffect("earth", effectsToActivate.get("earth"), pos, state, player, world, stack);
+                        }
+                        else
+                        {
+                            this.setBlock(stack, player, world, pos, Blocks.FARMLAND.getDefaultState());
+                        }
+                        return EnumActionResult.SUCCESS;
+                    }
+
+                    if (block == Blocks.DIRT) {
+                        switch(state.getValue(BlockDirt.VARIANT)) {
+                            case DIRT:
+                                this.setBlock(stack, player, world, pos, Blocks.FARMLAND.getDefaultState());
+                                return EnumActionResult.SUCCESS;
+                            case COARSE_DIRT:
+                                this.setBlock(stack, player, world, pos, Blocks.DIRT.getDefaultState().withProperty(BlockDirt.VARIANT, BlockDirt.DirtType.DIRT));
+                                return EnumActionResult.SUCCESS;
+                        }
+                    }
+                }
+
+                return EnumActionResult.PASS;
+            }
+        }
+    }
+
+    public void activateEffect(String effect, float power, BlockPos pos, IBlockState state, EntityPlayer player, World world, ItemStack hoe)
     {
         switch(effect)
         {
             case "fire":
+                Item cropItem = state.getBlock().getItemDropped(state, world.rand, 0);
+                if(cropItem == Items.WHEAT)
+                {
+                    world.spawnEntity(new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(Items.BREAD)));
+                    world.setBlockToAir(pos);
+                }
+                else if(cropItem == Items.POTATO)
+                {
+                    world.spawnEntity(new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(Items.BAKED_POTATO)));
+                    world.setBlockToAir(pos);
+                }
+                else
+                {
+                    ItemStack smeltResult = FurnaceRecipes.instance().getSmeltingResult(new ItemStack(cropItem));
+
+                    if(smeltResult == ItemStack.EMPTY)
+                    {
+                        world.spawnEntity(new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), smeltResult));
+                        world.setBlockToAir(pos);
+                    }
+                    else
+                    {
+                        NonNullList<ItemStack> drops = NonNullList.create();
+                        state.getBlock().getDrops(drops, world, pos, state, 0);
+
+                        for (ItemStack drop : drops) {
+                            world.spawnEntity(new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), drop));
+                        }
+
+                        world.setBlockToAir(pos);
+                    }
+                }
                 break;
 
             case "lightning":
                 break;
 
             case "earth":
+                for(int xDiff = -(int)power; xDiff < power; ++xDiff)
+                {
+                    for(int zDiff = -(int)power; zDiff < power; ++zDiff)
+                    {
+                        BlockPos newPos = new BlockPos(pos.getX() + xDiff, pos.getY(), pos.getZ() + zDiff);
+                        Block block = world.getBlockState(newPos).getBlock();
+                        if(!(block == Blocks.GRASS || block == Blocks.GRASS_PATH))
+                            continue;
+
+                        if(world.isAirBlock(newPos.up()))
+                            world.setBlockState(newPos, Blocks.FARMLAND.getDefaultState(), 11);
+                    }
+                }
                 break;
 
             case "ice":
@@ -115,6 +254,21 @@ public class ItemBitHoe extends ItemHoe implements IItemBitTool {
 
             case "spatial":
                 break;
+        }
+    }
+
+
+    @Override
+    protected void setBlock(ItemStack stack, EntityPlayer player, World world, BlockPos pos, IBlockState state) {
+        world.playSound(player, pos, SoundEvents.ITEM_HOE_TILL, SoundCategory.BLOCKS, 1.0F, 1.0F);
+        if (!world.isRemote) {
+            world.setBlockState(pos, state, 11);
+
+            if(!stack.hasTagCompound())
+                return;
+
+            NBTTagCompound itemData = stack.getTagCompound();
+            itemData.setInteger("Uses", itemData.getInteger("Uses") + 1);
         }
     }
 
@@ -173,15 +327,15 @@ public class ItemBitHoe extends ItemHoe implements IItemBitTool {
                 {
                     NBTTagCompound effectData = effectlist.getCompoundTagAt(i);
                     String text = (String) (effectData.getString("effect").equals("fire")
-                                                    ? TextFormatting.RED + "Enflame" + TextFormatting.RESET
-                                                    : effectData.getString("effect").equals("earth")
-                                                              ? TextFormatting.DARK_GRAY + "Stonestrike" + TextFormatting.RESET
-                                                              : effectData.getString("effect").equals("lightning")
-                                                                        ? TextFormatting.YELLOW + "Stormcall" + TextFormatting.RESET
-                                                                        : effectData.getString("effect").equals("ice")
-                                                                                  ? TextFormatting.AQUA + "Frostbite" + TextFormatting.RESET
-                                                                                  : TextFormatting.DARK_PURPLE + "" + TextFormatting.OBFUSCATED
-                                                                                    + "Anomolize" + TextFormatting.RESET);
+                            ? TextFormatting.RED + "Enflame" + TextFormatting.RESET
+                            : effectData.getString("effect").equals("earth")
+                                      ? TextFormatting.DARK_GRAY + "Stonestrike" + TextFormatting.RESET
+                                      : effectData.getString("effect").equals("lightning")
+                                                ? TextFormatting.YELLOW + "Stormcall" + TextFormatting.RESET
+                                                : effectData.getString("effect").equals("ice")
+                                                          ? TextFormatting.AQUA + "Frostbite" + TextFormatting.RESET
+                                                          : TextFormatting.DARK_PURPLE + "" + TextFormatting.OBFUSCATED
+                                                            + "Anomolize" + TextFormatting.RESET);
                     tooltip.add(text + " (" + String.format("%.3f", effectData.getFloat("chance")*100) + "%, " + String.format("%.3f", effectData.getFloat("power")) + ")");
                 }
             }

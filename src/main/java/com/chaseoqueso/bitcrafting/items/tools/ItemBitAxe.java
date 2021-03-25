@@ -83,8 +83,8 @@ public class ItemBitAxe extends ItemAxe implements IItemBitTool {
         {
             NBTTagCompound itemData = stack.getTagCompound();
             damage = itemData.getFloat("Damage");
-            multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", (double)damage, 0));
-            multimap.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", -2.4000000953674316D, 0));
+            multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", damage, 0));
+            multimap.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", -3.0, 0));
         }
 
         return multimap;
@@ -102,7 +102,7 @@ public class ItemBitAxe extends ItemAxe implements IItemBitTool {
         if(stack.hasTagCompound())
         {
             NBTTagCompound itemData = stack.getTagCompound();
-            itemData.setInteger("Uses", itemData.getInteger("Uses") + 1);
+            itemData.setInteger("Uses", itemData.getInteger("Uses") + 2);
             if(itemData.getInteger("Uses") >= itemData.getFloat("Durability"))
                 stack.shrink(1);
         }
@@ -177,7 +177,7 @@ public class ItemBitAxe extends ItemAxe implements IItemBitTool {
                     }
                     else
                     {
-                        smeltResult.setCount(smeltResult.getCount() * fortune);
+                        smeltResult.setCount(fortune);
                         newDrops.add(smeltResult);
                     }
                 }
