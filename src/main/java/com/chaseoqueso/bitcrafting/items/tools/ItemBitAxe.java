@@ -97,9 +97,9 @@ public class ItemBitAxe extends ItemAxe implements IItemBitTool {
     }
 
     @Override
-    public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase player)
+    public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker)
     {
-        if(stack.hasTagCompound())
+        if(stack.hasTagCompound() && !(attacker instanceof EntityPlayer && ( (EntityPlayer)attacker ).capabilities.isCreativeMode))
         {
             NBTTagCompound itemData = stack.getTagCompound();
             itemData.setInteger("Uses", itemData.getInteger("Uses") + 2);
@@ -112,7 +112,7 @@ public class ItemBitAxe extends ItemAxe implements IItemBitTool {
     @Override
     public boolean onBlockDestroyed(ItemStack stack, World worldIn, IBlockState state, BlockPos pos, EntityLivingBase blockDestroyer)
     {
-        if ((double)state.getBlockHardness(worldIn, pos) != 0.0D && stack.hasTagCompound())
+        if ((double)state.getBlockHardness(worldIn, pos) != 0.0D && stack.hasTagCompound() && !(blockDestroyer instanceof EntityPlayer && ( (EntityPlayer)blockDestroyer ).capabilities.isCreativeMode))
         {
             NBTTagCompound itemData = stack.getTagCompound();
             itemData.setInteger("Uses", itemData.getInteger("Uses") + 1);
@@ -483,7 +483,8 @@ public class ItemBitAxe extends ItemAxe implements IItemBitTool {
         if(stack.hasTagCompound())
         {
             NBTTagCompound itemData = stack.getTagCompound();
-            tooltip.add("Durability: " + String.format("%.0f", itemData.getFloat("Durability")));
+            float durability = itemData.getFloat("Durability");
+            tooltip.add("Durability: " + String.format("%.0f", durability - itemData.getInteger("Uses")) + "/" + String.format("%.0f", durability));
             tooltip.add("Enchantability: " + String.format("%.0f", itemData.getFloat("Enchantability")));
             tooltip.add("Harvest Level: " + itemData.getInteger("HarvestLevel"));
             if (itemData.hasKey("EffectArray")) {

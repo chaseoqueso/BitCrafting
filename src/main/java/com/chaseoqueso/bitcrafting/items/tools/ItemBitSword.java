@@ -13,6 +13,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.effect.EntityLightningBolt;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
@@ -204,24 +205,29 @@ public class ItemBitSword extends ItemSword implements IItemBitTool {
 	}
 
 	@Override
-	public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase player)
+	public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker)
 	{
 		if(stack.hasTagCompound())
 		{
 			NBTTagCompound itemData = stack.getTagCompound();
-			itemData.setInteger("Uses", itemData.getInteger("Uses") + 1);
-			if(itemData.getInteger("Uses") >= itemData.getFloat("Durability"))
-				stack.shrink(1);
+
+			if(!(attacker instanceof EntityPlayer && ( (EntityPlayer)attacker ).capabilities.isCreativeMode))
+			{
+				itemData.setInteger("Uses", itemData.getInteger("Uses") + 1);
+				if (itemData.getInteger("Uses") >= itemData.getFloat("Durability"))
+					stack.shrink(1);
+			}
+
 			if(itemData.hasKey("EffectArray"))
 			{
-				Random rand = player.world.rand;
+				Random rand = attacker.world.rand;
 				NBTTagList effectlist = itemData.getTagList("EffectArray", 10);
 				for(int i = 0; i < effectlist.tagCount(); ++i)
 				{
 					NBTTagCompound effectData = effectlist.getCompoundTagAt(i);
 					if(rand.nextFloat() < effectData.getFloat("chance"))
 					{
-						activateEffect(effectData.getString("effect"), effectData.getFloat("power"), target, player, target.world);
+						activateEffect(effectData.getString("effect"), effectData.getFloat("power"), target, attacker, target.world);
 					}
 				}
 			}
@@ -230,9 +236,9 @@ public class ItemBitSword extends ItemSword implements IItemBitTool {
 	}
 
 	@Override
-	public boolean onBlockDestroyed(ItemStack stack, World worldIn, IBlockState state, BlockPos pos, EntityLivingBase entityLiving)
+	public boolean onBlockDestroyed(ItemStack stack, World worldIn, IBlockState state, BlockPos pos, EntityLivingBase blockDestroyer)
 	{
-		if ((double)state.getBlockHardness(worldIn, pos) != 0.0D && stack.hasTagCompound())
+		if ((double)state.getBlockHardness(worldIn, pos) != 0.0D && stack.hasTagCompound() && !(blockDestroyer instanceof EntityPlayer && ( (EntityPlayer)blockDestroyer ).capabilities.isCreativeMode))
 		{
 			NBTTagCompound itemData = stack.getTagCompound();
 			itemData.setInteger("Uses", itemData.getInteger("Uses") + 1);
@@ -276,7 +282,8 @@ public class ItemBitSword extends ItemSword implements IItemBitTool {
 		if(stack.hasTagCompound())
 		{
 			NBTTagCompound itemData = stack.getTagCompound();
-			tooltip.add("Durability: " + String.format("%.0f", itemData.getFloat("Durability")));
+			float durability = itemData.getFloat("Durability");
+			tooltip.add("Durability: " + String.format("%.0f", durability - itemData.getInteger("Uses")) + "/" + String.format("%.0f", durability));
 			tooltip.add("Enchantability: " + String.format("%.0f", itemData.getFloat("Enchantability")));
 			if (itemData.hasKey("EffectArray")) {
 				NBTTagList effectlist = itemData.getTagList("EffectArray", 10);

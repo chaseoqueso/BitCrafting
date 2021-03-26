@@ -12,6 +12,7 @@ import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.NonNullList;
 
@@ -48,10 +49,12 @@ public class TileEntityBitForge extends TileEntity implements IInventory {
 		return this.forgeItemStacks.size();
 	}
 
+	@Override
 	public ItemStack getStackInSlot(int index) {
 		return this.forgeItemStacks.get(index);
 	}
 
+	@Override
 	public ItemStack decrStackSize(int index, int count) {
 		if(this.forgeItemStacks.get(index) != ItemStack.EMPTY)
 		{
@@ -100,7 +103,7 @@ public class TileEntityBitForge extends TileEntity implements IInventory {
 
 	public void setInventorySlotContents(int slot, ItemStack itemstack) {
 		this.forgeItemStacks.set(slot, itemstack);
-		if(itemstack != null && itemstack.getCount() > this.getInventoryStackLimit())
+		if(itemstack != ItemStack.EMPTY && itemstack.getCount() > this.getInventoryStackLimit())
 			itemstack.setCount(this.getInventoryStackLimit());
         this.eventhandler.onCraftMatrixChanged(this);
 		super.markDirty();
@@ -131,8 +134,17 @@ public class TileEntityBitForge extends TileEntity implements IInventory {
 	public void readFromNBT(NBTTagCompound tag)
 	{
 		super.readFromNBT(tag);
+
         this.forgeItemStacks = NonNullList.withSize(this.getSizeInventory(), ItemStack.EMPTY);
-		ItemStackHelper.loadAllItems(tag, this.forgeItemStacks);
+		NBTTagList tagList = tag.getTagList("Items", 10);
+
+		for(int i = 0; i < tagList.tagCount(); ++i) {
+			NBTTagCompound tagCompound = tagList.getCompoundTagAt(i);
+			int slot = tagCompound.getInteger("Slot");
+			if (slot >= 0 && slot < forgeItemStacks.size()) {
+				forgeItemStacks.set(slot, new ItemStack(tagCompound));
+			}
+		}
 
         if (tag.hasKey("CustomName", 8))
         {
@@ -145,7 +157,18 @@ public class TileEntityBitForge extends TileEntity implements IInventory {
 	public NBTTagCompound writeToNBT(NBTTagCompound tag)
 	{
 		super.writeToNBT(tag);
-		ItemStackHelper.saveAllItems(tag, forgeItemStacks);
+
+		NBTTagList tagList = new NBTTagList();
+		for(int i = 0; i < forgeItemStacks.size(); ++i) {
+			ItemStack stack = forgeItemStacks.get(i);
+			if (!stack.isEmpty()) {
+				NBTTagCompound tagCompound = new NBTTagCompound();
+				tagCompound.setInteger("Slot", i);
+				stack.writeToNBT(tagCompound);
+				tagList.appendTag(tagCompound);
+			}
+		}
+		tag.setTag("Items", tagList);
 
         if (this.hasCustomInventoryName())
         {

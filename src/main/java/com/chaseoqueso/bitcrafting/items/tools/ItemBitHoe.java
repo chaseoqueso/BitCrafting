@@ -13,16 +13,14 @@ import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemHoe;
-import net.minecraft.item.ItemPickaxe;
-import net.minecraft.item.ItemStack;
+import net.minecraft.item.*;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -44,6 +42,7 @@ import java.util.*;
 public class ItemBitHoe extends ItemHoe implements IItemBitTool {
 
     public static List<ItemStack> allCrops;
+    public static List<BlockCrops> allCropBlocks;
 
     public ItemBitHoe()
     {
@@ -119,7 +118,7 @@ public class ItemBitHoe extends ItemHoe implements IItemBitTool {
         ItemStack itemstack = playerIn.getHeldItem(handIn);
         RayTraceResult raytraceresult = this.rayTrace(worldIn, playerIn, true);
 
-        if(raytraceresult == null || worldIn.isRemote)
+        if(raytraceresult == null)
             return new ActionResult<ItemStack>(EnumActionResult.PASS, itemstack);
 
         if (raytraceresult.typeOfHit == RayTraceResult.Type.BLOCK)
@@ -131,15 +130,26 @@ public class ItemBitHoe extends ItemHoe implements IItemBitTool {
                 return new ActionResult<ItemStack>(EnumActionResult.PASS, itemstack);
             }
 
-            if (worldIn.getBlockState(blockpos).getMaterial() == Material.WATER ||
-                    worldIn.getBlockState(blockpos).getMaterial() == Material.ICE)
+            if (worldIn.getBlockState(blockpos).getMaterial() == Material.WATER)
             {
                 if (itemstack.hasTagCompound())
                 {
                     NBTTagCompound itemData = itemstack.getTagCompound();
                     if(itemData.hasKey("EffectArray"))
                     {
-                        Random rand = worldIn.rand;
+                        Random rand;
+                        if(itemData.hasKey("Seed"))
+                        {
+                            rand = new Random(itemData.getLong("Seed"));
+                        }
+                        else
+                        {
+                            rand = new Random();
+                            long seed = rand.nextLong();
+                            itemData.setLong("Seed", seed);
+                            rand.setSeed(seed);
+                        }
+
                         NBTTagList effectlist = itemData.getTagList("EffectArray", 10);
                         for(int i = 0; i < effectlist.tagCount(); ++i)
                         {
@@ -149,6 +159,8 @@ public class ItemBitHoe extends ItemHoe implements IItemBitTool {
                                 activateEffect("ice", effectData.getFloat("power"), blockpos, worldIn.getBlockState(blockpos), playerIn, worldIn, itemstack);
                             }
                         }
+
+                        itemData.setLong("Seed", rand.nextLong());
                     }
                 }
             }
@@ -161,14 +173,27 @@ public class ItemBitHoe extends ItemHoe implements IItemBitTool {
     public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float p_180614_6_, float p_180614_7_, float p_180614_8_) {
         ItemStack stack = player.getHeldItem(hand);
 
-        if(!stack.hasTagCompound() || world.isRemote)
+        if(!stack.hasTagCompound())
             return super.onItemUse(player, world, pos, hand, facing, p_180614_6_, p_180614_7_, p_180614_8_);
 
         Map<String, Float> effectsToActivate = new HashMap<>();
         NBTTagCompound itemData = stack.getTagCompound();
         if(itemData.hasKey("EffectArray"))
         {
-            Random rand = world.rand;
+            Random rand;
+            if(itemData.hasKey("Seed"))
+            {
+                rand = new Random(itemData.getLong("Seed"));
+            }
+            else
+            {
+                rand = new Random();
+                long seed = rand.nextLong();
+                itemData.setLong("Seed", seed);
+                rand.setSeed(seed);
+            }
+            rand.setSeed(rand.nextLong());
+
             NBTTagList effectlist = itemData.getTagList("EffectArray", 10);
             for(int i = 0; i < effectlist.tagCount(); ++i)
             {
@@ -178,6 +203,8 @@ public class ItemBitHoe extends ItemHoe implements IItemBitTool {
                     effectsToActivate.put(effectData.getString("effect"), effectData.getFloat("power"));
                 }
             }
+
+            itemData.setLong("Seed", rand.nextLong());
         }
 
         IBlockState state = world.getBlockState(pos);
@@ -205,7 +232,12 @@ public class ItemBitHoe extends ItemHoe implements IItemBitTool {
                 world.setBlockToAir(pos);
             }
 
-            itemData.setInteger("Uses", itemData.getInteger("Uses") + 1);
+            if(!world.isRemote)
+            {
+                itemData.setInteger("Uses", itemData.getInteger("Uses") + 1);
+                if (itemData.getInteger("Uses") >= itemData.getFloat("Durability"))
+                    stack.shrink(1);
+            }
             return EnumActionResult.SUCCESS;
         }
 
@@ -222,6 +254,10 @@ public class ItemBitHoe extends ItemHoe implements IItemBitTool {
                         {
                             activateEffect("earth", effectsToActivate.get("earth"), pos, state, player, world, stack);
                         }
+                        else if(effectsToActivate.containsKey("lightning"))
+                        {
+                            activateEffect("lightning", effectsToActivate.get("lightning"), pos, state, player, world, stack);
+                        }
                         else
                         {
                             this.setBlock(stack, player, world, pos, Blocks.FARMLAND.getDefaultState());
@@ -232,7 +268,18 @@ public class ItemBitHoe extends ItemHoe implements IItemBitTool {
                     if (block == Blocks.DIRT) {
                         switch(state.getValue(BlockDirt.VARIANT)) {
                             case DIRT:
-                                this.setBlock(stack, player, world, pos, Blocks.FARMLAND.getDefaultState());
+                                if(effectsToActivate.containsKey("earth"))
+                                {
+                                    activateEffect("earth", effectsToActivate.get("earth"), pos, state, player, world, stack);
+                                }
+                                else if(effectsToActivate.containsKey("lightning"))
+                                {
+                                    activateEffect("lightning", effectsToActivate.get("lightning"), pos, state, player, world, stack);
+                                }
+                                else
+                                {
+                                    this.setBlock(stack, player, world, pos, Blocks.FARMLAND.getDefaultState());
+                                }
                                 return EnumActionResult.SUCCESS;
                             case COARSE_DIRT:
                                 this.setBlock(stack, player, world, pos, Blocks.DIRT.getDefaultState().withProperty(BlockDirt.VARIANT, BlockDirt.DirtType.DIRT));
@@ -303,6 +350,43 @@ public class ItemBitHoe extends ItemHoe implements IItemBitTool {
                 break;
 
             case "lightning":
+                int effectsLeft = (int)power - 1;
+                this.setBlock(hoe, player, world, pos, Blocks.FARMLAND.getDefaultState());
+
+                BlockPos plantPos = pos.up();
+                world.setBlockState(plantPos, Blocks.WHEAT.getDefaultState());
+
+                EntityLightningBolt lightningBolt = new EntityLightningBolt(world, 0D, 0D, 0D, true);
+                lightningBolt.setLocationAndAngles(plantPos.getX(), plantPos.getY(), plantPos.getZ(), 0, 0);
+                world.addWeatherEffect(lightningBolt);
+
+                List<BlockPos> plantableBlocks = new ArrayList<>();
+                for(int xDiff = -(int)power; xDiff < power; ++xDiff)
+                {
+                    for(int zDiff = -(int)power; zDiff < power; ++zDiff)
+                    {
+                        BlockPos newPos = new BlockPos(pos.getX() + xDiff, pos.getY(), pos.getZ() + zDiff);
+                        IBlockState newState = world.getBlockState(newPos);
+                        if(newState.getBlock().canSustainPlant(newState, world, newPos, EnumFacing.UP, (ItemSeeds)Items.WHEAT_SEEDS) && world.isAirBlock(newPos.up()))
+                        {
+                            plantableBlocks.add(newPos);
+                        }
+                    }
+                }
+
+                while(effectsLeft > 0)
+                {
+                    plantPos = plantableBlocks.get(world.rand.nextInt(plantableBlocks.size()));
+                    plantableBlocks.remove(plantPos);
+
+                    lightningBolt = new EntityLightningBolt(world, 0D, 0D, 0D, true);
+                    lightningBolt.setLocationAndAngles(plantPos.getX(), plantPos.getY(), plantPos.getZ(), 0, 0);
+                    world.addWeatherEffect(lightningBolt);
+
+                    world.setBlockState(plantPos.up(), Blocks.WHEAT.getDefaultState());
+                    --effectsLeft;
+                }
+
                 break;
 
             case "earth":
@@ -312,12 +396,20 @@ public class ItemBitHoe extends ItemHoe implements IItemBitTool {
                     {
                         BlockPos newPos = new BlockPos(pos.getX() + xDiff, pos.getY(), pos.getZ() + zDiff);
                         Block block = world.getBlockState(newPos).getBlock();
-                        if(!(block == Blocks.GRASS || block == Blocks.GRASS_PATH))
+                        if(!(block == Blocks.GRASS || block == Blocks.GRASS_PATH || (block == Blocks.DIRT && world.getBlockState(newPos).getValue(BlockDirt.VARIANT) == BlockDirt.DirtType.DIRT)))
                             continue;
 
                         if(world.isAirBlock(newPos.up()))
                             world.setBlockState(newPos, Blocks.FARMLAND.getDefaultState(), 11);
                     }
+                }
+
+                if(!world.isRemote)
+                {
+                    NBTTagCompound itemData = hoe.getTagCompound();
+                    itemData.setInteger("Uses", itemData.getInteger("Uses") + 1);
+                    if (itemData.getInteger("Uses") >= itemData.getFloat("Durability"))
+                        hoe.shrink(1);
                 }
                 break;
 
@@ -341,22 +433,20 @@ public class ItemBitHoe extends ItemHoe implements IItemBitTool {
                             Block block = newState.getBlock();
                             if (block == Blocks.WATER || block == Blocks.FLOWING_WATER)
                             {
-                                world.setBlockState(newPos, Blocks.FROSTED_ICE.getDefaultState());
-                            }
-                            else if (block == Blocks.FROSTED_ICE)
-                            {
-                                world.setBlockState(newPos, Blocks.ICE.getDefaultState());
-                            }
-                            else
-                            {
-                                world.setBlockState(newPos, Blocks.PACKED_ICE.getDefaultState());
+                                world.setBlockState(newPos, Blocks.FROSTED_ICE.getDefaultState(), 0);
                             }
 
-                            NBTTagCompound itemData = hoe.getTagCompound();
-                            itemData.setInteger("Uses", itemData.getInteger("Uses") + 1);
+                            if(!world.isRemote)
+                            {
+                                NBTTagCompound itemData = hoe.getTagCompound();
+                                itemData.setInteger("Uses", itemData.getInteger("Uses") + 1);
+                                if (itemData.getInteger("Uses") >= itemData.getFloat("Durability"))
+                                    hoe.shrink(1);
+                            }
                         }
                     }
                 }
+                player.sendMessage(new TextComponentString("IsRemote: " + world.isRemote + " " + hoe.getCount()));
                 break;
 
             case "spatial":
@@ -380,18 +470,19 @@ public class ItemBitHoe extends ItemHoe implements IItemBitTool {
         }
     }
 
-
     @Override
     protected void setBlock(ItemStack stack, EntityPlayer player, World world, BlockPos pos, IBlockState state) {
         world.playSound(player, pos, SoundEvents.ITEM_HOE_TILL, SoundCategory.BLOCKS, 1.0F, 1.0F);
         if (!world.isRemote) {
             world.setBlockState(pos, state, 11);
 
-            if(!stack.hasTagCompound())
+            if(!stack.hasTagCompound() || player.capabilities.isCreativeMode)
                 return;
 
             NBTTagCompound itemData = stack.getTagCompound();
             itemData.setInteger("Uses", itemData.getInteger("Uses") + 1);
+            if(itemData.getInteger("Uses") >= itemData.getFloat("Durability"))
+                stack.shrink(1);
         }
     }
 
@@ -441,7 +532,8 @@ public class ItemBitHoe extends ItemHoe implements IItemBitTool {
         if(stack.hasTagCompound())
         {
             NBTTagCompound itemData = stack.getTagCompound();
-            tooltip.add("Durability: " + String.format("%.0f", itemData.getFloat("Durability")));
+            float durability = itemData.getFloat("Durability");
+            tooltip.add("Durability: " + String.format("%.0f", durability - itemData.getInteger("Uses")) + "/" + String.format("%.0f", durability));
             tooltip.add("Enchantability: " + String.format("%.0f", itemData.getFloat("Enchantability")));
             tooltip.add("Harvest Level: " + itemData.getInteger("HarvestLevel"));
             if (itemData.hasKey("EffectArray")) {
@@ -454,9 +546,9 @@ public class ItemBitHoe extends ItemHoe implements IItemBitTool {
                             : effectData.getString("effect").equals("earth")
                                       ? TextFormatting.DARK_GRAY + "Earthrend" + TextFormatting.RESET
                                       : effectData.getString("effect").equals("lightning")
-                                                ? TextFormatting.YELLOW + "idk man" + TextFormatting.RESET
+                                                ? TextFormatting.YELLOW + "Ambergenesis" + TextFormatting.RESET
                                                 : effectData.getString("effect").equals("ice")
-                                                          ? TextFormatting.AQUA + "Tidefreeze" + TextFormatting.RESET
+                                                          ? TextFormatting.AQUA + "Brinefrost" + TextFormatting.RESET
                                                           : TextFormatting.DARK_PURPLE + "" + TextFormatting.OBFUSCATED
                                                             + "Anomolize" + TextFormatting.RESET);
                     tooltip.add(text + " (" + String.format("%.3f", effectData.getFloat("chance")*100) + "%, " + String.format("%.3f", effectData.getFloat("power")) + ")");

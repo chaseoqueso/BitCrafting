@@ -111,7 +111,7 @@ public class ItemBit extends Item {
 	}
 
 	public static ItemStack setBit(ItemStack stack, int color, int shade, float damage, float durability, float enchantability, int effect, float chance, float power) {
-		return setBit(stack, colors[color], shades[shade], damage, durability, enchantability, effects[effect], chance, power, 0);
+		return setBit(stack, colors[color], shades[shade], damage, durability, enchantability, effect > 0 ? effects[effect] : null, chance, power, 0);
 	}
 
 	public static ItemStack setBit(ItemStack stack, String color, String shade, float damage, float durability, float enchantability, String effect, float chance, float power) {
@@ -119,7 +119,7 @@ public class ItemBit extends Item {
 	}
 
 	public static ItemStack setBit(ItemStack stack, int color, int shade, float damage, float durability, float enchantability, int effect, float chance, float power, int harvestLevel) {
-		return setBit(stack, colors[color], shades[shade], damage, durability, enchantability, effects[effect], chance, power, harvestLevel);
+		return setBit(stack, colors[color], shades[shade], damage, durability, enchantability, effect > 0 ? effects[effect] : null, chance, power, harvestLevel);
 	}
 
 	public static ItemStack setBit(ItemStack stack, String color, String shade, float damage, float durability, float enchantability, String effect, float chance, float power, int harvestLevel) {
