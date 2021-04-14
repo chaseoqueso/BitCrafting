@@ -12,12 +12,20 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryCraftResult;
 import net.minecraft.inventory.Slot;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.chaseoqueso.bitcrafting.BitCraftingMod.isItemstackInList;
 
 public class ContainerBitDyeTable extends Container {
 	
 	private TileEntityBitDyeTable tileDyeTable;
+	public static List<ItemStack> allDyes;
     public IInventory[] craftResult = {new InventoryCraftResult(), new InventoryCraftResult(), new InventoryCraftResult(), new InventoryCraftResult(), new InventoryCraftResult()};
 	
 	public ContainerBitDyeTable(InventoryPlayer player, TileEntityBitDyeTable tileentity)
@@ -51,11 +59,24 @@ public class ContainerBitDyeTable extends Container {
 	@Override
 	public void onCraftMatrixChanged(IInventory p_75130_1_)
     {
-		if(!(tileDyeTable.getStackInSlot(0).getItem() instanceof ItemBit && (tileDyeTable.getStackInSlot(1).getItem() instanceof ItemDye || tileDyeTable.getStackInSlot(1).getItem() == Items.WATER_BUCKET)))
+		if(allDyes == null)
+		{
+			allDyes = new ArrayList<>();
+			for(String crop : OreDictionary.getOreNames())
+			{
+				if(crop.toLowerCase().contains("dye"))
+				{
+					allDyes.addAll(OreDictionary.getOres(crop));
+				}
+			}
+		}
+
+    	if(!(tileDyeTable.getStackInSlot(0).getItem() instanceof ItemBit && (isItemstackInList(tileDyeTable.getStackInSlot(1), allDyes) || tileDyeTable.getStackInSlot(1).getItem() == Items.WATER_BUCKET)))
 		{
 			setResultsNull();
 			return;
 		}
+
 		int color = ItemBit.getColorFromDye(tileDyeTable.getStackInSlot(1));
 		ItemStack stack = tileDyeTable.getStackInSlot(0).copy();
 		stack.setCount(1);

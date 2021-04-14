@@ -41,14 +41,14 @@ public class ModelBitTool implements IModel
 
     public ModelBitTool(int[] colors)
     {
+        blankLocation = new ResourceLocation(BitCraftingMod.MODID, "items/blank");
+
         if(colors.length != 256)
         {
             System.out.println("ERROR: Attempted to create a ModelBitSword with a color array of length != 256.");
             pixelColors = new int[256];
             return;
         }
-
-        blankLocation = new ResourceLocation(BitCraftingMod.MODID, "items/pixels/blank");
 
         pixelColors = colors;
     }

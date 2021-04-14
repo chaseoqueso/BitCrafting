@@ -42,7 +42,6 @@ import java.util.*;
 public class ItemBitHoe extends ItemHoe implements IItemBitTool {
 
     public static List<ItemStack> allCrops;
-    public static List<BlockCrops> allCropBlocks;
 
     public ItemBitHoe()
     {

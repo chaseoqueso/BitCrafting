@@ -17,8 +17,11 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.oredict.OreDictionary;
 
 import javax.annotation.Nullable;
+
+import static com.chaseoqueso.bitcrafting.BitCraftingMod.isItemstackInList;
 
 public class ItemBit extends Item {
 
@@ -141,6 +144,28 @@ public class ItemBit extends Item {
 		return stack;
 	}
 
+	public static ItemStack setCrucibleExperience(ItemStack stack, float exp)
+	{
+		if (!stack.hasTagCompound())
+			stack.setTagCompound(new NBTTagCompound());
+
+		NBTTagCompound itemData = stack.getTagCompound();
+		itemData.setFloat("expReward", exp);
+		return stack;
+	}
+
+	public static float getCrucibleExperience(ItemStack stack)
+	{
+		if (!stack.hasTagCompound())
+			return 0;
+
+		NBTTagCompound itemData = stack.getTagCompound();
+		if(!itemData.hasKey("expReward"))
+			return 0;
+
+		return itemData.getFloat("expReward");
+	}
+
 	public static boolean bitsAreEqual(ItemStack stack1, ItemStack stack2) {
 		if (!stack1.hasTagCompound() || !stack2.hasTagCompound())
 			return false;
@@ -183,15 +208,15 @@ public class ItemBit extends Item {
 			tooltip.add("Harvest Level: " + itemData.getInteger("harvestLevel"));
 			if (itemData.hasKey("effect")) {
 				String text = (String) (itemData.getString("effect").equals("fire")
-												? TextFormatting.RED + "Enflame" + TextFormatting.RESET
+												? TextFormatting.RED + "Fire" + TextFormatting.RESET
 												: itemData.getString("effect").equals("earth")
-														  ? TextFormatting.DARK_GRAY + "Stonestrike" + TextFormatting.RESET
+														  ? TextFormatting.DARK_GRAY + "Earth" + TextFormatting.RESET
 														  : itemData.getString("effect").equals("lightning")
-																	? TextFormatting.YELLOW + "Stormcall" + TextFormatting.RESET
+																	? TextFormatting.YELLOW + "Lightning" + TextFormatting.RESET
 																	: itemData.getString("effect").equals("ice")
-																			  ? TextFormatting.AQUA + "Frostbite" + TextFormatting.RESET
+																			  ? TextFormatting.AQUA + "Ice" + TextFormatting.RESET
 																			  : TextFormatting.DARK_PURPLE + "" + TextFormatting.OBFUSCATED
-																				+ "Anomolize" + TextFormatting.RESET);
+																				+ "Anomaly" + TextFormatting.RESET);
 				tooltip.add(text + " (" + String.format("%.3f", itemData.getFloat("chance")*100) + "%, " + String.format("%.3f", itemData.getFloat("power")) + ")");
 			}
 		}
@@ -274,43 +299,49 @@ public class ItemBit extends Item {
 	public static int getColorFromDye(ItemStack stack) {
 		if (stack.getItem() == Items.WATER_BUCKET)
 			return -2;
-		int color = stack.getItemDamage();
-		switch (color) {
-		default:
-			return -1;
-		case 0:
-			return -1;
-		case 1:
-			return 2;
-		case 2:
-			return 6;
-		case 3:
+
+		//The dye table doesn't accept black or white dyes because of how shades work
+
+		if(isItemstackInList(stack, OreDictionary.getOres("dyeGray")) || isItemstackInList(stack, OreDictionary.getOres("dyeLightGray")))
+			return 0;
+
+		if(isItemstackInList(stack, OreDictionary.getOres("dyeBrown")))
 			return 1;
-		case 4:
-			return 9;
-		case 5:
-			return 10;
-		case 6:
-			return 7;
-		case 7:
-			return 0;
-		case 8:
-			return 0;
-		case 9:
-			return 12;
-		case 10:
-			return 5;
-		case 11:
-			return 4;
-		case 12:
-			return 8;
-		case 13:
-			return 11;
-		case 14:
+
+		if(isItemstackInList(stack, OreDictionary.getOres("dyeRed")))
+			return 2;
+
+		if(isItemstackInList(stack, OreDictionary.getOres("dyeOrange")))
 			return 3;
-		case 15:
-			return -1;
-		}
+
+		if(isItemstackInList(stack, OreDictionary.getOres("dyeYellow")))
+			return 4;
+
+		if(isItemstackInList(stack, OreDictionary.getOres("dyeLime")))
+			return 5;
+
+		if(isItemstackInList(stack, OreDictionary.getOres("dyeGreen")))
+			return 6;
+
+		if(isItemstackInList(stack, OreDictionary.getOres("dyeCyan")))
+			return 7;
+
+		if(isItemstackInList(stack, OreDictionary.getOres("dyeLightBlue")))
+			return 8;
+
+		if(isItemstackInList(stack, OreDictionary.getOres("dyeBlue")))
+			return 9;
+
+		if(isItemstackInList(stack, OreDictionary.getOres("dyePurple")))
+			return 10;
+
+		if(isItemstackInList(stack, OreDictionary.getOres("dyeMagenta")))
+			return 11;
+
+		if(isItemstackInList(stack, OreDictionary.getOres("dyePink")))
+			return 12;
+
+		return -1;
 	}
 
 	public static int getColorFromStack(ItemStack stack) {

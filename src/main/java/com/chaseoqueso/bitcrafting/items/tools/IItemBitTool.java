@@ -125,6 +125,9 @@ public interface IItemBitTool {
             ItemStack tempstack = new ItemStack(nbttagcompound);
             if(tempstack.hasTagCompound())
             {
+                NBTTagCompound bitData = tempstack.getTagCompound();
+                bitData.setFloat("expReward", 0);
+
                 boolean existsAlready = false;
                 for(int l = 0; l < j; l++)
                 {

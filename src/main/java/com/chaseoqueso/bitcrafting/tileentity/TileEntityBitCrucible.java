@@ -243,7 +243,7 @@ public class TileEntityBitCrucible extends TileEntity implements ISidedInventory
 		if(crucibleItemStacks.get(0).isItemDamaged())
 			return false;
 
-		if(crucibleItemStacks.get(0).getItem() instanceof ItemBitSword)
+		if(crucibleItemStacks.get(0).getItem() instanceof IItemBitTool)
 			return true;
 		
 		ItemStack[] itemstacks = CrucibleRecipes.instance().getBreakDownResult(crucibleItemStacks.get(0));
@@ -324,7 +324,9 @@ public class TileEntityBitCrucible extends TileEntity implements ISidedInventory
 				{
 					if(crucibleItemStacks.get(i) == ItemStack.EMPTY && (itemstacks[j].getCount() + subtracted[j]) != 0)
 					{
-						crucibleItemStacks.set(i, itemstacks[j].copy());
+						ItemStack result = itemstacks[j].copy();
+						result.shrink(-subtracted[j]);
+						crucibleItemStacks.set(i, result);
 						break;
 					}
 					if(i == crucibleItemStacks.size() - 1 && crucibleItemStacks.get(crucibleItemStacks.size() - 1) != ItemStack.EMPTY)

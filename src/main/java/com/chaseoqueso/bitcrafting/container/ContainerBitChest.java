@@ -48,24 +48,24 @@ public class ContainerBitChest extends Container {
 	 * will crash when someone does that.
 	 */
 	@Override
-	public ItemStack transferStackInSlot(EntityPlayer player, int index) {
+	public ItemStack transferStackInSlot(EntityPlayer player, int index)
+	{
 		ItemStack itemstack = ItemStack.EMPTY;
 		Slot slot = this.inventorySlots.get(index);
 
-		if (slot != null && slot.getHasStack()) {
+		if (slot != null && slot.getHasStack())
+		{
 			ItemStack itemstack1 = slot.getStack();
 			itemstack = itemstack1.copy();
 
-			if (index < 256) {
-				if (!this.mergeItemStack(itemstack1, 256, 292, false))
-					return ItemStack.EMPTY;
-				slot.onSlotChange(itemstack1, itemstack);
-			}
-			else if (index >= 256 && index < 283 && (!this.mergeItemStack(itemstack1, 283, 292, false)))
+			if (index < 256)
 			{
-				return ItemStack.EMPTY;
+				if (!this.mergeItemStack(itemstack1, 256, 292, true))
+				{
+					return ItemStack.EMPTY;
+				}
 			}
-			else if (index >= 283 && index < 292 && (!this.mergeItemStack(itemstack1, 256, 283, false)))
+			else if (!this.mergeItemStack(itemstack1, 0, 256, false))
 			{
 				return ItemStack.EMPTY;
 			}
@@ -78,10 +78,6 @@ public class ContainerBitChest extends Container {
 			{
 				slot.onSlotChanged();
 			}
-
-			//if (itemstack1.getCount() == itemstack.getCount())
-			//	return ItemStack.EMPTY;
-			//slot.onPickupFromSlot(player, itemstack1);
 		}
 		return itemstack;
 	}

@@ -14,6 +14,7 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -42,8 +43,9 @@ public class BlockBitChest extends BlockContainer {
 	@Override
 	public boolean onBlockActivated(World world, BlockPos position, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float par7, float par8, float par9)
 	{
-        if(!world.isRemote)
-		    player.openGui(BitCraftingMod.instance, 4, world, position.getX(), position.getY(), position.getZ());
+        if(!world.isRemote) {
+            player.openGui(BitCraftingMod.instance, 4, world, position.getX(), position.getY(), position.getZ());
+        }
 
 		return true;
 	}

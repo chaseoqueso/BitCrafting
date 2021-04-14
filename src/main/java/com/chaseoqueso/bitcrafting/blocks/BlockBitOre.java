@@ -62,12 +62,8 @@ public class BlockBitOre extends BlockOre {
 
 		for (int i = 0; i < count; i++)
 		{
-			Item item = getItemDropped(state, rand, fortune);
-			if (item != null)
-			{
-				drops.add(ItemBit.setBit(new ItemStack(item, 1, damageDropped(state)), bitdata[0], bitdata[1], .07F,
-						.37F, .06F, bitdata[2], .001F, .05F));
-			}
+			drops.add(ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 1), bitdata[0], bitdata[1], .023F,
+					.37F, .03F, bitdata[2], .001F, .05F));
 		}
 	}
 }

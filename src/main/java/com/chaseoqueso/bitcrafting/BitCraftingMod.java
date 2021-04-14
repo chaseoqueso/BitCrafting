@@ -14,6 +14,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -28,6 +29,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
 
 import java.util.Comparator;
+import java.util.List;
 
 @Mod(modid = BitCraftingMod.MODID, name = "BitCrafting", version = "1.2")
 public class BitCraftingMod {
@@ -87,7 +89,17 @@ public class BitCraftingMod {
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) 
 	{
-		
+		CrucibleRecipes.instance().addExternalCrucibleRecipes();
+	}
+
+	public static boolean isItemstackInList(ItemStack stack, List<ItemStack> stackList)
+	{
+		for(ItemStack compareStack : stackList)
+		{
+			if(compareStack.getItem() == stack.getItem() && compareStack.getMetadata() == stack.getMetadata())
+				return true;
+		}
+		return false;
 	}
 		
 }

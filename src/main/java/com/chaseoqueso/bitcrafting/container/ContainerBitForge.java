@@ -50,6 +50,8 @@ public class ContainerBitForge extends Container {
 		{
 			this.addSlotToContainer(new Slot(player, i, 8 + i*18, 184));
 		}
+
+		onCraftMatrixChanged(tileForge);
 	}
 	
 	@Override
