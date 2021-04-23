@@ -92,7 +92,7 @@ public class FusionSlot extends Slot {
 					if(itemstack1.getItem() == Items.WATER_BUCKET)
 						continue;
 
-					this.fusionTable.decrStackSize(i, 1);
+					this.fusionTable.setInventorySlotContents(i, ItemStack.EMPTY);
 
 					if (itemstack1.getItem().hasContainerItem(itemstack1))
 					{

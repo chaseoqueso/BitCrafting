@@ -2,6 +2,7 @@ package com.chaseoqueso.bitcrafting.slots;
 
 import com.chaseoqueso.bitcrafting.CrucibleRecipes;
 
+import com.chaseoqueso.bitcrafting.items.ItemBit;
 import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -72,31 +73,34 @@ public class CrucibleSlot extends BitSlot {
 
         if (!this.thePlayer.world.isRemote)
         {
-            int i = this.stackSize;
-            float f = CrucibleRecipes.instance().getBreakDownExperience(itemStack);
-            int j;
+            int stackSize = this.stackSize;
+            int expRemaining = this.stackSize;
+            int expOrbAmount;
 
-            if (f == 0.0F)
+            float experience = CrucibleRecipes.instance().getBreakDownExperience(itemStack);
+            ItemBit.clearCrucibleExperience(itemStack);
+
+            if (experience == 0.0F)
             {
-                i = 0;
+                expRemaining = 0;
             }
-            else if (f < 1.0F)
+            else if (experience < 1.0F)
             {
-                j = MathHelper.floor((float)i * f);
+                expOrbAmount = MathHelper.floor((float)stackSize * experience);
 
-                if (j < MathHelper.ceil((float)i * f) && (float)Math.random() < (float)i * f - (float)j)
+                if (expOrbAmount < MathHelper.ceil((float)stackSize * experience) && (float)Math.random() < (float)stackSize * experience - (float)expOrbAmount)
                 {
-                    ++j;
+                    ++expOrbAmount;
                 }
 
-                i = j;
+                expRemaining = expOrbAmount;
             }
 
-            while (i > 0)
+            while (expRemaining > 0)
             {
-                j = EntityXPOrb.getXPSplit(i);
-                i -= j;
-                this.thePlayer.world.spawnEntity(new EntityXPOrb(this.thePlayer.world, this.thePlayer.posX, this.thePlayer.posY + 0.5D, this.thePlayer.posZ + 0.5D, j));
+                expOrbAmount = EntityXPOrb.getXPSplit(expRemaining);
+                expRemaining -= expOrbAmount;
+                this.thePlayer.world.spawnEntity(new EntityXPOrb(this.thePlayer.world, this.thePlayer.posX, this.thePlayer.posY + 0.5D, this.thePlayer.posZ + 0.5D, expOrbAmount));
             }
         }
 

@@ -76,10 +76,19 @@ public class ItemBit extends Item {
 	public static ItemStack setClear(ItemStack stack, boolean flag) {
 		ItemStack output;
 		if (flag)
+		{
 			output = new ItemStack(BitCraftingItems.ITEMS.itemClearBit, stack.getCount());
+			output.setTagCompound(stack.getTagCompound());
+			NBTTagCompound itemData = output.getTagCompound();
+
+			itemData.setString("color", "gray");
+			itemData.setString("shade", "lightest");
+		}
 		else
+		{
 			output = new ItemStack(BitCraftingItems.ITEMS.itemBit, stack.getCount());
-		output.setTagCompound(stack.getTagCompound());
+			output.setTagCompound(stack.getTagCompound());
+		}
 		return output;
 	}
 
@@ -166,22 +175,33 @@ public class ItemBit extends Item {
 		return itemData.getFloat("expReward");
 	}
 
+	public static void clearCrucibleExperience(ItemStack stack)
+	{
+		if (!stack.hasTagCompound())
+			return;
+
+		NBTTagCompound itemData = stack.getTagCompound();
+		if(!itemData.hasKey("expReward"))
+			return;
+
+		itemData.removeTag("expReward");
+	}
+
 	public static boolean bitsAreEqual(ItemStack stack1, ItemStack stack2) {
 		if (!stack1.hasTagCompound() || !stack2.hasTagCompound())
 			return false;
 		NBTTagCompound itemData1 = stack1.getTagCompound();
 		NBTTagCompound itemData2 = stack2.getTagCompound();
-		if (!(itemData1.getString("color").equals(itemData2.getString("color")))
-				|| !(itemData1.getString("shade").equals(itemData2.getString("shade")))
-				|| !(itemData1.getFloat("damage") == itemData2.getFloat("damage"))
-				|| !(itemData1.getFloat("durability") == itemData2.getFloat("durability"))
-				|| !(itemData1.getFloat("enchantability") == itemData2.getFloat("enchantability"))
-				|| !(itemData1.getInteger("harvestLevel") == itemData2.getInteger("harvestLevel"))
-				|| !(itemData1.hasKey("effect") == itemData2.hasKey("effect"))
-				|| (itemData1.hasKey("effect") && itemData2.hasKey("effect")
-						&& !(itemData1.getString("effect").equals(itemData2.getString("effect")))))
-			return false;
-		return true;
+		boolean stacksAreClear = (stack1.getItem() instanceof ItemClearBit && stack2.getItem() instanceof ItemClearBit);
+		return ( (stack1.getItem() instanceof ItemClearBit == stack2.getItem() instanceof ItemClearBit)
+			&& (stacksAreClear || itemData1.getString("color").equals(itemData2.getString("color")))
+			&& (stacksAreClear || itemData1.getString("shade").equals(itemData2.getString("shade")))
+			&& (itemData1.getFloat("damage") == itemData2.getFloat("damage"))
+			&& (itemData1.getFloat("durability") == itemData2.getFloat("durability"))
+			&& (itemData1.getFloat("enchantability") == itemData2.getFloat("enchantability"))
+			&& (itemData1.getInteger("harvestLevel") == itemData2.getInteger("harvestLevel"))
+			&& (itemData1.hasKey("effect") == itemData2.hasKey("effect"))
+			&& (itemData1.hasKey("effect") && itemData2.hasKey("effect") && !(itemData1.getString("effect").equals(itemData2.getString("effect")))));
 	}
 
 	@Override
@@ -206,17 +226,17 @@ public class ItemBit extends Item {
 			tooltip.add("Durability Rating: " + String.format("%.3f", itemData.getFloat("durability")));
 			tooltip.add("Enchantability Rating: " + String.format("%.3f", itemData.getFloat("enchantability")));
 			tooltip.add("Harvest Level: " + itemData.getInteger("harvestLevel"));
-			if (itemData.hasKey("effect")) {
-				String text = (String) (itemData.getString("effect").equals("fire")
-												? TextFormatting.RED + "Fire" + TextFormatting.RESET
-												: itemData.getString("effect").equals("earth")
-														  ? TextFormatting.DARK_GRAY + "Earth" + TextFormatting.RESET
-														  : itemData.getString("effect").equals("lightning")
-																	? TextFormatting.YELLOW + "Lightning" + TextFormatting.RESET
-																	: itemData.getString("effect").equals("ice")
-																			  ? TextFormatting.AQUA + "Ice" + TextFormatting.RESET
-																			  : TextFormatting.DARK_PURPLE + "" + TextFormatting.OBFUSCATED
-																				+ "Anomaly" + TextFormatting.RESET);
+			if (itemData.hasKey("effect"))
+			{
+				String text = (itemData.getString("effect").equals("fire")
+								? TextFormatting.RED + "Fire" + TextFormatting.RESET
+								: itemData.getString("effect").equals("earth")
+									  ? TextFormatting.DARK_GRAY + "Earth" + TextFormatting.RESET
+									  : itemData.getString("effect").equals("lightning")
+											? TextFormatting.YELLOW + "Lightning" + TextFormatting.RESET
+											: itemData.getString("effect").equals("ice")
+												  ? TextFormatting.AQUA + "Ice" + TextFormatting.RESET
+												  : TextFormatting.DARK_PURPLE + "" + TextFormatting.OBFUSCATED + "Anomaly" + TextFormatting.RESET);
 				tooltip.add(text + " (" + String.format("%.3f", itemData.getFloat("chance")*100) + "%, " + String.format("%.3f", itemData.getFloat("power")) + ")");
 			}
 		}

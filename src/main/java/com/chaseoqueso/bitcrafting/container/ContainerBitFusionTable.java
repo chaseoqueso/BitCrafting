@@ -2,6 +2,7 @@ package com.chaseoqueso.bitcrafting.container;
 
 import com.chaseoqueso.bitcrafting.items.tools.IItemBitTool;
 import com.chaseoqueso.bitcrafting.items.ItemBit;
+import com.chaseoqueso.bitcrafting.slots.FusionInputSlot;
 import com.chaseoqueso.bitcrafting.slots.FusionSlot;
 import com.chaseoqueso.bitcrafting.tileentity.TileEntityBitFusionTable;
 
@@ -11,6 +12,7 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryCraftResult;
 import net.minecraft.inventory.Slot;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -26,7 +28,7 @@ public class ContainerBitFusionTable extends Container {
 		this.player = player.player;
 		this.tileFusionTable.setEventHandler(this);
 
-		this.addSlotToContainer(new Slot(tileentity, 0, 25, 34));
+		this.addSlotToContainer(new FusionInputSlot(tileentity, 0, 25, 34));
 
 		int i;
 		for (i = 0; i < 3; i++)
@@ -59,7 +61,7 @@ public class ContainerBitFusionTable extends Container {
 
 		ItemStack stack = tileFusionTable.getStackInSlot(0);
 
-		if (!(stack.getItem() instanceof ItemBit || stack.getItem() instanceof IItemBitTool))
+		if (!(stack.getItem() instanceof ItemBit || (stack.getItem() instanceof IItemBitTool && stack.isItemDamaged())))
 			canFuse = false;
 
 		if (!canFuse) {
@@ -76,6 +78,7 @@ public class ContainerBitFusionTable extends Container {
 
 			String effect = "";
 			float damage = 0, durability = 0, enchantability = 0, chance = 0, power = 0;
+			int harvestLevel = 0;
 			ItemStack tempstack;
 
 			for (int i = 0; i < 10; ++i) {
@@ -86,21 +89,25 @@ public class ContainerBitFusionTable extends Container {
 					}
 
 					NBTTagCompound tempTagCompound = tempstack.getTagCompound();
-					damage += tempTagCompound.getFloat("damage");
-					durability += tempTagCompound.getFloat("durability");
-					enchantability += tempTagCompound.getFloat("enchantability");
+					damage += tempTagCompound.getFloat("damage") * tempstack.getCount();
+					durability += tempTagCompound.getFloat("durability") * tempstack.getCount();
+					enchantability += tempTagCompound.getFloat("enchantability") * tempstack.getCount();
+					int tempHarvestLevel = tempTagCompound.getInteger("harvestLevel");
+					if(tempHarvestLevel > harvestLevel)
+						harvestLevel = tempHarvestLevel;
+
 					if (tempTagCompound.hasKey("effect"))
 					{
 						if (effect.equals(""))
 						{
 							effect = tempTagCompound.getString("effect");
-							chance = tempTagCompound.getFloat("chance");
-							power = tempTagCompound.getFloat("power");
+							chance = 1 - (float)Math.pow(1 - tempTagCompound.getFloat("chance"), tempstack.getCount());
+							power = tempTagCompound.getFloat("power") * tempstack.getCount();
 						}
 						else
 						{
-							chance = 1 - ((1 - chance) * (1 - tempTagCompound.getFloat("chance")));
-							power += tempTagCompound.getFloat("power");
+							chance = 1 - ((1 - chance) * (float)Math.pow(1 - tempTagCompound.getFloat("chance"), tempstack.getCount()));
+							power += tempTagCompound.getFloat("power") * tempstack.getCount();
 						}
 					}
 				}
@@ -108,11 +115,15 @@ public class ContainerBitFusionTable extends Container {
 
 			xpCost = this.xpCost(damage, durability, enchantability, chance, power);
 			if (this.player.experienceLevel >= xpCost || this.player.capabilities.isCreativeMode)
+			{
 				if (effect.equals(""))
-					this.craftResult.setInventorySlotContents(0, ItemBit.setBit(stack, tagCompound.getString("color"), tagCompound.getString("shade"), damage, durability, enchantability).copy());
+					this.craftResult.setInventorySlotContents(0, ItemBit.setBit(stack, tagCompound.getString("color"), tagCompound.getString("shade"), damage, durability, enchantability, harvestLevel).copy());
 				else
-					this.craftResult.setInventorySlotContents(0, ItemBit.setBit(stack, tagCompound.getString("color"), tagCompound.getString("shade"), damage, durability, enchantability, effect, chance, power).copy());
-		} else if(stack.getItem() instanceof IItemBitTool) {
+					this.craftResult.setInventorySlotContents(0, ItemBit.setBit(stack, tagCompound.getString("color"), tagCompound.getString("shade"), damage, durability, enchantability, effect, chance, power, harvestLevel).copy());
+			}
+		}
+		else if(stack.getItem() instanceof IItemBitTool)
+		{
 			NBTTagCompound tagCompound = stack.getTagCompound();
 			int uses = tagCompound.getInteger("Uses");
 
@@ -123,7 +134,7 @@ public class ContainerBitFusionTable extends Container {
 					if (!tempstack.hasTagCompound())
 						continue;
 					if (uses > 0)
-						uses -= Math.min(Math.max((int) tempstack.getTagCompound().getFloat("durability"), 1), uses);
+						uses -= Math.min(Math.max((int) tempstack.getTagCompound().getFloat("durability"), 1) * tempstack.getCount(), uses);
 					else
 						break;
 				}
@@ -132,10 +143,15 @@ public class ContainerBitFusionTable extends Container {
 			tagCompound.setInteger("Uses", uses);
 			this.craftResult.setInventorySlotContents(0, stack);
 		}
+		else
+		{
+			this.craftResult.setInventorySlotContents(0, ItemStack.EMPTY);
+		}
 	}
 
 	private int xpCost(float damage, float durability, float enchantability, float chance, float power) {
-		return (int) (1.5 + damage * 4 + durability * .06 + enchantability * 1.5 + chance * 50 + power * 5);
+		//Used a linear regression based on intended experience cost, rounded to nicer numbers. Effects added on top
+		return (int) ( Math.max(damage * 16 + durability * 0.4F + enchantability * 50 - 6.4, 0) + (chance * 100 + power * 5) );
 	}
 
 	@Override

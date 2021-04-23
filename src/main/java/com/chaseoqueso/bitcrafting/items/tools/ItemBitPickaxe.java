@@ -124,7 +124,7 @@ public class ItemBitPickaxe extends ItemPickaxe implements IItemBitTool {
         return true;
     }
 
-    public void activateAllEffects(ItemStack stack, IBlockState state, BlockPos pos, EntityLivingBase player, World worldIn, List<ItemStack> drops)
+    public void activateAllEffects(ItemStack stack, IBlockState state, BlockPos pos, EntityLivingBase player, World worldIn, List<ItemStack> drops, boolean silkTouch, int fortune)
     {
         if ((double)state.getBlockHardness(worldIn, pos) != 0.0D && stack.hasTagCompound())
         {
@@ -138,14 +138,14 @@ public class ItemBitPickaxe extends ItemPickaxe implements IItemBitTool {
                     NBTTagCompound effectData = effectlist.getCompoundTagAt(i);
                     if(rand.nextFloat() < effectData.getFloat("chance"))
                     {
-                        ((ItemBitPickaxe)stack.getItem()).activateEffect(effectData.getString("effect"), effectData.getFloat("power"), drops, pos, state, player, worldIn, stack);
+                        ((ItemBitPickaxe)stack.getItem()).activateEffect(effectData.getString("effect"), effectData.getFloat("power"), drops, pos, state, player, worldIn, stack, silkTouch, fortune);
                     }
                 }
             }
         }
     }
 
-    public void activateEffect(String effect, float power, List<ItemStack> drops, BlockPos pos, IBlockState state, EntityLivingBase player, World world, ItemStack pickaxe)
+    public void activateEffect(String effect, float power, List<ItemStack> drops, BlockPos pos, IBlockState state, EntityLivingBase player, World world, ItemStack pickaxe, boolean silkTouch, int fortuneLevel)
     {
         switch(effect)
         {
@@ -157,16 +157,16 @@ public class ItemBitPickaxe extends ItemPickaxe implements IItemBitTool {
 
                 for(int i = 0; i < defaultDrops.size(); ++i)
                 {
-                    final float fortuneChance = 0.1f;
-                    int fortune = 1;
+                    final float bonusChance = 0.1f;
+                    int bonusAmount = 1;
                     Random rand = world.rand;
                     for(int j = 0; j < power; ++j)
                     {
                         double chance = rand.nextDouble();
 
-                        if(chance < fortuneChance)
+                        if(chance < bonusChance)
                         {
-                            ++fortune;
+                            ++bonusAmount;
                         }
                     }
 
@@ -179,7 +179,7 @@ public class ItemBitPickaxe extends ItemPickaxe implements IItemBitTool {
                     }
                     else
                     {
-                        smeltResult.setCount(fortune);
+                        smeltResult.setCount(bonusAmount);
                         newDrops.add(smeltResult);
                     }
                 }
@@ -238,23 +238,57 @@ public class ItemBitPickaxe extends ItemPickaxe implements IItemBitTool {
                     zAmount = 1 * Math.signum(zAmount);
                 }
 
-                for(int i = 1; i < power + 1; ++i)
+                for(int i = 1; i < power; ++i)
                 {
                     BlockPos position = new BlockPos(pos.getX() + xAmount*i, pos.getY() + yAmount*i, pos.getZ() + zAmount*i);
                     IBlockState blockAtPosition = world.getBlockState(position);
 
                     Material material = blockAtPosition.getMaterial();
                     if(material != Material.IRON && material != Material.ANVIL && material != Material.ROCK)
+                    {
+                        System.out.println("Tool was not effective");
                         break;
+                    }
 
+                    //Temporarily remove the earth effect to avoid infinite recursion
+                    NBTTagCompound itemData = pickaxe.getTagCompound();
+                    NBTTagList effectlist = itemData.getTagList("EffectArray", 10);
+                    NBTTagCompound effectData = effectlist.getCompoundTagAt(0);
+
+                    for(int j = 0; j < effectlist.tagCount(); ++j)
+                    {
+                        effectData = effectlist.getCompoundTagAt(j);
+                        if(effectData.getString("effect").equals("earth"))
+                        {
+                            effectlist.removeTag(j);
+                        }
+                    }
+                    itemData.setTag("EffectArray", effectlist);
+
+                    //Harvest the block
+                    blockAtPosition.getBlock().harvestBlock(world, (EntityPlayer) player, position, blockAtPosition, null, pickaxe);
+                    world.setBlockToAir(position);
+
+                    //Add the earth effect back to the pickaxe
+                    effectlist.appendTag(effectData);
+                    itemData.setTag("EffectArray", effectlist);
+
+                    /*
                     NonNullList<ItemStack> blockDrops = NonNullList.create();
-                    blockAtPosition.getBlock().getDrops(blockDrops, world, position, state, 0);
+                    if(silkTouch)
+                    {
+                        blockDrops.add(new ItemStack(blockAtPosition.getBlock()));
+                    }
+                    else
+                    {
+                        blockAtPosition.getBlock().getDrops(blockDrops, world, position, state, fortuneLevel);
+                    }
 
                     for (ItemStack drop : blockDrops) {
                         world.spawnEntity(new EntityItem(world, position.getX(), position.getY(), position.getZ(), drop));
                     }
 
-                    world.setBlockToAir(position);
+                    world.setBlockToAir(position);*/
                 }
                 break;
 

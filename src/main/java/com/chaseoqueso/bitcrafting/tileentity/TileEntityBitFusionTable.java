@@ -28,23 +28,27 @@ public class TileEntityBitFusionTable extends TileEntity implements IInventory {
 		return this.hasCustomInventoryName() ? this.fusionTableName : "Fusion Table";
 	}
 
+	@Override
 	public boolean hasCustomName() {
 		return this.fusionTableName != null && this.fusionTableName.length() > 0;
 	}
-	
+
 	public void setEventHandler(Container handler)
 	{
 		this.eventhandler = (ContainerBitFusionTable) handler;
 	}
 
+	@Override
 	public int getSizeInventory() {
 		return this.tableItemStacks.size();
 	}
 
+	@Override
 	public ItemStack getStackInSlot(int index) {
 		return this.tableItemStacks.get(index);
 	}
 
+	@Override
 	public ItemStack decrStackSize(int index, int count) {
 		if(this.tableItemStacks.get(index) != ItemStack.EMPTY)
 		{
@@ -68,6 +72,7 @@ public class TileEntityBitFusionTable extends TileEntity implements IInventory {
 		return ItemStack.EMPTY;
 	}
 
+	@Override
 	public void setInventorySlotContents(int slot, ItemStack itemstack) {
 		this.tableItemStacks.set(slot, itemstack);
 		if(itemstack != ItemStack.EMPTY && itemstack.getCount() > this.getInventoryStackLimit())
@@ -84,6 +89,7 @@ public class TileEntityBitFusionTable extends TileEntity implements IInventory {
 		return this.fusionTableName != null && this.fusionTableName.length() > 0;
 	}
 
+	@Override
 	public int getInventoryStackLimit() {
 		return 64;
 	}
@@ -145,6 +151,13 @@ public class TileEntityBitFusionTable extends TileEntity implements IInventory {
 			}
 		}
 		return true;
+	}
+
+	@Override
+	public void markDirty()
+	{
+		super.markDirty();
+		this.eventhandler.onCraftMatrixChanged(this);
 	}
 
 	@Override

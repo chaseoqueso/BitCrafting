@@ -36,7 +36,7 @@ public class SpecialDropEventHandler {
         {
             if(stack.getItem() instanceof ItemBitPickaxe)
             {
-                ( (ItemBitPickaxe)stack.getItem() ).activateAllEffects(stack, event.getState(), event.getPos(), player, player.world, newDrops);
+                ( (ItemBitPickaxe)stack.getItem() ).activateAllEffects(stack, event.getState(), event.getPos(), player, player.world, newDrops, event.isSilkTouching(), event.getFortuneLevel());
             }
 
             if(stack.getItem() instanceof ItemBitAxe)

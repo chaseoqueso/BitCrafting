@@ -272,7 +272,7 @@ public class ItemBitSword extends ItemSword implements IItemBitTool {
 		if(!stack.hasTagCompound())
 			return false;
 		NBTTagCompound itemData = stack.getTagCompound();
-		return itemData.getInteger("Uses") > 1;
+		return itemData.getInteger("Uses") > 0;
 	}
 
 	@Override
