@@ -317,10 +317,16 @@ public class ItemBit extends Item {
 	}
 
 	public static int getColorFromDye(ItemStack stack) {
+
+		//The dye table didn't used to accept water, black, or white, so we use negative numbers to indicate "exceptions"
 		if (stack.getItem() == Items.WATER_BUCKET)
 			return -2;
 
-		//The dye table doesn't accept black or white dyes because of how shades work
+		if(isItemstackInList(stack, OreDictionary.getOres("dyeBlack")))
+			return -3;
+
+		if(isItemstackInList(stack, OreDictionary.getOres("dyeWhite")))
+			return -4;
 
 		if(isItemstackInList(stack, OreDictionary.getOres("dyeGray")) || isItemstackInList(stack, OreDictionary.getOres("dyeLightGray")))
 			return 0;

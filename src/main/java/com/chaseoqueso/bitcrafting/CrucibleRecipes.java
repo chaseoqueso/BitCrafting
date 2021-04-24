@@ -37,8 +37,8 @@ public class CrucibleRecipes {
     	//Blocks
         this.addCrucibleRecipeForBlock(Blocks.SNOW, new ItemStack[] {ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 32), "gray", "lightest", .013F, .08F, .03F),
                                                                      ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 16), "lightblue", "lightest", .013F, .08F, .03F, "ice", 0.001F, 0.01F)}, 0.1F);
-        this.addCrucibleRecipeForBlock(Blocks.PLANKS, new ItemStack[] {ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 64), "brown", "light", .017F, .24F, .06F),
-																	   ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 32), "brown", "", .017F, .24F, .06F)}, 0.1F);
+        this.addCrucibleRecipeForBlock(Blocks.PLANKS, new ItemStack[] {ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 64), "brown", "", .017F, .24F, .06F),
+																	   ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 32), "brown", "dark", .017F, .24F, .06F)}, 0.1F);
         this.addCrucibleRecipeForBlock(Blocks.GLASS, new ItemStack[] {ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemClearBit, 64), "gray", "lightest", .023F, .08F, .05F),
 																	  ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemClearBit, 32), "gray", "lightest", .023F, .08F, .05F)}, 0.2F);
         this.addCrucibleRecipeForBlock(Blocks.CACTUS, new ItemStack[] {ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 64), "green", "", .023F, .24F, .03F),
@@ -46,7 +46,7 @@ public class CrucibleRecipes {
         this.addCrucibleRecipeForBlock(Blocks.COBBLESTONE, new ItemStack[] {ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 64), "gray", "dark", .02F, 0.55F, .017F, 1),
 																			ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 32), "gray", "", .02F, 0.55F, .017F, 1)}, 0.2F);
         this.addCrucibleRecipeForBlock(Blocks.SANDSTONE, new ItemStack[] {ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 64), "brown", "lightest", .02F, 0.92F, .027F, 1),
-																		  ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 32), "brown", "lightest", .02F, 0.92F, .027F, 1)}, 0.3F);
+																		  ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 32), "brown", "light", .02F, 0.92F, .027F, 1)}, 0.3F);
         this.addCrucibleRecipeForBlock(Blocks.ICE, new ItemStack[] {ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 48), "lightblue", "", .02F, 0.55F, .05F, "ice", 0.002F, 0.025F)}, 0.6F);
         this.addCrucibleRecipeForBlock(Blocks.GLOWSTONE, new ItemStack[] {ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 64), "yellow", "dark", .017F, .24F, .06F),
 																		  ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 20), "yellow", "darkest", .017F, .24F, .06F),
@@ -64,14 +64,14 @@ public class CrucibleRecipes {
         
         //Items
         this.addCrucibleRecipeForItem(Items.ROTTEN_FLESH, new ItemStack[] {ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 48), "red", "dark", .013F, .08F, .03F)}, 0.1F);
-        this.addCrucibleRecipeForItem(Items.FLINT, new ItemStack[] {ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 64), "gray", "", .017F, .08F, .03F),
+        this.addCrucibleRecipeForItem(Items.FLINT, new ItemStack[] {ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 64), "gray", "dark", .017F, .08F, .03F),
 																	ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 32), "gray", "light", .017F, .08F, .03F, "earth", 0.001F, 0.005F)}, 0.1F);
         this.addCrucibleRecipeForItem(Items.BRICK, new ItemStack[] {ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 48), "red", "dark", .022F, 0.44F, .02F, "earth", 0.001F, 0.005F)}, 0.2F);
         this.addCrucibleRecipeForItem(Items.BONE, new ItemStack[] {ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 64), "gray", "light", .017F, 1.08F, .07F),
 																   ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 32), "gray", "lightest", .017F, 1.08F, .07F)}, 0.4F);
         this.addCrucibleRecipeForItem(Items.GUNPOWDER, new ItemStack[] {ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 32), "gray", "dark", .02F, 0.44F, .04F, "fire", 0.001F, 0.01F)}, 0.4F);
         this.addCrucibleRecipeForItem(Items.IRON_INGOT, new ItemStack[] {ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 64), "gray", "light", .023F, 1.08F, .06F, 2),
-																		 ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 32), "gray", "lightest", .023F, 1.08F, .06F, 2)}, 0.7F);
+																		 ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 32), "gray", "", .023F, 1.08F, .06F, 2)}, 0.7F);
         this.addCrucibleRecipeForItem(Items.QUARTZ, new ItemStack[] {ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 48), "red", "lightest", .023F, .24F, .08F)}, 0.7F);
         this.addCrucibleRecipeForItem(Items.FIRE_CHARGE, new ItemStack[] {ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 64), "orange", "dark", .022F, 0.55F, .08F),
 																		  ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 32), "orange", "", .022F, 0.55F, .08F, "fire", 0.001F, 0.02F)}, 0.7F);
@@ -80,16 +80,16 @@ public class CrucibleRecipes {
         this.addCrucibleRecipeForItem(Items.ENDER_PEARL, new ItemStack[] {ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 64), "green", "dark", .017F, .24F, .06F),
         																  ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 16), "purple", "", .02F, 1.08F, .06F, "spatial", 0.002F, 0.02F)}, 0.7F);
         this.addCrucibleRecipeForItem(Items.GOLD_INGOT, new ItemStack[] {ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 64), "yellow", "light", .017F, .12F, .09F),
-																		 ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 32), "yellow", "lightest", .017F, .12F, .09F)}, 1.0F);
+																		 ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 32), "yellow", "", .017F, .12F, .09F)}, 1.0F);
         this.addCrucibleRecipeForItem(Items.BLAZE_ROD, new ItemStack[] {ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 64), "orange", "", .017F, 0.55F, .06F),
-																		ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 20), "orange", "light", .017F, 0.55F, .06F),
+																		ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 20), "orange", "dark", .017F, 0.55F, .06F),
 																	    ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 12), "yellow", "", .023F, 0.44F, .06F, "fire", 0.002F, 0.02F)}, 1.0F);
         this.addCrucibleRecipeForItem(Items.ENDER_EYE, new ItemStack[] {ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 64), "lime", "light", .03F, 0.44F, .10F),
 																		ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 32), "lime", "", .03F, 0.44F, .06F, "spatial", 0.002F, 0.025F)}, 1.0F);
         this.addCrucibleRecipeForItem(Items.DIAMOND, new ItemStack[] {ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 64), "cyan", "", .03F, 6.7F, .037F, 3),
-																	  ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 32), "cyan", "light", .03F, 6.7F, .037F, 3)}, 1.0F);
+																	  ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 32), "cyan", "dark", .03F, 6.7F, .037F, 3)}, 1.0F);
         this.addCrucibleRecipeForItem(Items.EMERALD, new ItemStack[] {ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 64), "lime", "", .025F, 8F, .05F, 2),
-																	  ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 32), "lime", "light", .025F, 8F, .05F, 2)}, 1.0F);
+																	  ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 32), "lime", "dark", .025F, 8F, .05F, 2)}, 1.0F);
         this.addCrucibleRecipeForItem(Items.NETHER_STAR, new ItemStack[] {ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 64), "purple", "lightest", .05F, 10F, .15F, 3),
 																		  ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 64), "purple", "light", .05F, 10F, .15F, 3)}, 2.0F);
         this.addCrucibleRecipeForItem(Items.PRISMARINE_SHARD, new ItemStack[] {ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 64), "lightblue", "light", .03F, 0.44F, .03F),
@@ -106,7 +106,7 @@ public class CrucibleRecipes {
         for(ItemStack result : results)
         {
             this.addCrucibleRecipeForItem(result.getItem(), new ItemStack[] {ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 64), "gray", "light", .025F, 1.50F, .05F, 2),
-                                                                             ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 32), "gray", "lightest", .025F, 1.50F, .05F, 2)}, 0.7F);
+                                                                             ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 32), "gray", "", .025F, 1.50F, .05F, 2)}, 0.7F);
         }
 
         //Copper
@@ -122,23 +122,23 @@ public class CrucibleRecipes {
         for(ItemStack result : results)
         {
             this.addCrucibleRecipeForItem(result.getItem(), new ItemStack[] {ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 64), "gray", "light", .020F, 0.50F, .05F, 1),
-                                                                             ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 32), "gray", "lightest", .020F, 0.50F, .05F, 1)}, 0.5F);
+                                                                             ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 32), "gray", "", .020F, 0.50F, .05F, 1)}, 0.5F);
         }
 
         //Silver
         results = OreDictionary.getOres("ingotSilver");
         for(ItemStack result : results)
         {
-            this.addCrucibleRecipeForItem(result.getItem(), new ItemStack[] {ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 64), "gray", "light", .022F, 1.0F, .07F, 1),
-                                                                             ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 32), "lightblue", "lightest", .022F, 1.0F, .07F, 1)}, 0.7F);
+            this.addCrucibleRecipeForItem(result.getItem(), new ItemStack[] {ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 64), "gray", "", .022F, 1.0F, .07F, 1),
+                                                                             ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 32), "lightblue", "light", .022F, 1.0F, .07F, 1)}, 0.7F);
         }
 
         //Electrum
         results = OreDictionary.getOres("ingotElectrum");
         for(ItemStack result : results)
         {
-            this.addCrucibleRecipeForItem(result.getItem(), new ItemStack[] {ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 64), "yellow", "lightest", .023F, 1.08F, .06F, "lightning", 0.001F, 0.01F, 1),
-                                                                             ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 32), "yellow", "light", .023F, 1.08F, .06F, "lightning", 0.001F, 0.01F, 1)}, 0.7F);
+            this.addCrucibleRecipeForItem(result.getItem(), new ItemStack[] {ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 64), "yellow", "light", .023F, 1.08F, .06F, "lightning", 0.001F, 0.01F, 1),
+                                                                             ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 32), "yellow", "", .023F, 1.08F, .06F, "lightning", 0.001F, 0.01F, 1)}, 0.7F);
         }
 
         //Brass
@@ -153,8 +153,8 @@ public class CrucibleRecipes {
         results = OreDictionary.getOres("ingotTitanium");
         for(ItemStack result : results)
         {
-            this.addCrucibleRecipeForItem(result.getItem(), new ItemStack[] {ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 64), "lightblue", "lightest", .025F, 5F, .03F, 3),
-                                                                             ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 32), "gray", "lightest", .025F, 5F, .03F, 3)}, 0.7F);
+            this.addCrucibleRecipeForItem(result.getItem(), new ItemStack[] {ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 64), "lightblue", "light", .025F, 5F, .03F, 3),
+                                                                             ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 32), "gray", "light", .025F, 5F, .03F, 3)}, 0.7F);
         }
 
         //Lead
@@ -202,7 +202,7 @@ public class CrucibleRecipes {
         for(ItemStack result : results)
         {
             this.addCrucibleRecipeForItem(result.getItem(), new ItemStack[] {ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 64), "red", "", .020F, .12F, .07F),
-                                                                             ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 32), "red", "light", .020F, .12F, .07F, "fire", 0.001F, 0.01F)}, 1.0F);
+                                                                             ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 32), "red", "dark", .020F, .12F, .07F, "fire", 0.001F, 0.01F)}, 1.0F);
         }
 
         //Sapphire
@@ -210,7 +210,7 @@ public class CrucibleRecipes {
         for(ItemStack result : results)
         {
             this.addCrucibleRecipeForItem(result.getItem(), new ItemStack[] {ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 64), "blue", "", .020F, .12F, .07F),
-                                                                             ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 32), "blue", "light", .020F, .12F, .07F, "ice", 0.001F, 0.01F)}, 1.0F);
+                                                                             ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 32), "blue", "dark", .020F, .12F, .07F, "ice", 0.001F, 0.01F)}, 1.0F);
         }
 
         //Amethyst
@@ -218,7 +218,7 @@ public class CrucibleRecipes {
         for(ItemStack result : results)
         {
             this.addCrucibleRecipeForItem(result.getItem(), new ItemStack[] {ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 64), "purple", "", .020F, .12F, .07F),
-                                                                             ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 32), "purple", "light", .020F, .12F, .07F, "spatial", 0.001F, 0.01F)}, 1.0F);
+                                                                             ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 32), "purple", "dark", .020F, .12F, .07F, "spatial", 0.001F, 0.01F)}, 1.0F);
         }
 
         //Tinker's Construct Materials

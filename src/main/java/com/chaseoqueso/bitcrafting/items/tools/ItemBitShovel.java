@@ -106,7 +106,10 @@ public class ItemBitShovel extends ItemSpade implements IItemBitTool {
             NBTTagCompound itemData = stack.getTagCompound();
             itemData.setInteger("Uses", itemData.getInteger("Uses") + 2);
             if(itemData.getInteger("Uses") >= itemData.getFloat("Durability"))
+            {
+                attacker.renderBrokenItemStack(stack);
                 stack.shrink(1);
+            }
         }
         return true;
     }
@@ -119,7 +122,10 @@ public class ItemBitShovel extends ItemSpade implements IItemBitTool {
             NBTTagCompound itemData = stack.getTagCompound();
             itemData.setInteger("Uses", itemData.getInteger("Uses") + 1);
             if(itemData.getInteger("Uses") >= itemData.getFloat("Durability"))
+            {
+                blockDestroyer.renderBrokenItemStack(stack);
                 stack.shrink(1);
+            }
         }
         return true;
     }
@@ -239,7 +245,22 @@ public class ItemBitShovel extends ItemSpade implements IItemBitTool {
                     zAmount = 1 * Math.signum(zAmount);
                 }
 
-                for(int i = 1; i < power + 1; ++i)
+                //Temporarily remove the earth effect to avoid infinite recursion
+                NBTTagCompound itemData = shovel.getTagCompound();
+                NBTTagList effectlist = itemData.getTagList("EffectArray", 10);
+                NBTTagCompound effectData = effectlist.getCompoundTagAt(0);
+
+                for(int j = 0; j < effectlist.tagCount(); ++j)
+                {
+                    effectData = effectlist.getCompoundTagAt(j);
+                    if(effectData.getString("effect").equals("earth"))
+                    {
+                        effectlist.removeTag(j);
+                    }
+                }
+                itemData.setTag("EffectArray", effectlist);
+
+                for(int i = 1; i < power; ++i)
                 {
                     BlockPos position = new BlockPos(pos.getX() + xAmount*i, pos.getY() + yAmount*i, pos.getZ() + zAmount*i);
                     IBlockState blockAtPosition = world.getBlockState(position);
@@ -248,15 +269,14 @@ public class ItemBitShovel extends ItemSpade implements IItemBitTool {
                     if(material != Material.CLAY && material != Material.CRAFTED_SNOW && material != Material.GRASS && material != Material.SNOW && material != Material.GROUND && material != Material.SAND)
                         break;
 
-                    NonNullList<ItemStack> blockDrops = NonNullList.create();
-                    blockAtPosition.getBlock().getDrops(blockDrops, world, position, state, 0);
-
-                    for (ItemStack drop : blockDrops) {
-                        world.spawnEntity(new EntityItem(world, position.getX(), position.getY(), position.getZ(), drop));
-                    }
-
+                    //Harvest the block
+                    blockAtPosition.getBlock().harvestBlock(world, (EntityPlayer) player, position, blockAtPosition, null, shovel);
                     world.setBlockToAir(position);
                 }
+
+                //Add the earth effect back to the shovel
+                effectlist.appendTag(effectData);
+                itemData.setTag("EffectArray", effectlist);
                 break;
 
             case "ice":

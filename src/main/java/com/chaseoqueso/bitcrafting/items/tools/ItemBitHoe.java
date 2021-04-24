@@ -93,7 +93,10 @@ public class ItemBitHoe extends ItemHoe implements IItemBitTool {
             NBTTagCompound itemData = stack.getTagCompound();
             itemData.setInteger("Uses", itemData.getInteger("Uses") + 2);
             if(itemData.getInteger("Uses") >= itemData.getFloat("Durability"))
+            {
+                player.renderBrokenItemStack(stack);
                 stack.shrink(1);
+            }
         }
         return true;
     }
@@ -106,7 +109,10 @@ public class ItemBitHoe extends ItemHoe implements IItemBitTool {
             NBTTagCompound itemData = stack.getTagCompound();
             itemData.setInteger("Uses", itemData.getInteger("Uses") + 1);
             if(itemData.getInteger("Uses") >= itemData.getFloat("Durability"))
+            {
+                blockDestroyer.renderBrokenItemStack(stack);
                 stack.shrink(1);
+            }
         }
         return true;
     }
@@ -235,7 +241,10 @@ public class ItemBitHoe extends ItemHoe implements IItemBitTool {
             {
                 itemData.setInteger("Uses", itemData.getInteger("Uses") + 1);
                 if (itemData.getInteger("Uses") >= itemData.getFloat("Durability"))
+                {
+                    player.renderBrokenItemStack(stack);
                     stack.shrink(1);
+                }
             }
             return EnumActionResult.SUCCESS;
         }
@@ -408,7 +417,10 @@ public class ItemBitHoe extends ItemHoe implements IItemBitTool {
                     NBTTagCompound itemData = hoe.getTagCompound();
                     itemData.setInteger("Uses", itemData.getInteger("Uses") + 1);
                     if (itemData.getInteger("Uses") >= itemData.getFloat("Durability"))
+                    {
+                        player.renderBrokenItemStack(hoe);
                         hoe.shrink(1);
+                    }
                 }
                 break;
 
@@ -440,7 +452,10 @@ public class ItemBitHoe extends ItemHoe implements IItemBitTool {
                                 NBTTagCompound itemData = hoe.getTagCompound();
                                 itemData.setInteger("Uses", itemData.getInteger("Uses") + 1);
                                 if (itemData.getInteger("Uses") >= itemData.getFloat("Durability"))
+                                {
+                                    player.renderBrokenItemStack(hoe);
                                     hoe.shrink(1);
+                                }
                             }
                         }
                     }
@@ -481,7 +496,10 @@ public class ItemBitHoe extends ItemHoe implements IItemBitTool {
             NBTTagCompound itemData = stack.getTagCompound();
             itemData.setInteger("Uses", itemData.getInteger("Uses") + 1);
             if(itemData.getInteger("Uses") >= itemData.getFloat("Durability"))
+            {
+                player.renderBrokenItemStack(stack);
                 stack.shrink(1);
+            }
         }
     }
 

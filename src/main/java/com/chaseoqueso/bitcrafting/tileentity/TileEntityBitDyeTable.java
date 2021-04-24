@@ -83,7 +83,7 @@ public class TileEntityBitDyeTable extends TileEntity implements IInventory {
 
 	@Override
 	public String getName() {
-		return this.hasCustomName() ? this.dyeTableName : "Bit forge";
+		return this.hasCustomName() ? this.dyeTableName : "Bit Dye Table";
 	}
 
 	@Override

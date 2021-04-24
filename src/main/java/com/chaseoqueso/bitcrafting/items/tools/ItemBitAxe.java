@@ -104,7 +104,10 @@ public class ItemBitAxe extends ItemAxe implements IItemBitTool {
             NBTTagCompound itemData = stack.getTagCompound();
             itemData.setInteger("Uses", itemData.getInteger("Uses") + 2);
             if(itemData.getInteger("Uses") >= itemData.getFloat("Durability"))
+            {
+                attacker.renderBrokenItemStack(stack);
                 stack.shrink(1);
+            }
         }
         return true;
     }
@@ -117,7 +120,10 @@ public class ItemBitAxe extends ItemAxe implements IItemBitTool {
             NBTTagCompound itemData = stack.getTagCompound();
             itemData.setInteger("Uses", itemData.getInteger("Uses") + 1);
             if(itemData.getInteger("Uses") >= itemData.getFloat("Durability"))
+            {
+                blockDestroyer.renderBrokenItemStack(stack);
                 stack.shrink(1);
+            }
         }
         return true;
     }
@@ -186,15 +192,41 @@ public class ItemBitAxe extends ItemAxe implements IItemBitTool {
                 break;
 
             case "lightning":
+
+                //Temporarily remove the lightning effect to avoid infinite recursion
+                NBTTagCompound itemData = axe.getTagCompound();
+                NBTTagList effectlist = itemData.getTagList("EffectArray", 10);
+                NBTTagCompound effectData = effectlist.getCompoundTagAt(0);
+
+                for(int j = 0; j < effectlist.tagCount(); ++j)
+                {
+                    effectData = effectlist.getCompoundTagAt(j);
+                    if(effectData.getString("effect").equals("lightning"))
+                    {
+                        effectlist.removeTag(j);
+                    }
+                }
+                itemData.setTag("EffectArray", effectlist);
+
                 int blocksLeft;
 
-                blocksLeft = harvestNeighborsAtPosition(world, pos, state, (int)power);
+                blocksLeft = harvestNeighborsAtPosition(world, pos, state, (int)power, player, axe);
                 if(blocksLeft <= 0)
+                {
+                    //Add the lightning effect back to the axe
+                    effectlist.appendTag(effectData);
+                    itemData.setTag("EffectArray", effectlist);
                     break;
+                }
 
-                blocksLeft = harvestNeighborsAtPosition(world, new BlockPos(pos.getX(), pos.getY() + 1, pos.getZ()), state, (int)power);
+                blocksLeft = harvestNeighborsAtPosition(world, new BlockPos(pos.getX(), pos.getY() + 1, pos.getZ()), state, (int)power, player, axe);
                 if(blocksLeft <= 0)
+                {
+                    //Add the lightning effect back to the axe
+                    effectlist.appendTag(effectData);
+                    itemData.setTag("EffectArray", effectlist);
                     break;
+                }
 
                 for(int xDiff = -1; xDiff <= 1; ++xDiff)
                 {
@@ -202,10 +234,14 @@ public class ItemBitAxe extends ItemAxe implements IItemBitTool {
                     {
                         if(blocksLeft > 0) {
                             BlockPos newPos = new BlockPos(pos.getX() + xDiff, pos.getY(), pos.getZ() + zDiff);
-                            blocksLeft = harvestNeighborsAtPosition(world, newPos, state, blocksLeft);
+                            blocksLeft = harvestNeighborsAtPosition(world, newPos, state, blocksLeft, player, axe);
                         }
                     }
                 }
+
+                //Add the lightning effect back to the axe
+                effectlist.appendTag(effectData);
+                itemData.setTag("EffectArray", effectlist);
                 break;
 
             case "earth":
@@ -347,9 +383,9 @@ public class ItemBitAxe extends ItemAxe implements IItemBitTool {
         }
     }
 
-    private int harvestNeighborsAtPosition(World world, BlockPos position, IBlockState state, int blocksLeft)
+    private int harvestNeighborsAtPosition(World world, BlockPos position, IBlockState state, int blocksLeft, EntityPlayer player, ItemStack axe)
     {
-        if(!harvestBlockAtPosition(world, position, state)) {
+        if(!harvestBlockAtPosition(world, position, state, player, axe)) {
             return blocksLeft;
         }
         --blocksLeft;
@@ -357,7 +393,7 @@ public class ItemBitAxe extends ItemAxe implements IItemBitTool {
         if(blocksLeft <= 0)
             return 0;
 
-        blocksLeft = harvestNeighborsAtPosition(world, new BlockPos(position.getX(), position.getY() + 1, position.getZ()), state, blocksLeft);
+        blocksLeft = harvestNeighborsAtPosition(world, new BlockPos(position.getX(), position.getY() + 1, position.getZ()), state, blocksLeft, player, axe);
 
         if(blocksLeft <= 0)
             return 0;
@@ -370,26 +406,19 @@ public class ItemBitAxe extends ItemAxe implements IItemBitTool {
                     return 0;
 
                 BlockPos newPos = new BlockPos(position.getX() + xDiff, position.getY(), position.getZ() + zDiff);
-                blocksLeft = harvestNeighborsAtPosition(world, newPos, state, blocksLeft);
+                blocksLeft = harvestNeighborsAtPosition(world, newPos, state, blocksLeft, player, axe);
             }
         }
 
-        return harvestNeighborsAtPosition(world, new BlockPos(position.getX(), position.getY() - 1, position.getZ()), state, blocksLeft);
+        return harvestNeighborsAtPosition(world, new BlockPos(position.getX(), position.getY() - 1, position.getZ()), state, blocksLeft, player, axe);
     }
 
-    private boolean harvestBlockAtPosition(World world, BlockPos position, IBlockState state)
+    private boolean harvestBlockAtPosition(World world, BlockPos position, IBlockState state, EntityPlayer player, ItemStack axe)
     {
         IBlockState blockAtPosition = world.getBlockState(position);
-        if(blockAtPosition.getBlock() == state.getBlock()
-            || (blockAtPosition.getBlock() == Blocks.LEAVES && blockAtPosition.getProperties().get(BlockNewLog.VARIANT) == state))
+        if(blockAtPosition.getBlock() == state.getBlock() || (blockAtPosition.getBlock() == Blocks.LEAVES && blockAtPosition.getProperties().get(BlockNewLog.VARIANT) == state))
         {
-            NonNullList<ItemStack> blockDrops = NonNullList.create();
-            blockAtPosition.getBlock().getDrops(blockDrops, world, position, state, 0);
-
-            for (ItemStack drop : blockDrops) {
-                world.spawnEntity(new EntityItem(world, position.getX(), position.getY(), position.getZ(), drop));
-            }
-
+            blockAtPosition.getBlock().harvestBlock(world, player, position, blockAtPosition, null, axe);
             world.setBlockToAir(position);
             return true;
         }

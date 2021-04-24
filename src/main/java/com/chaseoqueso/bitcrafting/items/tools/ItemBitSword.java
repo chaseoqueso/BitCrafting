@@ -215,7 +215,10 @@ public class ItemBitSword extends ItemSword implements IItemBitTool {
 			{
 				itemData.setInteger("Uses", itemData.getInteger("Uses") + 1);
 				if (itemData.getInteger("Uses") >= itemData.getFloat("Durability"))
+				{
+					attacker.renderBrokenItemStack(stack);
 					stack.shrink(1);
+				}
 			}
 
 			if(itemData.hasKey("EffectArray"))
@@ -243,7 +246,10 @@ public class ItemBitSword extends ItemSword implements IItemBitTool {
 			NBTTagCompound itemData = stack.getTagCompound();
 			itemData.setInteger("Uses", itemData.getInteger("Uses") + 1);
 			if(itemData.getInteger("Uses") >= itemData.getFloat("Durability"))
+			{
+				blockDestroyer.renderBrokenItemStack(stack);
 				stack.shrink(1);
+			}
 		}
 		return true;
 	}

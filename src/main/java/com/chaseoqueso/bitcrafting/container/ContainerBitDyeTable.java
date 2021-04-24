@@ -80,13 +80,29 @@ public class ContainerBitDyeTable extends Container {
 		int color = ItemBit.getColorFromDye(tileDyeTable.getStackInSlot(1));
 		ItemStack stack = tileDyeTable.getStackInSlot(0).copy();
 		stack.setCount(1);
-		if(color == -2)
+		if(color == -3 || color == -4)
+		{
+			int shadeOffset = color == -3 ? 0 : 2;
+			for (int i = 0; i < 3; i++)
+			{
+				this.craftResult[i + 1].setInventorySlotContents(0, ItemBit.setClear(ItemBit.setColor(stack, 0, i + shadeOffset), false).copy());
+			}
+		}
+		else if(color == -2)
+		{
 			this.craftResult[2].setInventorySlotContents(0, ItemBit.setClear(stack, true).copy());
+		}
 		else if(color == -1)
+		{
 			setResultsNull();
+		}
 		else
-			for(int i = 0; i < 5; i++)
+		{
+			for (int i = 0; i < 5; i++)
+			{
 				this.craftResult[i].setInventorySlotContents(0, ItemBit.setClear(ItemBit.setColor(stack, color, i), false).copy());
+			}
+		}
     }
 	
 	private void setResultsNull()

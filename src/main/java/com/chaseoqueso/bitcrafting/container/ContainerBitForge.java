@@ -57,7 +57,6 @@ public class ContainerBitForge extends Container {
 	@Override
 	public void onCraftMatrixChanged(IInventory p_75130_1_)
     {
-		super.onCraftMatrixChanged(p_75130_1_);
 		if (p_75130_1_ == this.tileForge)
         {
 			if(tileForge.canForge())
@@ -65,6 +64,7 @@ public class ContainerBitForge extends Container {
 			else
 				this.craftResult.setInventorySlotContents(0, ItemStack.EMPTY);
         }
+		super.onCraftMatrixChanged(p_75130_1_);
 	}
 
 	public boolean canInteractWith(EntityPlayer player) {

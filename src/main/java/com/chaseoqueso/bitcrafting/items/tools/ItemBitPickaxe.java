@@ -106,7 +106,10 @@ public class ItemBitPickaxe extends ItemPickaxe implements IItemBitTool {
             NBTTagCompound itemData = stack.getTagCompound();
             itemData.setInteger("Uses", itemData.getInteger("Uses") + 2);
             if(itemData.getInteger("Uses") >= itemData.getFloat("Durability"))
+            {
+                attacker.renderBrokenItemStack(stack);
                 stack.shrink(1);
+            }
         }
         return true;
     }
@@ -119,12 +122,15 @@ public class ItemBitPickaxe extends ItemPickaxe implements IItemBitTool {
             NBTTagCompound itemData = stack.getTagCompound();
             itemData.setInteger("Uses", itemData.getInteger("Uses") + 1);
             if(itemData.getInteger("Uses") >= itemData.getFloat("Durability"))
+            {
+                blockDestroyer.renderBrokenItemStack(stack);
                 stack.shrink(1);
+            }
         }
         return true;
     }
 
-    public void activateAllEffects(ItemStack stack, IBlockState state, BlockPos pos, EntityLivingBase player, World worldIn, List<ItemStack> drops, boolean silkTouch, int fortune)
+    public void activateAllEffects(ItemStack stack, IBlockState state, BlockPos pos, EntityLivingBase player, World worldIn, List<ItemStack> drops)
     {
         if ((double)state.getBlockHardness(worldIn, pos) != 0.0D && stack.hasTagCompound())
         {
@@ -138,14 +144,14 @@ public class ItemBitPickaxe extends ItemPickaxe implements IItemBitTool {
                     NBTTagCompound effectData = effectlist.getCompoundTagAt(i);
                     if(rand.nextFloat() < effectData.getFloat("chance"))
                     {
-                        ((ItemBitPickaxe)stack.getItem()).activateEffect(effectData.getString("effect"), effectData.getFloat("power"), drops, pos, state, player, worldIn, stack, silkTouch, fortune);
+                        ((ItemBitPickaxe)stack.getItem()).activateEffect(effectData.getString("effect"), effectData.getFloat("power"), drops, pos, state, player, worldIn, stack);
                     }
                 }
             }
         }
     }
 
-    public void activateEffect(String effect, float power, List<ItemStack> drops, BlockPos pos, IBlockState state, EntityLivingBase player, World world, ItemStack pickaxe, boolean silkTouch, int fortuneLevel)
+    public void activateEffect(String effect, float power, List<ItemStack> drops, BlockPos pos, IBlockState state, EntityLivingBase player, World world, ItemStack pickaxe)
     {
         switch(effect)
         {
@@ -238,6 +244,21 @@ public class ItemBitPickaxe extends ItemPickaxe implements IItemBitTool {
                     zAmount = 1 * Math.signum(zAmount);
                 }
 
+                //Temporarily remove the earth effect to avoid infinite recursion
+                NBTTagCompound itemData = pickaxe.getTagCompound();
+                NBTTagList effectlist = itemData.getTagList("EffectArray", 10);
+                NBTTagCompound effectData = effectlist.getCompoundTagAt(0);
+
+                for(int j = 0; j < effectlist.tagCount(); ++j)
+                {
+                    effectData = effectlist.getCompoundTagAt(j);
+                    if(effectData.getString("effect").equals("earth"))
+                    {
+                        effectlist.removeTag(j);
+                    }
+                }
+                itemData.setTag("EffectArray", effectlist);
+
                 for(int i = 1; i < power; ++i)
                 {
                     BlockPos position = new BlockPos(pos.getX() + xAmount*i, pos.getY() + yAmount*i, pos.getZ() + zAmount*i);
@@ -245,51 +266,16 @@ public class ItemBitPickaxe extends ItemPickaxe implements IItemBitTool {
 
                     Material material = blockAtPosition.getMaterial();
                     if(material != Material.IRON && material != Material.ANVIL && material != Material.ROCK)
-                    {
-                        System.out.println("Tool was not effective");
                         break;
-                    }
-
-                    //Temporarily remove the earth effect to avoid infinite recursion
-                    NBTTagCompound itemData = pickaxe.getTagCompound();
-                    NBTTagList effectlist = itemData.getTagList("EffectArray", 10);
-                    NBTTagCompound effectData = effectlist.getCompoundTagAt(0);
-
-                    for(int j = 0; j < effectlist.tagCount(); ++j)
-                    {
-                        effectData = effectlist.getCompoundTagAt(j);
-                        if(effectData.getString("effect").equals("earth"))
-                        {
-                            effectlist.removeTag(j);
-                        }
-                    }
-                    itemData.setTag("EffectArray", effectlist);
 
                     //Harvest the block
                     blockAtPosition.getBlock().harvestBlock(world, (EntityPlayer) player, position, blockAtPosition, null, pickaxe);
                     world.setBlockToAir(position);
-
-                    //Add the earth effect back to the pickaxe
-                    effectlist.appendTag(effectData);
-                    itemData.setTag("EffectArray", effectlist);
-
-                    /*
-                    NonNullList<ItemStack> blockDrops = NonNullList.create();
-                    if(silkTouch)
-                    {
-                        blockDrops.add(new ItemStack(blockAtPosition.getBlock()));
-                    }
-                    else
-                    {
-                        blockAtPosition.getBlock().getDrops(blockDrops, world, position, state, fortuneLevel);
-                    }
-
-                    for (ItemStack drop : blockDrops) {
-                        world.spawnEntity(new EntityItem(world, position.getX(), position.getY(), position.getZ(), drop));
-                    }
-
-                    world.setBlockToAir(position);*/
                 }
+
+                //Add the earth effect back to the pickaxe
+                effectlist.appendTag(effectData);
+                itemData.setTag("EffectArray", effectlist);
                 break;
 
             case "ice":

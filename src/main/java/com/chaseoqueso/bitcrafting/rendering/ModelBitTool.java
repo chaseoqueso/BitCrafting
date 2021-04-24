@@ -2,7 +2,6 @@ package com.chaseoqueso.bitcrafting.rendering;
 
 import com.chaseoqueso.bitcrafting.BitCraftingMod;
 import com.chaseoqueso.bitcrafting.items.tools.IItemBitTool;
-import com.chaseoqueso.bitcrafting.items.tools.ItemBitSword;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -111,24 +110,24 @@ public class ModelBitTool implements IModel
                 int x = i % 16;
                 int y = i / 16;
                 TextureAtlasSprite sprite = bakedTextureGetter.apply(blankLocation);
-                builder.add(QuadBuilder.genQuad(format, transform, x, y, sprite, EnumFacing.NORTH, pixelColors[i] + alpha, pixelCount));
-                builder.add(QuadBuilder.genQuad(format, transform, x, y, sprite, EnumFacing.SOUTH, pixelColors[i] + alpha, pixelCount));
+                builder.add(CustomQuadBuilder.genQuad(format, transform, x, y, sprite, EnumFacing.NORTH, pixelColors[i] + alpha, pixelCount));
+                builder.add(CustomQuadBuilder.genQuad(format, transform, x, y, sprite, EnumFacing.SOUTH, pixelColors[i] + alpha, pixelCount));
 
                 if(x == 0 || pixelColors[i-1] == -1)
                 {
-                    builder.add(QuadBuilder.genQuad(format, transform, x, y, sprite, EnumFacing.WEST, pixelColors[i] + alpha, pixelCount));
+                    builder.add(CustomQuadBuilder.genQuad(format, transform, x, y, sprite, EnumFacing.WEST, pixelColors[i] + alpha, pixelCount));
                 }
                 if(x == 15 || pixelColors[i+1] == -1)
                 {
-                    builder.add(QuadBuilder.genQuad(format, transform, x, y, sprite, EnumFacing.EAST, pixelColors[i] + alpha, pixelCount));
+                    builder.add(CustomQuadBuilder.genQuad(format, transform, x, y, sprite, EnumFacing.EAST, pixelColors[i] + alpha, pixelCount));
                 }
                 if(y == 0 || pixelColors[i-16] == -1)
                 {
-                    builder.add(QuadBuilder.genQuad(format, transform, x, y, sprite, EnumFacing.UP, pixelColors[i] + alpha, pixelCount));
+                    builder.add(CustomQuadBuilder.genQuad(format, transform, x, y, sprite, EnumFacing.UP, pixelColors[i] + alpha, pixelCount));
                 }
                 if(y == 15 || pixelColors[i+16] == -1)
                 {
-                    builder.add(QuadBuilder.genQuad(format, transform, x, y, sprite, EnumFacing.DOWN, pixelColors[i] + alpha, pixelCount));
+                    builder.add(CustomQuadBuilder.genQuad(format, transform, x, y, sprite, EnumFacing.DOWN, pixelColors[i] + alpha, pixelCount));
                 }
 
                 ++pixelCount;
@@ -259,7 +258,7 @@ public class ModelBitTool implements IModel
         }
     }
 
-    private static class QuadBuilder
+    private static class CustomQuadBuilder
     {
         public static UnpackedBakedQuad genQuad(VertexFormat format, TRSRTransformation transform, float x, float y, TextureAtlasSprite sprite, EnumFacing facing, int color, int tint)
         {
