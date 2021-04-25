@@ -47,6 +47,8 @@ public class CrucibleRecipes {
 																			ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 32), "gray", "", .02F, 0.55F, .017F, 1)}, 0.2F);
         this.addCrucibleRecipeForBlock(Blocks.SANDSTONE, new ItemStack[] {ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 64), "brown", "lightest", .02F, 0.92F, .027F, 1),
 																		  ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 32), "brown", "light", .02F, 0.92F, .027F, 1)}, 0.3F);
+        this.addCrucibleRecipeForBlock(Blocks.IRON_BARS, new ItemStack[] {ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 24), "gray", "light", .023F, 1.08F, .06F, 2),
+                                                                          ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 12), "gray", "", .023F, 1.08F, .06F, 2)}, 0.1F);
         this.addCrucibleRecipeForBlock(Blocks.ICE, new ItemStack[] {ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 48), "lightblue", "", .02F, 0.55F, .05F, "ice", 0.002F, 0.025F)}, 0.6F);
         this.addCrucibleRecipeForBlock(Blocks.GLOWSTONE, new ItemStack[] {ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 64), "yellow", "dark", .017F, .24F, .06F),
 																		  ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 20), "yellow", "darkest", .017F, .24F, .06F),

@@ -7,6 +7,7 @@ Features:
     -updated to 1.12.2
     -added pickaxes, axes, shovels, and hoes
     -added special effects (fire, earth, lightning, ice, and anomaly) for each tool type
+    -added crucible recipes for items in other mods
     -completely skipped 1.1 (that's how cool this update is)
 
 -----------
