@@ -3,6 +3,7 @@ package com.chaseoqueso.bitcrafting.slots;
 import com.chaseoqueso.bitcrafting.init.BitCraftingItems;
 import com.chaseoqueso.bitcrafting.items.ItemBit;
 
+import com.chaseoqueso.bitcrafting.items.tools.IItemBitTool;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
@@ -17,7 +18,7 @@ public class FusionInputSlot extends Slot {
 
     public boolean isItemValid(ItemStack stack)
     {
-        return stack.getItem() instanceof ItemBit || stack.getItem() == BitCraftingItems.ITEMS.itemBitSword;
+        return stack.getItem() instanceof ItemBit || stack.getItem() instanceof IItemBitTool;
     }
 
     public int getSlotStackLimit() {
