@@ -45,7 +45,7 @@ public class ItemBitHoe extends ItemHoe implements IItemBitTool {
 
     public ItemBitHoe()
     {
-        super(EnumHelper.addToolMaterial("BitHoe", 0, Integer.MAX_VALUE, 0, -4, 0));
+        super(EnumHelper.addToolMaterial("BitHoe", 0, Integer.MAX_VALUE, -11.11F, -4, 0));
         setUnlocalizedName("ItemBitHoe");
         setRegistryName(new ResourceLocation(BitCraftingMod.MODID, "itembithoe"));
         setCreativeTab(null);
@@ -60,6 +60,22 @@ public class ItemBitHoe extends ItemHoe implements IItemBitTool {
             return itemData.getInteger("HarvestLevel");
         }
         return -1;
+    }
+
+    @Override
+    public float getDestroySpeed(ItemStack stack, IBlockState state)
+    {
+        //Bit tools have a default efficiency of -11.11. If this is the efficiency that is returned by the super call,
+        //that means hoes are the ideal tool for this block, and therefore we should return this hoe's damage as its efficiency.
+        if(super.getDestroySpeed(stack, state) != -11.11)
+            return 1;
+
+        if(stack.hasTagCompound())
+        {
+            NBTTagCompound itemData = stack.getTagCompound();
+            return itemData.getFloat("Damage");
+        }
+        return 0;
     }
 
     @Override
@@ -519,6 +535,19 @@ public class ItemBitHoe extends ItemHoe implements IItemBitTool {
             return -1;
         NBTTagCompound itemData = stack.getTagCompound();
         return itemData.getInteger("Uses");
+    }
+
+    @Override
+    public void setDamage(ItemStack stack, int damage)
+    {
+        if(!stack.hasTagCompound())
+            return;
+
+        if(damage < 0)
+            damage = 0;
+
+        NBTTagCompound itemData = stack.getTagCompound();
+        itemData.setInteger("Uses", damage);
     }
 
     @Override

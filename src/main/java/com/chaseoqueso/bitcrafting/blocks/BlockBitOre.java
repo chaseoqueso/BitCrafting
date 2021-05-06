@@ -63,7 +63,7 @@ public class BlockBitOre extends BlockOre {
 		for (int i = 0; i < count; i++)
 		{
 			drops.add(ItemBit.setBit(new ItemStack(BitCraftingItems.ITEMS.itemBit, 1), bitdata[0], bitdata[1], .023F,
-					.37F, .03F, bitdata[2], .002F, .05F));
+					.37F, .03F, bitdata[2], 0.002F, 0.05F));
 		}
 	}
 }

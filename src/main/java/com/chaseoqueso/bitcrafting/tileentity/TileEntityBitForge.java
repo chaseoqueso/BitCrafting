@@ -24,6 +24,7 @@ public class TileEntityBitForge extends TileEntity implements IInventory {
 	
 	private NonNullList<ItemStack> forgeItemStacks = NonNullList.withSize(257, ItemStack.EMPTY);
 	private String forgeName = "Bit Forge";
+	public boolean preventContainerUpdate;
 	protected ContainerBitForge eventhandler;
 	
 	public void setForgeName(String displayName) {
@@ -103,19 +104,14 @@ public class TileEntityBitForge extends TileEntity implements IInventory {
 
 	public void setInventorySlotContents(int slot, ItemStack itemstack) {
 		this.forgeItemStacks.set(slot, itemstack);
+
 		if(itemstack != ItemStack.EMPTY && itemstack.getCount() > this.getInventoryStackLimit())
 			itemstack.setCount(this.getInventoryStackLimit());
-        this.eventhandler.onCraftMatrixChanged(this);
-		super.markDirty();
-	}
 
-	public void setInventorySlotContentsNoUpdate(int slot, ItemStack itemstack) {
-		this.forgeItemStacks.set(slot, itemstack);
-		
-		if(itemstack != null && itemstack.getCount() > this.getInventoryStackLimit())
-		{
-			itemstack.setCount(this.getInventoryStackLimit());
-		}
+		if(!preventContainerUpdate)
+        	this.eventhandler.onCraftMatrixChanged(this);
+
+		this.markDirty();
 	}
 
 	public String getInventoryName() {

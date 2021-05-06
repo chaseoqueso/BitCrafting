@@ -126,13 +126,23 @@ public class ContainerBitFusionTable extends Container {
 		{
 			NBTTagCompound tagCompound = stack.getTagCompound();
 			int uses = tagCompound.getInteger("Uses");
+			int harvestLevel = tagCompound.getInteger("HarvestLevel");
 
 			ItemStack tempstack;
 			for (int i = 9; i > 0; i--) {
 				tempstack = tileFusionTable.getStackInSlot(i);
-				if (tempstack != ItemStack.EMPTY) {
+
+				if (tempstack != ItemStack.EMPTY)
+				{
 					if (!tempstack.hasTagCompound())
 						continue;
+
+					if(tempstack.getTagCompound().getInteger("harvestLevel") < harvestLevel)
+					{
+						this.craftResult.setInventorySlotContents(0, ItemStack.EMPTY);
+						return;
+					}
+
 					if (uses > 0)
 						uses -= Math.min(Math.max((int) tempstack.getTagCompound().getFloat("durability"), 1) * tempstack.getCount(), uses);
 					else

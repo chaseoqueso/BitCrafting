@@ -11,7 +11,6 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Enchantments;
 import net.minecraft.init.Items;
@@ -41,9 +40,11 @@ import java.util.Random;
 
 public class ItemBitPickaxe extends ItemPickaxe implements IItemBitTool {
 
+    public static List<ItemStack> allOres;
+
     public ItemBitPickaxe()
     {
-        super(EnumHelper.addToolMaterial("BitPickaxe", 0, Integer.MAX_VALUE, 0, -4, 0));
+        super(EnumHelper.addToolMaterial("BitPickaxe", 0, Integer.MAX_VALUE, -11.11F, -4, 0));
         setUnlocalizedName("ItemBitPickaxe");
         setRegistryName(new ResourceLocation(BitCraftingMod.MODID, "itembitpickaxe"));
         setCreativeTab(null);
@@ -57,15 +58,16 @@ public class ItemBitPickaxe extends ItemPickaxe implements IItemBitTool {
             NBTTagCompound itemData = stack.getTagCompound();
             return itemData.getInteger("HarvestLevel");
         }
-        return -1;
+        return 0;
     }
 
     @Override
     public float getDestroySpeed(ItemStack stack, IBlockState state)
     {
-        Material material = state.getMaterial();
-        if(material != Material.IRON && material != Material.ANVIL && material != Material.ROCK)
-            return super.getDestroySpeed(stack, state);
+        //Bit tools have a default efficiency of -11.11. If this is the efficiency that is returned by the super call,
+        //that means pickaxes are the ideal tool for this block, and therefore we should return this pickaxe's damage as its efficiency.
+        if(super.getDestroySpeed(stack, state) != -11.11)
+            return 1;
 
         if(stack.hasTagCompound())
         {
@@ -153,6 +155,19 @@ public class ItemBitPickaxe extends ItemPickaxe implements IItemBitTool {
 
     public void activateEffect(String effect, float power, List<ItemStack> drops, BlockPos pos, IBlockState state, EntityLivingBase player, World world, ItemStack pickaxe)
     {
+
+        if(allOres == null)
+        {
+            allOres = new ArrayList<>();
+            for(String ore : OreDictionary.getOreNames())
+            {
+                if(ore.toLowerCase().contains("ore"))
+                {
+                    allOres.addAll(OreDictionary.getOres(ore));
+                }
+            }
+        }
+
         switch(effect)
         {
             case "fire":
@@ -286,16 +301,10 @@ public class ItemBitPickaxe extends ItemPickaxe implements IItemBitTool {
 
             case "spatial":
                 List<Block> potentialOres = new ArrayList();
-                for(String ore : OreDictionary.getOreNames())
+                for(ItemStack ore : allOres)
                 {
-                    if(ore.contains("ore"))
-                    {
-                        for(ItemStack i : OreDictionary.getOres(ore))
-                        {
-                            if(i.getItem() instanceof  ItemBlock)
-                                potentialOres.add(( (ItemBlock)i.getItem() ).getBlock());
-                        }
-                    }
+                    if(ore.getItem() instanceof ItemBlock)
+                        potentialOres.add( ((ItemBlock)ore.getItem()).getBlock() );
                 }
 
                 potentialOres.remove(state.getBlock());
@@ -340,6 +349,19 @@ public class ItemBitPickaxe extends ItemPickaxe implements IItemBitTool {
             return -1;
         NBTTagCompound itemData = stack.getTagCompound();
         return itemData.getInteger("Uses");
+    }
+
+    @Override
+    public void setDamage(ItemStack stack, int damage)
+    {
+        if(!stack.hasTagCompound())
+            return;
+
+        if(damage < 0)
+            damage = 0;
+
+        NBTTagCompound itemData = stack.getTagCompound();
+        itemData.setInteger("Uses", damage);
     }
 
     @Override

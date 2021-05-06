@@ -7,10 +7,7 @@ import com.chaseoqueso.bitcrafting.tileentity.TileEntityBitForge;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.InventoryCraftResult;
-import net.minecraft.inventory.Slot;
+import net.minecraft.inventory.*;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
@@ -103,5 +100,22 @@ public class ContainerBitForge extends Container {
 			slot.onTake(player, itemstack1);
 		}
 		return itemstack;
+	}
+
+	public ItemStack slotClick(int slotId, int dragType, ClickType clickTypeIn, EntityPlayer player)
+	{
+		if (clickTypeIn == ClickType.QUICK_CRAFT) {
+			if(getDragEvent(dragType) == 2)
+			{
+				this.tileForge.preventContainerUpdate = true;
+			}
+		}
+
+		ItemStack result = super.slotClick(slotId, dragType, clickTypeIn, player);
+
+		this.tileForge.preventContainerUpdate = false;
+		onCraftMatrixChanged(this.tileForge);
+
+		return result;
 	}
 }

@@ -188,8 +188,9 @@ public class ItemBit extends Item {
 	}
 
 	public static boolean bitsAreEqual(ItemStack stack1, ItemStack stack2) {
-		if (!stack1.hasTagCompound() || !stack2.hasTagCompound())
+		if (!stack1.hasTagCompound() || !stack2.hasTagCompound() || !(stack1.getItem() instanceof ItemBit) || !(stack2.getItem() instanceof ItemBit))
 			return false;
+
 		NBTTagCompound itemData1 = stack1.getTagCompound();
 		NBTTagCompound itemData2 = stack2.getTagCompound();
 		boolean stacksAreClear = (stack1.getItem() instanceof ItemClearBit && stack2.getItem() instanceof ItemClearBit);

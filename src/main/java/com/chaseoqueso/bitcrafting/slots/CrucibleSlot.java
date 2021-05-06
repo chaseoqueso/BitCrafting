@@ -77,7 +77,7 @@ public class CrucibleSlot extends BitSlot {
             int expRemaining = this.stackSize;
             int expOrbAmount;
 
-            float experience = CrucibleRecipes.instance().getBreakDownExperience(itemStack);
+            float experience = ItemBit.getCrucibleExperience(itemStack);
             ItemBit.clearCrucibleExperience(itemStack);
 
             if (experience == 0.0F)

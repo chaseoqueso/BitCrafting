@@ -2,16 +2,22 @@ TOOLS
  - enchantment effect tinted by bit tool model
  - bit pickaxe got to very low durability (6/276) and then stopped functioning as a pickaxe. After leaving and rejoining, it worked again
  - anomaly pickaxe can turn gold into diamonds and emeralds, needs a nerf somehow
- - restrict tool repairing to equal harvest level or greater
- - can't mine stone button
- - Combining tools in anvil doesn't increase durability
+ - efficiency for all blocks is now 1
 
 RECIPES/ORES
- - sometimes empty bits drop from ores (Has not been seen recently)
- - crucible xp might not drop for secondary crucible results
- - can't make templates from clear bits
+ - sometimes null bits drop from ores (Has not been seen recently)
+ - crucible xp sometimes doesn't drop?
  - bit crucible no longer combines partial stacks due to removing xp from nbt
+ - match ore block textures to bit colors
 
 MISC
  ? some bits seem identical but won't stack
  - certain inventory shortcuts don't work in the BitGUIContainer (ctrl+click, maybe others?) (seems like an inventoryTweaks thing)
+ - fix when crafting recipes get added to recipe book
+ - bit forge does weird things when the input is updated
+
+FUTURE PLANS
+ - shields
+ - bows/crossbows/arrows
+ - more inter-mod recipes
+ - advancements

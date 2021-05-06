@@ -37,10 +37,26 @@ public class ItemBitSword extends ItemSword implements IItemBitTool {
 	
 	public ItemBitSword()
 	{
-		super(EnumHelper.addToolMaterial("BitSword", 0, Integer.MAX_VALUE, 0, -4, 0));
+		super(EnumHelper.addToolMaterial("BitSword", 0, Integer.MAX_VALUE, -11.11F, -4, 0));
 		setUnlocalizedName("ItemBitSword");
 		setRegistryName(new ResourceLocation(BitCraftingMod.MODID, "itembitsword"));
 		setCreativeTab(null);
+	}
+
+	@Override
+	public float getDestroySpeed(ItemStack stack, IBlockState state)
+	{
+		//Bit tools have a default efficiency of -11.11. If this is the efficiency that is returned by the super call,
+		//that means swords are the ideal tool for this block, and therefore we should return this sword's damage as its efficiency.
+		if(super.getDestroySpeed(stack, state) != -11.11)
+			return 1;
+
+		if(stack.hasTagCompound())
+		{
+			NBTTagCompound itemData = stack.getTagCompound();
+			return itemData.getFloat("Damage");
+		}
+		return 0;
 	}
 
 	public void activateEffect(String effect, float power, EntityLivingBase target, EntityLivingBase player, World world)
@@ -190,7 +206,8 @@ public class ItemBitSword extends ItemSword implements IItemBitTool {
         {
         	NBTTagCompound itemData = stack.getTagCompound();
         	damage = itemData.getFloat("Damage");
-			multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", (double)damage, 0));
+        	System.out.println("Damage: " + damage);
+			multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", damage, 0));
 			multimap.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", -2.4000000953674316D, 0));
         }
 
@@ -270,6 +287,19 @@ public class ItemBitSword extends ItemSword implements IItemBitTool {
 			return -1;
 		NBTTagCompound itemData = stack.getTagCompound();
 		return itemData.getInteger("Uses");
+	}
+
+	@Override
+	public void setDamage(ItemStack stack, int damage)
+	{
+		if(!stack.hasTagCompound())
+			return;
+
+		if(damage < 0)
+			damage = 0;
+
+		NBTTagCompound itemData = stack.getTagCompound();
+		itemData.setInteger("Uses", damage);
 	}
 
 	@Override

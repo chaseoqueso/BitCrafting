@@ -10,10 +10,14 @@
 
   "key":
   {
-    "B":
-    {
-      "item": "bcm:ItemBit"
-    },
+    "B": [
+      {
+        "item": "bcm:ItemBit"
+      },
+      {
+        "item": "bcm:ItemClearBit"
+      }
+    ],
     "#":
     {
       "item": "minecraft:wooden_shovel"

@@ -301,7 +301,7 @@ public class TileEntityBitCrucible extends TileEntity implements ISidedInventory
 			{
 				for(int i = 2; i < crucibleItemStacks.size(); i++)
 				{
-					if(crucibleItemStacks.get(i) != ItemStack.EMPTY && crucibleItemStacks.get(i).isItemEqual(itemstacks[j]) && ItemBit.bitsAreEqual(crucibleItemStacks.get(i), itemstacks[j]))
+					if(ItemBit.bitsAreEqual(crucibleItemStacks.get(i), itemstacks[j]))
 			        {
 			            int result = crucibleItemStacks.get(i).getCount() + itemstacks[j].getCount() + subtracted[j];
 			            if(result <= getInventoryStackLimit() && result <= crucibleItemStacks.get(i).getMaxStackSize())

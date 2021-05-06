@@ -43,7 +43,7 @@ public class ItemBitShovel extends ItemSpade implements IItemBitTool {
 
     public ItemBitShovel()
     {
-        super(EnumHelper.addToolMaterial("BitShovel", 0, Integer.MAX_VALUE, 0, -4, 0));
+        super(EnumHelper.addToolMaterial("BitShovel", 0, Integer.MAX_VALUE, -11.11F, -4, 0));
         setUnlocalizedName("ItemBitShovel");
         setRegistryName(new ResourceLocation(BitCraftingMod.MODID, "itembitshovel"));
         setCreativeTab(null);
@@ -63,9 +63,10 @@ public class ItemBitShovel extends ItemSpade implements IItemBitTool {
     @Override
     public float getDestroySpeed(ItemStack stack, IBlockState state)
     {
-        Material material = state.getMaterial();
-        if(material != Material.CLAY && material != Material.CRAFTED_SNOW && material != Material.GRASS && material != Material.SNOW && material != Material.GROUND && material != Material.SAND)
-            return super.getDestroySpeed(stack, state);
+        //Bit tools have a default efficiency of -11.11. If this is the efficiency that is returned by the super call,
+        //that means shovels are the ideal tool for this block, and therefore we should return this shovel's damage as its efficiency.
+        if(super.getDestroySpeed(stack, state) != -11.11)
+            return 1;
 
         if(stack.hasTagCompound())
         {
@@ -342,6 +343,19 @@ public class ItemBitShovel extends ItemSpade implements IItemBitTool {
             return -1;
         NBTTagCompound itemData = stack.getTagCompound();
         return itemData.getInteger("Uses");
+    }
+
+    @Override
+    public void setDamage(ItemStack stack, int damage)
+    {
+        if(!stack.hasTagCompound())
+            return;
+
+        if(damage < 0)
+            damage = 0;
+
+        NBTTagCompound itemData = stack.getTagCompound();
+        itemData.setInteger("Uses", damage);
     }
 
     @Override
