@@ -1,8 +1,6 @@
 TOOLS
  - enchantment effect tinted by bit tool model
  - bit pickaxe got to very low durability (6/276) and then stopped functioning as a pickaxe. After leaving and rejoining, it worked again
- - anomaly pickaxe can turn gold into diamonds and emeralds, needs a nerf somehow
- - efficiency for all blocks is now 1
 
 RECIPES/ORES
  - sometimes null bits drop from ores (Has not been seen recently)
