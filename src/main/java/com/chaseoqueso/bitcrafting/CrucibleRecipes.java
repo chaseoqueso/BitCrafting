@@ -1,5 +1,6 @@
 package com.chaseoqueso.bitcrafting;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
@@ -249,7 +250,6 @@ public class CrucibleRecipes {
 
     public void addCrucibleRecipe(ItemStack input, ItemStack[] itemstacks, float experience)
     {
-        System.out.println("Adding Crucible Recipe for: " + input);
         this.breakDownList.put(input, itemstacks);
         this.experienceList.put(input, experience);
     }
@@ -273,8 +273,10 @@ public class CrucibleRecipes {
             entry = iterator.next();
         }
         while (!this.compareItemsInStacks(itemstack, entry.getKey()));
-        ItemStack[] results = entry.getValue();
-        if(results.length == 0) return null;
+
+        ItemStack[] results = entry.getValue().clone();
+        if(results.length == 0)
+            return null;
 
         //Iterate through the map of experience rewards based on input and find the results for the given itemstack
         Iterator<Entry<ItemStack, Float>> expIterator = this.experienceList.entrySet().iterator();

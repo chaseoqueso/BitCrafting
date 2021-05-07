@@ -44,7 +44,7 @@ public class ItemBitPickaxe extends ItemPickaxe implements IItemBitTool {
 
     public ItemBitPickaxe()
     {
-        super(EnumHelper.addToolMaterial("BitPickaxe", 0, Integer.MAX_VALUE, -11.11F, -4, 0));
+        super(EnumHelper.addToolMaterial("BitPickaxe", 0, Integer.MAX_VALUE, 11.11F, -4, 0));
         setUnlocalizedName("ItemBitPickaxe");
         setRegistryName(new ResourceLocation(BitCraftingMod.MODID, "itembitpickaxe"));
         setCreativeTab(null);
@@ -58,15 +58,15 @@ public class ItemBitPickaxe extends ItemPickaxe implements IItemBitTool {
             NBTTagCompound itemData = stack.getTagCompound();
             return itemData.getInteger("HarvestLevel");
         }
-        return 0;
+        return -1;
     }
 
     @Override
     public float getDestroySpeed(ItemStack stack, IBlockState state)
     {
-        //Bit tools have a default efficiency of -11.11. If this is the efficiency that is returned by the super call,
+        //Bit tools have a default efficiency of 11.11. If this is the efficiency that is returned by the super call,
         //that means pickaxes are the ideal tool for this block, and therefore we should return this pickaxe's damage as its efficiency.
-        if(super.getDestroySpeed(stack, state) != -11.11)
+        if(super.getDestroySpeed(stack, state) != 11.11F)
             return 1;
 
         if(stack.hasTagCompound())
@@ -307,7 +307,11 @@ public class ItemBitPickaxe extends ItemPickaxe implements IItemBitTool {
                         potentialOres.add( ((ItemBlock)ore.getItem()).getBlock() );
                 }
 
+                if(!potentialOres.contains(state.getBlock()))
+                    break;
+
                 potentialOres.remove(state.getBlock());
+
                 for(int i = 0; i < potentialOres.size(); ++i)
                 {
                     if(potentialOres.get(i).getHarvestLevel(potentialOres.get(i).getDefaultState()) > state.getBlock().getHarvestLevel(state))
