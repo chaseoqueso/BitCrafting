@@ -115,4 +115,7 @@ public class ForgeSlot extends Slot {
 
         return stack;
     }
+
+    @Override
+    public void onSlotChanged() {}
 }

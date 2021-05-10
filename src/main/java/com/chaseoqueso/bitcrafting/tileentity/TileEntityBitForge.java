@@ -64,7 +64,7 @@ public class TileEntityBitForge extends TileEntity implements IInventory {
 			{
 				itemstack = this.forgeItemStacks.get(index);
 				this.forgeItemStacks.set(index, ItemStack.EMPTY);
-                this.eventhandler.onCraftMatrixChanged(this);
+                //this.eventhandler.onCraftMatrixChanged(this);
                 super.markDirty();
 				return itemstack;
 			} else {
@@ -73,7 +73,7 @@ public class TileEntityBitForge extends TileEntity implements IInventory {
 				{
 					this.forgeItemStacks.set(index, ItemStack.EMPTY);
 				}
-                this.eventhandler.onCraftMatrixChanged(this);
+                //this.eventhandler.onCraftMatrixChanged(this);
 				super.markDirty();
 				return itemstack;
 			}
@@ -109,9 +109,10 @@ public class TileEntityBitForge extends TileEntity implements IInventory {
 			itemstack.setCount(this.getInventoryStackLimit());
 
 		if(!preventContainerUpdate)
-        	this.eventhandler.onCraftMatrixChanged(this);
-
-		this.markDirty();
+		{
+			this.eventhandler.onCraftMatrixChanged(this);
+			this.markDirty();
+		}
 	}
 
 	public String getInventoryName() {

@@ -108,14 +108,16 @@ public class ContainerBitForge extends Container {
 			if(getDragEvent(dragType) == 2)
 			{
 				this.tileForge.preventContainerUpdate = true;
+
+				ItemStack result = super.slotClick(slotId, dragType, clickTypeIn, player);
+
+				this.tileForge.preventContainerUpdate = false;
+				onCraftMatrixChanged(this.tileForge);
+
+				return result;
 			}
 		}
 
-		ItemStack result = super.slotClick(slotId, dragType, clickTypeIn, player);
-
-		this.tileForge.preventContainerUpdate = false;
-		onCraftMatrixChanged(this.tileForge);
-
-		return result;
+		return super.slotClick(slotId, dragType, clickTypeIn, player);
 	}
 }

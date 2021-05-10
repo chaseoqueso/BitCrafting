@@ -153,40 +153,6 @@ public class ItemBit extends Item {
 		return stack;
 	}
 
-	public static ItemStack setCrucibleExperience(ItemStack stack, float exp)
-	{
-		if (!stack.hasTagCompound())
-			stack.setTagCompound(new NBTTagCompound());
-
-		NBTTagCompound itemData = stack.getTagCompound();
-		itemData.setFloat("expReward", exp);
-		return stack;
-	}
-
-	public static float getCrucibleExperience(ItemStack stack)
-	{
-		if (!stack.hasTagCompound())
-			return 0;
-
-		NBTTagCompound itemData = stack.getTagCompound();
-		if(!itemData.hasKey("expReward"))
-			return 0;
-
-		return itemData.getFloat("expReward");
-	}
-
-	public static void clearCrucibleExperience(ItemStack stack)
-	{
-		if (!stack.hasTagCompound())
-			return;
-
-		NBTTagCompound itemData = stack.getTagCompound();
-		if(!itemData.hasKey("expReward"))
-			return;
-
-		itemData.removeTag("expReward");
-	}
-
 	public static boolean bitsAreEqual(ItemStack stack1, ItemStack stack2) {
 		if (!stack1.hasTagCompound() || !stack2.hasTagCompound() || !(stack1.getItem() instanceof ItemBit) || !(stack2.getItem() instanceof ItemBit))
 			return false;
@@ -194,6 +160,7 @@ public class ItemBit extends Item {
 		NBTTagCompound itemData1 = stack1.getTagCompound();
 		NBTTagCompound itemData2 = stack2.getTagCompound();
 		boolean stacksAreClear = (stack1.getItem() instanceof ItemClearBit && stack2.getItem() instanceof ItemClearBit);
+
 		return ( (stack1.getItem() instanceof ItemClearBit == stack2.getItem() instanceof ItemClearBit)
 			&& (stacksAreClear || itemData1.getString("color").equals(itemData2.getString("color")))
 			&& (stacksAreClear || itemData1.getString("shade").equals(itemData2.getString("shade")))
@@ -202,7 +169,7 @@ public class ItemBit extends Item {
 			&& (itemData1.getFloat("enchantability") == itemData2.getFloat("enchantability"))
 			&& (itemData1.getInteger("harvestLevel") == itemData2.getInteger("harvestLevel"))
 			&& (itemData1.hasKey("effect") == itemData2.hasKey("effect"))
-			&& (itemData1.hasKey("effect") && itemData2.hasKey("effect") && !(itemData1.getString("effect").equals(itemData2.getString("effect")))));
+			&& ( !(itemData1.hasKey("effect") && !itemData2.hasKey("effect")) || itemData1.getString("effect").equals(itemData2.getString("effect") )));
 	}
 
 	@Override

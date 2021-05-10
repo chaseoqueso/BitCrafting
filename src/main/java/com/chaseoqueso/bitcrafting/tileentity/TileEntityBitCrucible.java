@@ -1,9 +1,10 @@
 package com.chaseoqueso.bitcrafting.tileentity;
 
-import java.util.Random;
+import java.util.*;
 
 import com.chaseoqueso.bitcrafting.CrucibleRecipes;
 import com.chaseoqueso.bitcrafting.blocks.BlockBitCrucible;
+import com.chaseoqueso.bitcrafting.container.ContainerBitCrucible;
 import com.chaseoqueso.bitcrafting.items.tools.IItemBitTool;
 import com.chaseoqueso.bitcrafting.items.ItemBit;
 import com.chaseoqueso.bitcrafting.items.tools.ItemBitSword;
@@ -33,11 +34,12 @@ public class TileEntityBitCrucible extends TileEntity implements ISidedInventory
 	private static final int[] slotsSides = new int[] {1};
 
 	private NonNullList<ItemStack> crucibleItemStacks = NonNullList.withSize(82, ItemStack.EMPTY);
-	
+	private Map<Integer, Float> crucibleExp = new HashMap<>();
 	public int currentBurnTime;
 	public int burnTime;
 	public int cookTime;
     private final Random random = new Random();
+	private ContainerBitCrucible eventHandler;
 	
 	private String crucibleName;
 
@@ -62,6 +64,7 @@ public class TileEntityBitCrucible extends TileEntity implements ISidedInventory
 		return this.hasCustomName() ? new TextComponentString(this.getName()) : new TextComponentTranslation(this.getName());
 	}
 
+	@Override
 	public int getSizeInventory() {
 		return this.crucibleItemStacks.size();
 	}
@@ -124,6 +127,15 @@ public class TileEntityBitCrucible extends TileEntity implements ISidedInventory
         this.cookTime = tag.getShort("CookTime");
         this.burnTime = tag.getShort("ItemBurnTime");
 
+		for(int i = 2; i < crucibleItemStacks.size(); i++)
+		{
+			if(tag.hasKey("CrucibleExp" + i))
+			{
+				float exp = tag.getFloat("CrucibleExp" + i);
+				this.crucibleExp.put(i, exp);
+			}
+		}
+
         if (tag.hasKey("CustomName", 8))
         {
             this.crucibleName = tag.getString("CustomName");
@@ -138,6 +150,14 @@ public class TileEntityBitCrucible extends TileEntity implements ISidedInventory
         tag.setShort("CookTime", (short)this.cookTime);
 		tag.setShort("ItemBurnTime", (short)this.burnTime);
         ItemStackHelper.saveAllItems(tag, crucibleItemStacks);
+
+		for(int i = 2; i < crucibleItemStacks.size(); i++)
+		{
+			if(crucibleItemStacks.get(i) != ItemStack.EMPTY)
+			{
+				tag.setFloat("CrucibleExp" + i, this.crucibleExp.get(i));
+			}
+		}
 
         if (this.hasCustomInventoryName())
         {
@@ -290,10 +310,26 @@ public class TileEntityBitCrucible extends TileEntity implements ISidedInventory
 		if(this.canBreakDown())
 		{
 			ItemStack[] itemstacks;
+			float experience = 0;
 			if(crucibleItemStacks.get(0).getItem() instanceof IItemBitTool)
+			{
 				itemstacks = IItemBitTool.getBits(crucibleItemStacks.get(0));
+			}
 			else
+			{
 				itemstacks = CrucibleRecipes.instance().getBreakDownResult(crucibleItemStacks.get(0));
+				experience = CrucibleRecipes.instance().getExpResult(crucibleItemStacks.get(0));
+
+				int totalBits = 0;
+				for(ItemStack stack : itemstacks)
+				{
+					totalBits += stack.getCount();
+				}
+				if(totalBits == 0)
+					return;
+
+				experience /= totalBits;
+			}
 			
 			int[] subtracted = new int[itemstacks.length];
 			
@@ -309,7 +345,9 @@ public class TileEntityBitCrucible extends TileEntity implements ISidedInventory
 			            	crucibleItemStacks.get(i).grow(itemstacks[j].getCount() + subtracted[j]);
 			            	subtracted[j] = -itemstacks[j].getCount();
 							break;
-			            } else {
+			            }
+			            else
+						{
 			            	int diff = crucibleItemStacks.get(i).getMaxStackSize() - crucibleItemStacks.get(i).getCount();
 			            	subtracted[j] -= diff;
 			            	crucibleItemStacks.get(i).grow(diff);
@@ -327,6 +365,9 @@ public class TileEntityBitCrucible extends TileEntity implements ISidedInventory
 						ItemStack result = itemstacks[j].copy();
 						result.shrink(-subtracted[j]);
 						crucibleItemStacks.set(i, result);
+
+						crucibleExp.put(i, experience);
+						this.eventHandler.setSlotExperience(i, experience);
 						break;
 					}
 					if(i == crucibleItemStacks.size() - 1 && crucibleItemStacks.get(crucibleItemStacks.size() - 1) != ItemStack.EMPTY)
@@ -455,5 +496,15 @@ public class TileEntityBitCrucible extends TileEntity implements ISidedInventory
 	@Override
 	public void closeInventory(EntityPlayer player)
 	{
+	}
+
+	public void setEventHandler(ContainerBitCrucible eventHandler)
+	{
+		this.eventHandler = eventHandler;
+
+		for(int i : this.crucibleExp.keySet())
+		{
+			this.eventHandler.setSlotExperience(i, this.crucibleExp.get(i));
+		}
 	}
 }

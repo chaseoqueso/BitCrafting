@@ -49,6 +49,8 @@ public class ContainerBitCrucible extends Container {
 		{
 			this.addSlotToContainer(new Slot(player, i, 8 + i*18, 148));
 		}
+
+		tileentity.setEventHandler(this);
 	}
 	
 	public void addListener(IContainerListener listener)
@@ -152,5 +154,14 @@ public class ContainerBitCrucible extends Container {
 			slot.onTake(player, itemstack1);
 		}
 		return itemstack;
+	}
+
+	public void setSlotExperience(int index, float experience)
+	{
+		Slot slot = this.inventorySlots.get(index);
+		if(slot instanceof CrucibleSlot)
+		{
+			( (CrucibleSlot)slot ).setExperience(experience);
+		}
 	}
 }

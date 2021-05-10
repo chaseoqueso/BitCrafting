@@ -13,6 +13,7 @@ public class CrucibleSlot extends BitSlot {
 	/** The player that is using the GUI where this slot resides. */
     private EntityPlayer thePlayer;
     private int stackSize;
+    private float expPerBit;
 
     public CrucibleSlot(EntityPlayer player, IInventory inventory, int index, int x, int y)
     {
@@ -42,6 +43,11 @@ public class CrucibleSlot extends BitSlot {
         }
 
         return super.decrStackSize(amount);
+    }
+
+    public void setExperience(float value)
+    {
+        expPerBit = value;
     }
 
     @Override
@@ -77,9 +83,7 @@ public class CrucibleSlot extends BitSlot {
             int expRemaining = this.stackSize;
             int expOrbAmount;
 
-            float experience = ItemBit.getCrucibleExperience(itemStack);
-            System.out.println("" + experience);
-            ItemBit.clearCrucibleExperience(itemStack);
+            float experience = expPerBit * stackSize;
 
             if (experience == 0.0F)
             {

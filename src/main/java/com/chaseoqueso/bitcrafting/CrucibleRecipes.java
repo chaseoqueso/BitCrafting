@@ -278,6 +278,11 @@ public class CrucibleRecipes {
         if(results.length == 0)
             return null;
 
+        return results;
+    }
+
+    public float getExpResult(ItemStack itemstack)
+    {
         //Iterate through the map of experience rewards based on input and find the results for the given itemstack
         Iterator<Entry<ItemStack, Float>> expIterator = this.experienceList.entrySet().iterator();
         Entry<ItemStack, Float> expEntry;
@@ -294,23 +299,7 @@ public class CrucibleRecipes {
         }
         while (!this.compareItemsInStacks(itemstack, expEntry.getKey()));
 
-        if(expEntry != null)
-        {
-            int numTotalResultBits = 0;
-            for(ItemStack result : results)
-            {
-                numTotalResultBits += result.getCount();
-            }
-
-            experience = expEntry.getValue() / numTotalResultBits;
-        }
-
-        for(ItemStack result : results)
-        {
-            ItemBit.setCrucibleExperience(result, experience);
-        }
-
-        return results;
+        return expEntry.getValue();
     }
 
     private boolean compareItemsInStacks(ItemStack stack1, ItemStack stack2)

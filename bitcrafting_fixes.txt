@@ -1,21 +1,12 @@
 TOOLS
  - enchantment effect tinted by bit tool model
- - bit pickaxe got to very low durability (6/276) and then stopped functioning as a pickaxe. After leaving and rejoining, it worked again
-
-RECIPES/ORES
- - sometimes null bits drop from ores (Has not been seen recently)
- - crucible xp sometimes doesn't drop?
- - bit crucible no longer combines partial stacks due to removing xp from nbt
- - match ore block textures to bit colors
-
-MISC
- ? some bits seem identical but won't stack
- - certain inventory shortcuts don't work in the BitGUIContainer (ctrl+click, maybe others?) (seems like an inventoryTweaks thing)
- - fix when crafting recipes get added to recipe book
- - bit forge does weird things when the input is updated
-
-FUTURE PLANS
  - shields
  - bows/crossbows/arrows
+
+RECIPES/ORES
  - more inter-mod recipes
+
+MISC
+ - fix when crafting recipes get added to recipe book
+ - ctrl+click doesn't work in the BitGUIContainer (an inventoryTweaks thing)
  - advancements
