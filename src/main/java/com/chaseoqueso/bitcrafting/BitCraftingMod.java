@@ -84,6 +84,11 @@ public class BitCraftingMod {
 	{
 		NetworkRegistry.INSTANCE.registerGuiHandler(BitCraftingMod.instance, new GUIHandler());
 		Minecraft.getMinecraft().getItemColors().registerItemColorHandler(BitCraftingItems.ITEMS.itemBitColorManager, BitCraftingItems.ITEMS.itemBit);
+		Minecraft.getMinecraft().getItemColors().registerItemColorHandler(BitCraftingItems.ITEMS.itemBitColorManager, BitCraftingItems.ITEMS.itemBitAxe);
+		Minecraft.getMinecraft().getItemColors().registerItemColorHandler(BitCraftingItems.ITEMS.itemBitColorManager, BitCraftingItems.ITEMS.itemBitHoe);
+		Minecraft.getMinecraft().getItemColors().registerItemColorHandler(BitCraftingItems.ITEMS.itemBitColorManager, BitCraftingItems.ITEMS.itemBitPickaxe);
+		Minecraft.getMinecraft().getItemColors().registerItemColorHandler(BitCraftingItems.ITEMS.itemBitColorManager, BitCraftingItems.ITEMS.itemBitShovel);
+		Minecraft.getMinecraft().getItemColors().registerItemColorHandler(BitCraftingItems.ITEMS.itemBitColorManager, BitCraftingItems.ITEMS.itemBitSword);
 	}
 	
 	@EventHandler

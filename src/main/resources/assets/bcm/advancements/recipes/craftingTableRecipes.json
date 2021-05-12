@@ -1,0 +1,48 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "bcm:bitForge",
+      "bcm:bitDyeTable",
+      "bcm:bitFusionTable"
+    ]
+  },
+  "criteria": {
+    "has_item": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "minecraft:crafting_table"
+          }
+        ]
+      }
+    },
+    "has_the_forge_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "bcm:bitForge"
+      }
+    },
+    "has_the_dye_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "bcm:bitDyeTable"
+      }
+    },
+    "has_the_fusion_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "bcm:bitFusionTable"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_item",
+      "has_the_forge_recipe",
+      "has_the_dye_recipe",
+      "has_the_fusion_recipe"
+    ]
+  ]
+}

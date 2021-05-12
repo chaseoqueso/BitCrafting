@@ -1,0 +1,72 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "bcm:bitChest",
+      "bcm:itemAxeTemplate",
+      "bcm:itemHoeTemplate",
+      "bcm:itemPickaxeTemplate",
+      "bcm:itemShovelTemplate",
+      "bcm:itemSwordTemplate"
+    ]
+  },
+  "criteria": {
+    "has_item": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "bcm:itembit"
+          }
+        ]
+      }
+    },
+    "has_the_chest_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "bcm:bitChest"
+      }
+    },
+    "has_the_axe_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "bcm:itemAxeTemplate"
+      }
+    },
+    "has_the_hoe_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "bcm:itemHoeTemplate"
+      }
+    },
+    "has_the_pickaxe_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "bcm:itemPickaxeTemplate"
+      }
+    },
+    "has_the_shovel_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "bcm:itemShovelTemplate"
+      }
+    },
+    "has_the_sword_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "bcm:itemSwordTemplate"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_item",
+      "has_the_chest_recipe",
+      "has_the_axe_recipe",
+      "has_the_hoe_recipe",
+      "has_the_pickaxe_recipe",
+      "has_the_shovel_recipe",
+      "has_the_sword_recipe"
+    ]
+  ]
+}
