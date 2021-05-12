@@ -1,5 +1,4 @@
 TOOLS
- - enchantment effect tinted by bit tool model
  - shields
  - bows/crossbows/arrows
 
@@ -7,6 +6,5 @@ RECIPES/ORES
  - more inter-mod recipes
 
 MISC
- - fix when crafting recipes get added to recipe book
  - ctrl+click doesn't work in the BitGUIContainer (an inventoryTweaks thing)
  - advancements

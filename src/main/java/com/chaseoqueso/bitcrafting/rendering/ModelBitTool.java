@@ -103,34 +103,31 @@ public class ModelBitTool implements IModel
 
         int alpha = 0xFF000000;
 
-        int pixelCount = 0;
         for(int i = 0; i < 256; ++i) {
             //Only add a quad if the pixel is not transparent
             if(pixelColors[i] != -1) {
                 int x = i % 16;
                 int y = i / 16;
                 TextureAtlasSprite sprite = bakedTextureGetter.apply(blankLocation);
-                builder.add(CustomQuadBuilder.genQuad(format, transform, x, y, sprite, EnumFacing.NORTH, pixelColors[i] + alpha, pixelCount));
-                builder.add(CustomQuadBuilder.genQuad(format, transform, x, y, sprite, EnumFacing.SOUTH, pixelColors[i] + alpha, pixelCount));
+                builder.add(CustomQuadBuilder.genQuad(format, transform, x, y, sprite, EnumFacing.NORTH, 0xFFFFFFFF, pixelColors[i] + alpha));
+                builder.add(CustomQuadBuilder.genQuad(format, transform, x, y, sprite, EnumFacing.SOUTH, 0xFFFFFFFF, pixelColors[i] + alpha));
 
                 if(x == 0 || pixelColors[i-1] == -1)
                 {
-                    builder.add(CustomQuadBuilder.genQuad(format, transform, x, y, sprite, EnumFacing.WEST, pixelColors[i] + alpha, pixelCount));
+                    builder.add(CustomQuadBuilder.genQuad(format, transform, x, y, sprite, EnumFacing.WEST, 0xFFFFFFFF, pixelColors[i] + alpha));
                 }
                 if(x == 15 || pixelColors[i+1] == -1)
                 {
-                    builder.add(CustomQuadBuilder.genQuad(format, transform, x, y, sprite, EnumFacing.EAST, pixelColors[i] + alpha, pixelCount));
+                    builder.add(CustomQuadBuilder.genQuad(format, transform, x, y, sprite, EnumFacing.EAST, 0xFFFFFFFF, pixelColors[i] + alpha));
                 }
                 if(y == 0 || pixelColors[i-16] == -1)
                 {
-                    builder.add(CustomQuadBuilder.genQuad(format, transform, x, y, sprite, EnumFacing.UP, pixelColors[i] + alpha, pixelCount));
+                    builder.add(CustomQuadBuilder.genQuad(format, transform, x, y, sprite, EnumFacing.UP, 0xFFFFFFFF, pixelColors[i] + alpha));
                 }
                 if(y == 15 || pixelColors[i+16] == -1)
                 {
-                    builder.add(CustomQuadBuilder.genQuad(format, transform, x, y, sprite, EnumFacing.DOWN, pixelColors[i] + alpha, pixelCount));
+                    builder.add(CustomQuadBuilder.genQuad(format, transform, x, y, sprite, EnumFacing.DOWN, 0xFFFFFFFF, pixelColors[i] + alpha));
                 }
-
-                ++pixelCount;
             }
         }
 
