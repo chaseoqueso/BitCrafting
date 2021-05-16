@@ -7,12 +7,14 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Enchantments;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemSpade;
 import net.minecraft.item.ItemStack;
@@ -43,7 +45,7 @@ public class ItemBitShovel extends ItemSpade implements IItemBitTool {
 
     public ItemBitShovel()
     {
-        super(EnumHelper.addToolMaterial("BitShovel", 0, Integer.MAX_VALUE, -11.11F, -4, 0));
+        super(EnumHelper.addToolMaterial("BitShovel", 0, Integer.MAX_VALUE, 11.11F, -4, 0));
         setUnlocalizedName("ItemBitShovel");
         setRegistryName(new ResourceLocation(BitCraftingMod.MODID, "itembitshovel"));
         setCreativeTab(null);
@@ -63,9 +65,9 @@ public class ItemBitShovel extends ItemSpade implements IItemBitTool {
     @Override
     public float getDestroySpeed(ItemStack stack, IBlockState state)
     {
-        //Bit tools have a default efficiency of -11.11. If this is the efficiency that is returned by the super call,
+        //Bit tools have a default efficiency of 11.11. If this is the efficiency that is returned by the super call,
         //that means shovels are the ideal tool for this block, and therefore we should return this shovel's damage as its efficiency.
-        if(super.getDestroySpeed(stack, state) != -11.11)
+        if(super.getDestroySpeed(stack, state) != 11.11F)
             return 1;
 
         if(stack.hasTagCompound())
@@ -322,7 +324,17 @@ public class ItemBitShovel extends ItemSpade implements IItemBitTool {
 
             case "spatial":
                 drops.clear();
-                drops.add(new ItemStack(SHOVEL_BLOCKS.get(world.rand.nextInt(SHOVEL_BLOCKS.size()))));
+                NonNullList<ItemStack> randomDrops = NonNullList.create();
+                Block randomBlock = SHOVEL_BLOCKS.get(world.rand.nextInt(SHOVEL_BLOCKS.size()));
+                randomBlock.getDrops(randomDrops, world, pos, state, EnchantmentHelper.getEnchantmentLevel(Enchantments.FORTUNE, shovel));
+                if(EnchantmentHelper.getEnchantmentLevel(Enchantments.SILK_TOUCH, shovel) > 0 || randomDrops.size() == 0)
+                {
+                    drops.add(new ItemStack(randomBlock));
+                }
+                else
+                {
+                    drops.addAll(randomDrops);
+                }
                 break;
         }
     }

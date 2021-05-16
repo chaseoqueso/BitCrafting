@@ -37,7 +37,7 @@ public class ItemBitSword extends ItemSword implements IItemBitTool {
 	
 	public ItemBitSword()
 	{
-		super(EnumHelper.addToolMaterial("BitSword", 0, Integer.MAX_VALUE, -11.11F, -4, 0));
+		super(EnumHelper.addToolMaterial("BitSword", 0, Integer.MAX_VALUE, 11.11F, -4, 0));
 		setUnlocalizedName("ItemBitSword");
 		setRegistryName(new ResourceLocation(BitCraftingMod.MODID, "itembitsword"));
 		setCreativeTab(null);
@@ -46,9 +46,9 @@ public class ItemBitSword extends ItemSword implements IItemBitTool {
 	@Override
 	public float getDestroySpeed(ItemStack stack, IBlockState state)
 	{
-		//Bit tools have a default efficiency of -11.11. If this is the efficiency that is returned by the super call,
+		//Bit tools have a default efficiency of 11.11. If this is the efficiency that is returned by the super call,
 		//that means swords are the ideal tool for this block, and therefore we should return this sword's damage as its efficiency.
-		if(super.getDestroySpeed(stack, state) != -11.11)
+		if(super.getDestroySpeed(stack, state) != 11.11F)
 			return 1;
 
 		if(stack.hasTagCompound())
@@ -261,7 +261,7 @@ public class ItemBitSword extends ItemSword implements IItemBitTool {
 		if ((double)state.getBlockHardness(worldIn, pos) != 0.0D && stack.hasTagCompound() && !(blockDestroyer instanceof EntityPlayer && ( (EntityPlayer)blockDestroyer ).capabilities.isCreativeMode))
 		{
 			NBTTagCompound itemData = stack.getTagCompound();
-			itemData.setInteger("Uses", itemData.getInteger("Uses") + 1);
+			itemData.setInteger("Uses", itemData.getInteger("Uses") + 2);
 			if(itemData.getInteger("Uses") >= itemData.getFloat("Durability"))
 			{
 				blockDestroyer.renderBrokenItemStack(stack);

@@ -41,7 +41,7 @@ public class ItemBitAxe extends ItemAxe implements IItemBitTool {
 
     public ItemBitAxe()
     {
-        super(EnumHelper.addToolMaterial("BitAxe", 0, Integer.MAX_VALUE, -11.11F, -4, 0), 0, 0);
+        super(EnumHelper.addToolMaterial("BitAxe", 0, Integer.MAX_VALUE, 11.11F, -4, 0), 0, 0);
         setUnlocalizedName("ItemBitAxe");
         setRegistryName(new ResourceLocation(BitCraftingMod.MODID, "itembitaxe"));
         setCreativeTab(null);
@@ -61,9 +61,9 @@ public class ItemBitAxe extends ItemAxe implements IItemBitTool {
     @Override
     public float getDestroySpeed(ItemStack stack, IBlockState state)
     {
-        //Bit tools have a default efficiency of -11.11. If this is the efficiency that is returned by the super call,
+        //Bit tools have a default efficiency of 11.11. If this is the efficiency that is returned by the super call,
         //that means axes are the ideal tool for this block, and therefore we should return this axe's damage as its efficiency.
-        if(super.getDestroySpeed(stack, state) != -11.11)
+        if(super.getDestroySpeed(stack, state) != 11.11F)
             return 1;
 
         if(stack.hasTagCompound())
