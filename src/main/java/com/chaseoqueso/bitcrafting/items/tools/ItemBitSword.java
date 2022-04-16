@@ -126,11 +126,10 @@ public class ItemBitSword extends ItemSword implements IItemBitTool {
 				int attempts = 0;
 				Random rand = world.rand;
 				while(!teleportSuccess && attempts < 1000) {
-					double angle = rand.nextDouble() * 2 * Math.PI;
-					double radius = power;
-					double x = target.posX + Math.cos(angle) * radius;
-					double y = rand.nextDouble() * radius;
-					double z = target.posZ + Math.sin(angle) * radius;
+					double radius = power * 2;
+					double x = target.posX + (rand.nextDouble() - 0.5) * 2 * radius;
+					double y = target.posY + (rand.nextDouble() - 0.5) * 2 * radius;
+					double z = target.posZ + (rand.nextDouble() - 0.5) * 2 * radius;
 
 					teleportSuccess = target.attemptTeleport(x, y, z);
 					++attempts;
@@ -206,7 +205,6 @@ public class ItemBitSword extends ItemSword implements IItemBitTool {
         {
         	NBTTagCompound itemData = stack.getTagCompound();
         	damage = itemData.getFloat("Damage");
-        	System.out.println("Damage: " + damage);
 			multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", damage, 0));
 			multimap.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", -2.4000000953674316D, 0));
         }
