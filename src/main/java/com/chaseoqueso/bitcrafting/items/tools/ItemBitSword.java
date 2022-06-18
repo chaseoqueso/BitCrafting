@@ -327,15 +327,15 @@ public class ItemBitSword extends ItemSword implements IItemBitTool {
 				{
 					NBTTagCompound effectData = effectlist.getCompoundTagAt(i);
 					String text = (String) (effectData.getString("effect").equals("fire")
-													? TextFormatting.RED + "Enflame" + TextFormatting.RESET
-													: effectData.getString("effect").equals("earth")
-															  ? TextFormatting.DARK_GRAY + "Stonestrike" + TextFormatting.RESET
-															  : effectData.getString("effect").equals("lightning")
-																		? TextFormatting.YELLOW + "Stormcall" + TextFormatting.RESET
-																		: effectData.getString("effect").equals("ice")
-																				  ? TextFormatting.AQUA + "Frostbite" + TextFormatting.RESET
-																				  : TextFormatting.DARK_PURPLE + "" + TextFormatting.OBFUSCATED
-																					+ "Anomalize" + TextFormatting.RESET);
+							? TextFormatting.RED + "Enflame" + TextFormatting.RESET
+							: effectData.getString("effect").equals("earth")
+									  ? TextFormatting.DARK_GRAY + "Stonestrike" + TextFormatting.RESET
+									  : effectData.getString("effect").equals("lightning")
+												? TextFormatting.YELLOW + "Stormcall" + TextFormatting.RESET
+												: effectData.getString("effect").equals("ice")
+														  ? TextFormatting.AQUA + "Frostbite" + TextFormatting.RESET
+														  : TextFormatting.DARK_PURPLE + "" + TextFormatting.OBFUSCATED
+															+ "Anomalize" + TextFormatting.RESET);
 					tooltip.add(text + " (" + String.format("%.3f", effectData.getFloat("chance")*100) + "%, " + String.format("%.3f", effectData.getFloat("power")) + ")");
 				}
 			}

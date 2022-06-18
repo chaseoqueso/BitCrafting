@@ -424,18 +424,20 @@ public class ItemBitHoe extends ItemHoe implements IItemBitTool {
                             continue;
 
                         if(world.isAirBlock(newPos.up()))
+                        {
                             world.setBlockState(newPos, Blocks.FARMLAND.getDefaultState(), 11);
-                    }
-                }
 
-                if(!world.isRemote)
-                {
-                    NBTTagCompound itemData = hoe.getTagCompound();
-                    itemData.setInteger("Uses", itemData.getInteger("Uses") + 1);
-                    if (itemData.getInteger("Uses") >= itemData.getFloat("Durability"))
-                    {
-                        player.renderBrokenItemStack(hoe);
-                        hoe.shrink(1);
+                            if(!world.isRemote)
+                            {
+                                NBTTagCompound itemData = hoe.getTagCompound();
+                                itemData.setInteger("Uses", itemData.getInteger("Uses") + 1);
+                                if (itemData.getInteger("Uses") >= itemData.getFloat("Durability"))
+                                {
+                                    player.renderBrokenItemStack(hoe);
+                                    hoe.shrink(1);
+                                }
+                            }
+                        }
                     }
                 }
                 break;

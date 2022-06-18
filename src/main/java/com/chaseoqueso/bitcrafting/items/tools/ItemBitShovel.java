@@ -396,15 +396,15 @@ public class ItemBitShovel extends ItemSpade implements IItemBitTool {
                 {
                     NBTTagCompound effectData = effectlist.getCompoundTagAt(i);
                     String text = (String) (effectData.getString("effect").equals("fire")
-                                                    ? TextFormatting.RED + "Scorchspade" + TextFormatting.RESET
-                                                    : effectData.getString("effect").equals("earth")
-                                                              ? TextFormatting.DARK_GRAY + "Excavate" + TextFormatting.RESET
-                                                              : effectData.getString("effect").equals("lightning")
-                                                                        ? TextFormatting.YELLOW + "Swiftshovel" + TextFormatting.RESET
-                                                                        : effectData.getString("effect").equals("ice")
-                                                                                  ? TextFormatting.AQUA + "Cryocompress" + TextFormatting.RESET
-                                                                                  : TextFormatting.DARK_PURPLE + "" + TextFormatting.OBFUSCATED
-                                                                                    + "Anomalize" + TextFormatting.RESET);
+                            ? TextFormatting.RED + "Scorchspade" + TextFormatting.RESET
+                            : effectData.getString("effect").equals("earth")
+                                      ? TextFormatting.DARK_GRAY + "Excavate" + TextFormatting.RESET
+                                      : effectData.getString("effect").equals("lightning")
+                                                ? TextFormatting.YELLOW + "Swiftshovel" + TextFormatting.RESET
+                                                : effectData.getString("effect").equals("ice")
+                                                          ? TextFormatting.AQUA + "Cryocompress" + TextFormatting.RESET
+                                                          : TextFormatting.DARK_PURPLE + "" + TextFormatting.OBFUSCATED
+                                                            + "Anomalize" + TextFormatting.RESET);
                     tooltip.add(text + " (" + String.format("%.3f", effectData.getFloat("chance")*100) + "%, " + String.format("%.3f", effectData.getFloat("power")) + ")");
                 }
             }

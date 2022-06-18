@@ -8,3 +8,4 @@ RECIPES/ORES
 MISC
  - ctrl+click doesn't work in the BitGUIContainer (an inventoryTweaks thing)
  - advancements
+ - crucible automation removes fuel

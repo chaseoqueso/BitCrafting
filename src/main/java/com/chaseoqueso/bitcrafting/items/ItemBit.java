@@ -177,9 +177,14 @@ public class ItemBit extends Item {
 		if (stack.hasTagCompound()) {
 			NBTTagCompound itemData = stack.getTagCompound();
 			if (itemData.hasKey("effect"))
+			{
 				return "item." + itemData.getString("effect");
+			}
 			if (itemData.hasKey("color"))
-				return "item." + itemData.getString("shade") + itemData.getString("color");
+			{
+				String color = itemData.getString("color");
+				return "item." + itemData.getString("shade") + (color.equals("lightblue") ? "lblue" : color);
+			}
 		}
 		return "item.nullBit";
 	}
