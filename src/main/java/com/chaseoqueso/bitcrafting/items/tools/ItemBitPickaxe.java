@@ -328,7 +328,7 @@ public class ItemBitPickaxe extends ItemPickaxe implements IItemBitTool {
 
                 Block blockOre = potentialOres.get((int)(world.rand.nextFloat() * potentialOres.size()));
                 world.setBlockState(pos, blockOre.getDefaultState());
-                blockOre.getDrops(oreDrops, world, pos, blockOre.getDefaultState(), EnchantmentHelper.getEnchantmentLevel(Enchantments.SILK_TOUCH, pickaxe));
+                blockOre.getDrops(oreDrops, world, pos, blockOre.getDefaultState(), EnchantmentHelper.getEnchantmentLevel(Enchantments.FORTUNE, pickaxe));
                 world.setBlockToAir(pos);
 
                 drops.clear();
